@@ -1,0 +1,23 @@
+LIBRARY ieee;
+USE ieee.std_logic_1164.ALL;
+ENTITY mem_writeBack IS
+    PORT (
+	resMemIn : IN std_logic_vector (31 DOWNTO 0);
+	resAluIn : IN std_logic_vector (31 DOWNTO 0); 
+	writeBackIn : IN STD_LOGIC;
+	memRegIn : IN std_logic;
+	resMemOut : Out std_logic_vector (31 DOWNTO 0);
+	resAluOut : Out std_logic_vector (31 DOWNTO 0); 
+	writeBackOut : OUT STD_LOGIC;
+	memRegOut : OUT std_logic
+);
+END mem_writeBack;
+
+ARCHITECTURE arch_mem_writeBack OF  mem_writeBack IS
+BEGIN 
+resMemOut<=resMemIn;
+resAluOut<=resAluIn;
+memRegOut<=memRegIn;
+writeBackOut<=writeBackIn;
+
+END arch_ mem_writeBack;

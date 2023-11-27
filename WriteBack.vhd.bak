@@ -1,0 +1,18 @@
+LIBRARY ieee;
+USE ieee.std_logic_1164.ALL;
+ENTITY writeBack Is 
+PORT( 
+	resMem : IN std_logic_vector (31 DOWNTO 0);
+	resAlu : IN std_logic_vector (31 DOWNTO 0); 
+	memReg : IN std_logic; 
+	res : OUT std_logic_vector (31 DOWNTO 0)
+); 
+END writeBack; 
+
+ARCHITECTURE archWriteBack OF writeBack IS 
+BEGIN 
+ res <= 
+	resMem WHEN memReg = '0'
+	ELSE resAlu;
+ 
+END archWriteBack; 

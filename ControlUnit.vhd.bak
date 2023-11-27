@@ -1,0 +1,27 @@
+LIBRARY ieee;
+USE ieee.std_logic_1164.ALL;
+ENTITY controlUnit Is 
+PORT( 
+	opCode : IN std_logic_vector (5 DOWNTO 0);
+	memReg : OUT std_logic; 
+	writeBack : OUT STD_LOGIC;
+	execSig :OUT std_logic_vector(5 DOWNTO 0)
+
+); 
+END controlUnit; 
+
+ARCHITECTURE archControlUnit OF controlUnit IS 
+BEGIN 
+process (opCode,temp_res,op1)
+begin
+
+  if opCode(5)='0' then
+	memReg <= '0';
+	writeBack<='1';
+	execSig <= opCode;
+  end if;
+
+end process;
+ 
+ 
+END archControlUnit;

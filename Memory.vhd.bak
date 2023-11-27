@@ -1,0 +1,18 @@
+LIBRARY ieee;
+USE ieee.std_logic_1164.ALL;
+ENTITY memory is 
+PORT( 
+	address : IN std_logic_vector (31 DOWNTO 0);
+	writeData : IN std_logic_vector (31 DOWNTO 0); 
+	memRead : IN std_logic ; 
+	memWrite : IN std_logic;
+	readData : OUT std_logic_vector (31 DOWNTO 0);
+	aluData : OUT std_logic_vector (31 DOWNTO 0)
+); 
+END memory;
+
+ARCHITECTURE archMemory OF memory IS 
+BEGIN 
+
+ 
+END archMemory; 

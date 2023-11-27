@@ -1,0 +1,76 @@
+E:/CMP3/first_semester/Architecture/project/mem_writeBack.vhd {1 {vcom -work work -2002 -explicit -stats=none {E:\CMP3\first_semester\Architecture\project\mem_writeBack.vhd}
+Model Technology ModelSim - Intel FPGA Edition vcom 10.5b Compiler 2016.10 Oct  5 2016
+-- Loading package STANDARD
+-- Loading package TEXTIO
+-- Loading package std_logic_1164
+-- Compiling entity mem_writeBack
+-- Compiling architecture arch_mem_writeBack of mem_writeBack
+
+} {} {}} E:/CMP3/first_semester/Architecture/project/Fetch.vhd {0 {vcom -work work -2002 -explicit -stats=none {E:\CMP3\first_semester\Architecture\project\Fetch.vhd}
+Model Technology ModelSim - Intel FPGA Edition vcom 10.5b Compiler 2016.10 Oct  5 2016
+-- Loading package STANDARD
+** Error (suppressible): E:\CMP3\first_semester\Architecture\project\Fetch.vhd(2): (vcom-1491) Empty source files.
+
+} {} {}} E:/CMP3/first_semester/Architecture/project/exec_mem.vhd {1 {vcom -work work -2002 -explicit -stats=none E:/CMP3/first_semester/Architecture/project/exec_mem.vhd
+Model Technology ModelSim - Intel FPGA Edition vcom 10.5b Compiler 2016.10 Oct  5 2016
+-- Loading package STANDARD
+-- Loading package TEXTIO
+-- Loading package std_logic_1164
+-- Compiling entity exec_mem
+-- Compiling architecture arch_exec_mem of exec_mem
+
+} {} {}} E:/CMP3/first_semester/Architecture/project/Execute.vhd {1 {vcom -work work -2002 -explicit -stats=none {E:\CMP3\first_semester\Architecture\project\Execute.vhd}
+Model Technology ModelSim - Intel FPGA Edition vcom 10.5b Compiler 2016.10 Oct  5 2016
+-- Loading package STANDARD
+-- Loading package TEXTIO
+-- Loading package std_logic_1164
+-- Compiling entity execute
+-- Compiling architecture archExecute of execute
+
+} {} {}} E:/CMP3/first_semester/Architecture/project/WriteBack.vhd {1 {vcom -work work -2002 -explicit -stats=none E:/CMP3/first_semester/Architecture/project/WriteBack.vhd
+Model Technology ModelSim - Intel FPGA Edition vcom 10.5b Compiler 2016.10 Oct  5 2016
+-- Loading package STANDARD
+-- Loading package TEXTIO
+-- Loading package std_logic_1164
+-- Compiling entity writeBack
+-- Compiling architecture archWriteBack of writeBack
+
+} {} {}} E:/CMP3/first_semester/Architecture/project/Integration.vhd {0 {vcom -work work -2002 -explicit -stats=none E:/CMP3/first_semester/Architecture/project/Integration.vhd
+Model Technology ModelSim - Intel FPGA Edition vcom 10.5b Compiler 2016.10 Oct  5 2016
+-- Loading package STANDARD
+** Error (suppressible): E:/CMP3/first_semester/Architecture/project/Integration.vhd(2): (vcom-1491) Empty source files.
+
+} {} {}} E:/CMP3/first_semester/Architecture/project/dec_exec.vhd {1 {vcom -work work -2002 -explicit -stats=none {E:\CMP3\first_semester\Architecture\project\dec_exec.vhd}
+Model Technology ModelSim - Intel FPGA Edition vcom 10.5b Compiler 2016.10 Oct  5 2016
+-- Loading package STANDARD
+-- Loading package TEXTIO
+-- Loading package std_logic_1164
+-- Compiling entity dec_exec
+-- Compiling architecture arch_dec_exec of dec_exec
+
+} {} {}} E:/CMP3/first_semester/Architecture/project/Decode.vhd {1 {vcom -work work -2002 -explicit -stats=none E:/CMP3/first_semester/Architecture/project/Decode.vhd
+Model Technology ModelSim - Intel FPGA Edition vcom 10.5b Compiler 2016.10 Oct  5 2016
+-- Loading package STANDARD
+-- Loading package TEXTIO
+-- Loading package std_logic_1164
+-- Loading package NUMERIC_STD
+-- Compiling entity decode
+-- Compiling architecture archDecode of decode
+
+} {} {}} E:/CMP3/first_semester/Architecture/project/ControlUnit.vhd {1 {vcom -work work -2002 -explicit -stats=none E:/CMP3/first_semester/Architecture/project/ControlUnit.vhd
+Model Technology ModelSim - Intel FPGA Edition vcom 10.5b Compiler 2016.10 Oct  5 2016
+-- Loading package STANDARD
+-- Loading package TEXTIO
+-- Loading package std_logic_1164
+-- Compiling entity controlUnit
+-- Compiling architecture archControlUnit of controlUnit
+
+} {} {}} E:/CMP3/first_semester/Architecture/project/Memory.vhd {1 {vcom -work work -2002 -explicit -stats=none E:/CMP3/first_semester/Architecture/project/Memory.vhd
+Model Technology ModelSim - Intel FPGA Edition vcom 10.5b Compiler 2016.10 Oct  5 2016
+-- Loading package STANDARD
+-- Loading package TEXTIO
+-- Loading package std_logic_1164
+-- Compiling entity memory
+-- Compiling architecture archMemory of memory
+
+} {} {}}

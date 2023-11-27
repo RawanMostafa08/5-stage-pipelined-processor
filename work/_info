@@ -1,0 +1,324 @@
+m255
+K4
+z2
+13
+!s112 1.1
+!i10d 8192
+!i10e 25
+!i10f 100
+cModel Technology
+dC:/intelFPGA/18.1
+Econtrolunit
+Z0 w1701085098
+Z1 DPx3 std 6 textio 0 22 zE1`LPoLg^DX3Oz^4Fj1K3
+Z2 DPx4 ieee 14 std_logic_1164 0 22 eNV`TJ_GofJTzYa?f<@Oe1
+Z3 dE:/CMP3/first_semester/Architecture/project
+Z4 8E:/CMP3/first_semester/Architecture/project/ControlUnit.vhd
+Z5 FE:/CMP3/first_semester/Architecture/project/ControlUnit.vhd
+l0
+L3
+V6=DI>D^kj1oA8jih6D[a`1
+!s100 Rkm26L[1WQAOn2jdG^S091
+Z6 OV;C;10.5b;63
+32
+Z7 !s110 1701085106
+!i10b 1
+Z8 !s108 1701085106.000000
+Z9 !s90 -reportprogress|300|-work|work|-2002|-explicit|-stats=none|E:/CMP3/first_semester/Architecture/project/ControlUnit.vhd|
+Z10 !s107 E:/CMP3/first_semester/Architecture/project/ControlUnit.vhd|
+!i113 1
+Z11 o-work work -2002 -explicit
+Z12 tExplicit 1 CvgOpt 0
+Aarchcontrolunit
+R1
+R2
+DEx4 work 11 controlunit 0 22 6=DI>D^kj1oA8jih6D[a`1
+l14
+L13
+VTFMA;S1;XTL9F_4_:Z7Q<3
+!s100 m^GJ4N2O?cSTYo41CGZ4M0
+R6
+32
+R7
+!i10b 1
+R8
+R9
+R10
+!i113 1
+R11
+R12
+Edec_exec
+Z13 w1701082800
+R1
+R2
+R3
+Z14 8E:\CMP3\first_semester\Architecture\project\dec_exec.vhd
+Z15 FE:\CMP3\first_semester\Architecture\project\dec_exec.vhd
+l0
+L3
+Ve0]CM6:N[cl0CCh5TjFNO2
+!s100 8d^eMg8e<eI]jVn9ROGHC1
+R6
+32
+Z16 !s110 1701082808
+!i10b 1
+Z17 !s108 1701082808.000000
+Z18 !s90 -reportprogress|300|-work|work|-2002|-explicit|-stats=none|E:\CMP3\first_semester\Architecture\project\dec_exec.vhd|
+Z19 !s107 E:\CMP3\first_semester\Architecture\project\dec_exec.vhd|
+!i113 1
+R11
+R12
+Aarch_dec_exec
+R1
+R2
+DEx4 work 8 dec_exec 0 22 e0]CM6:N[cl0CCh5TjFNO2
+l21
+L20
+V?]fAPJCXnM]fL0^1O[:zf3
+!s100 PY66VniYfTgl:AkoT2m`j1
+R6
+32
+R16
+!i10b 1
+R17
+R18
+R19
+!i113 1
+R11
+R12
+Edecode
+Z20 w1700999178
+Z21 DPx4 ieee 11 numeric_std 0 22 :ASDNFgHXf_ih3J@9F3Ze1
+R1
+R2
+R3
+Z22 8E:/CMP3/first_semester/Architecture/project/Decode.vhd
+Z23 FE:/CMP3/first_semester/Architecture/project/Decode.vhd
+l0
+L5
+VVSb_Qjf5=I7G=^1cAogNM1
+!s100 FYZgAG>gi4dn[h69Jk4_z0
+R6
+32
+Z24 !s110 1701082767
+!i10b 1
+Z25 !s108 1701082767.000000
+Z26 !s90 -reportprogress|300|-work|work|-2002|-explicit|-stats=none|E:/CMP3/first_semester/Architecture/project/Decode.vhd|
+Z27 !s107 E:/CMP3/first_semester/Architecture/project/Decode.vhd|
+!i113 1
+R11
+R12
+Aarchdecode
+R21
+R1
+R2
+DEx4 work 6 decode 0 22 VSb_Qjf5=I7G=^1cAogNM1
+l21
+L18
+Vn@?l:FYa4hBL_ediS4`<j3
+!s100 9bN:@[YE1TLn]Q4oKBo370
+R6
+32
+R24
+!i10b 1
+R25
+R26
+R27
+!i113 1
+R11
+R12
+Eexec_mem
+Z28 w1701082671
+R1
+R2
+R3
+Z29 8E:/CMP3/first_semester/Architecture/project/exec_mem.vhd
+Z30 FE:/CMP3/first_semester/Architecture/project/exec_mem.vhd
+l0
+L3
+Vh7m]hijSP^2F6LojQlVIO2
+!s100 Ch>gd]C4lNf^faVcanZ=b1
+R6
+32
+R24
+!i10b 1
+R25
+Z31 !s90 -reportprogress|300|-work|work|-2002|-explicit|-stats=none|E:/CMP3/first_semester/Architecture/project/exec_mem.vhd|
+Z32 !s107 E:/CMP3/first_semester/Architecture/project/exec_mem.vhd|
+!i113 1
+R11
+R12
+Aarch_exec_mem
+R1
+R2
+DEx4 work 8 exec_mem 0 22 h7m]hijSP^2F6LojQlVIO2
+l17
+L16
+V8[ef8PhhmhS`hjiXi0[:?0
+!s100 :ld4=^C1K37P2PP?H4G@K1
+R6
+32
+R24
+!i10b 1
+R25
+R31
+R32
+!i113 1
+R11
+R12
+Eexecute
+Z33 w1701081038
+R1
+R2
+R3
+Z34 8E:\CMP3\first_semester\Architecture\project\Execute.vhd
+Z35 FE:\CMP3\first_semester\Architecture\project\Execute.vhd
+l0
+L3
+V]5P@[63[@d4YLXOCa71]V2
+!s100 4]_doDFNb]3ECiHI=E?aS1
+R6
+32
+R24
+!i10b 1
+R25
+Z36 !s90 -reportprogress|300|-work|work|-2002|-explicit|-stats=none|E:\CMP3\first_semester\Architecture\project\Execute.vhd|
+Z37 !s107 E:\CMP3\first_semester\Architecture\project\Execute.vhd|
+!i113 1
+R11
+R12
+Aarchexecute
+R1
+R2
+DEx4 work 7 execute 0 22 ]5P@[63[@d4YLXOCa71]V2
+l15
+L12
+VHOcLSCN98:]0z7k6Am]H<1
+!s100 6Da@Jm[ee8lE7h[C5G;>b3
+R6
+32
+R24
+!i10b 1
+R25
+R36
+R37
+!i113 1
+R11
+R12
+Emem_writeback
+Z38 w1701083847
+R1
+R2
+R3
+Z39 8E:\CMP3\first_semester\Architecture\project\mem_writeBack.vhd
+Z40 FE:\CMP3\first_semester\Architecture\project\mem_writeBack.vhd
+l0
+L3
+VK2mGAed`=9CJl2IiPlX=72
+!s100 E^zC:cU1JLgfUETM<T2jB0
+R6
+32
+Z41 !s110 1701083851
+!i10b 1
+Z42 !s108 1701083851.000000
+Z43 !s90 -reportprogress|300|-work|work|-2002|-explicit|-stats=none|E:\CMP3\first_semester\Architecture\project\mem_writeBack.vhd|
+Z44 !s107 E:\CMP3\first_semester\Architecture\project\mem_writeBack.vhd|
+!i113 1
+R11
+R12
+Aarch_mem_writeback
+R1
+R2
+DEx4 work 13 mem_writeback 0 22 K2mGAed`=9CJl2IiPlX=72
+l17
+L16
+V?RoU=0gaJkBfFY8legKR40
+!s100 Ng9d@icn`M20T6=5]NAjG1
+R6
+32
+R41
+!i10b 1
+R42
+R43
+R44
+!i113 1
+R11
+R12
+Ememory
+Z45 w1701081804
+R1
+R2
+R3
+Z46 8E:/CMP3/first_semester/Architecture/project/Memory.vhd
+Z47 FE:/CMP3/first_semester/Architecture/project/Memory.vhd
+l0
+L3
+VLz@`b`mbaT_zAGUMKNPB:0
+!s100 C;agjZ`WK?Ng28`DI[SZ?2
+R6
+32
+R24
+!i10b 1
+R25
+Z48 !s90 -reportprogress|300|-work|work|-2002|-explicit|-stats=none|E:/CMP3/first_semester/Architecture/project/Memory.vhd|
+Z49 !s107 E:/CMP3/first_semester/Architecture/project/Memory.vhd|
+!i113 1
+R11
+R12
+Aarchmemory
+R1
+R2
+DEx4 work 6 memory 0 22 Lz@`b`mbaT_zAGUMKNPB:0
+l15
+L14
+V2<<D6dVmR::fg4o6>HFm61
+!s100 QIf:3JbeZAlQVGk0X=0QA3
+R6
+32
+R24
+!i10b 1
+R25
+R48
+R49
+!i113 1
+R11
+R12
+Ewriteback
+Z50 w1701084876
+R1
+R2
+R3
+Z51 8E:/CMP3/first_semester/Architecture/project/WriteBack.vhd
+Z52 FE:/CMP3/first_semester/Architecture/project/WriteBack.vhd
+l0
+L3
+V2G]O^fBob^38OZI^K8oA51
+!s100 QUek9n:Am@>Q8zgOO]j4S1
+R6
+32
+Z53 !s110 1701084882
+!i10b 1
+Z54 !s108 1701084882.000000
+Z55 !s90 -reportprogress|300|-work|work|-2002|-explicit|-stats=none|E:/CMP3/first_semester/Architecture/project/WriteBack.vhd|
+Z56 !s107 E:/CMP3/first_semester/Architecture/project/WriteBack.vhd|
+!i113 1
+R11
+R12
+Aarchwriteback
+R1
+R2
+DEx4 work 9 writeback 0 22 2G]O^fBob^38OZI^K8oA51
+l13
+L12
+Vm:@0@D4DUObldgZP1SHjf1
+!s100 OJ=3V:5`V8A=@4EkL4Rk62
+R6
+32
+R53
+!i10b 1
+R54
+R55
+R56
+!i113 1
+R11
+R12
