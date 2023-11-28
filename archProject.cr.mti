@@ -1,23 +1,24 @@
-E:/CMP3/first_semester/Architecture/project/mem_writeBack.vhd {1 {vcom -work work -2002 -explicit -stats=none {E:\CMP3\first_semester\Architecture\project\mem_writeBack.vhd}
-Model Technology ModelSim - Intel FPGA Edition vcom 10.5b Compiler 2016.10 Oct  5 2016
+F:/LockD/CMP2025/Third_Year/First_Term/CMP3010_Computer_Architecture/Project/5-stage-pipelined-processor/InstructionMemory.vhd {1 {vcom -work work -2002 -explicit -stats=none {F:\LockD\CMP2025\Third_Year\First_Term\CMP3010_Computer_Architecture\Project\5-stage-pipelined-processor\InstructionMemory.vhd}
+Model Technology ModelSim - Intel FPGA Edition vcom 2020.1 Compiler 2020.02 Feb 28 2020
 -- Loading package STANDARD
 -- Loading package TEXTIO
 -- Loading package std_logic_1164
--- Compiling entity mem_writeBack
--- Compiling architecture arch_mem_writeBack of mem_writeBack
+-- Loading package NUMERIC_STD
+-- Compiling entity InstructionMemory
+-- Compiling architecture InstructionMemoryArch of InstructionMemory
 
 } {} {}} E:/CMP3/first_semester/Architecture/project/Fetch.vhd {0 {vcom -work work -2002 -explicit -stats=none {E:\CMP3\first_semester\Architecture\project\Fetch.vhd}
 Model Technology ModelSim - Intel FPGA Edition vcom 10.5b Compiler 2016.10 Oct  5 2016
 -- Loading package STANDARD
 ** Error (suppressible): E:\CMP3\first_semester\Architecture\project\Fetch.vhd(2): (vcom-1491) Empty source files.
 
-} {} {}} E:/CMP3/first_semester/Architecture/project/exec_mem.vhd {1 {vcom -work work -2002 -explicit -stats=none E:/CMP3/first_semester/Architecture/project/exec_mem.vhd
-Model Technology ModelSim - Intel FPGA Edition vcom 10.5b Compiler 2016.10 Oct  5 2016
+} {} {}} {F:\LockD\CMP2025\Third_Year\First_Term\CMP3010_Computer_Architecture\Project\5-stage-pipelined-processor/ControlUnit.vhd} {1 {vcom -work work -2002 -explicit -stats=none {F:\LockD\CMP2025\Third_Year\First_Term\CMP3010_Computer_Architecture\Project\5-stage-pipelined-processor\ControlUnit.vhd}
+Model Technology ModelSim - Intel FPGA Edition vcom 2020.1 Compiler 2020.02 Feb 28 2020
 -- Loading package STANDARD
 -- Loading package TEXTIO
 -- Loading package std_logic_1164
--- Compiling entity exec_mem
--- Compiling architecture arch_exec_mem of exec_mem
+-- Compiling entity controlUnit
+-- Compiling architecture archControlUnit of controlUnit
 
 } {} {}} E:/CMP3/first_semester/Architecture/project/Execute.vhd {1 {vcom -work work -2002 -explicit -stats=none {E:\CMP3\first_semester\Architecture\project\Execute.vhd}
 Model Technology ModelSim - Intel FPGA Edition vcom 10.5b Compiler 2016.10 Oct  5 2016
@@ -27,26 +28,13 @@ Model Technology ModelSim - Intel FPGA Edition vcom 10.5b Compiler 2016.10 Oct  
 -- Compiling entity execute
 -- Compiling architecture archExecute of execute
 
-} {} {}} E:/CMP3/first_semester/Architecture/project/WriteBack.vhd {1 {vcom -work work -2002 -explicit -stats=none E:/CMP3/first_semester/Architecture/project/WriteBack.vhd
-Model Technology ModelSim - Intel FPGA Edition vcom 10.5b Compiler 2016.10 Oct  5 2016
+} {} {}} {F:\LockD\CMP2025\Third_Year\First_Term\CMP3010_Computer_Architecture\Project\5-stage-pipelined-processor/mem_writeBack.vhd} {1 {vcom -work work -2002 -explicit -stats=none {F:\LockD\CMP2025\Third_Year\First_Term\CMP3010_Computer_Architecture\Project\5-stage-pipelined-processor\mem_writeBack.vhd}
+Model Technology ModelSim - Intel FPGA Edition vcom 2020.1 Compiler 2020.02 Feb 28 2020
 -- Loading package STANDARD
 -- Loading package TEXTIO
 -- Loading package std_logic_1164
--- Compiling entity writeBack
--- Compiling architecture archWriteBack of writeBack
-
-} {} {}} E:/CMP3/first_semester/Architecture/project/Integration.vhd {0 {vcom -work work -2002 -explicit -stats=none E:/CMP3/first_semester/Architecture/project/Integration.vhd
-Model Technology ModelSim - Intel FPGA Edition vcom 10.5b Compiler 2016.10 Oct  5 2016
--- Loading package STANDARD
-** Error (suppressible): E:/CMP3/first_semester/Architecture/project/Integration.vhd(2): (vcom-1491) Empty source files.
-
-} {} {}} E:/CMP3/first_semester/Architecture/project/dec_exec.vhd {1 {vcom -work work -2002 -explicit -stats=none {E:\CMP3\first_semester\Architecture\project\dec_exec.vhd}
-Model Technology ModelSim - Intel FPGA Edition vcom 10.5b Compiler 2016.10 Oct  5 2016
--- Loading package STANDARD
--- Loading package TEXTIO
--- Loading package std_logic_1164
--- Compiling entity dec_exec
--- Compiling architecture arch_dec_exec of dec_exec
+-- Compiling entity mem_writeBack
+-- Compiling architecture arch_mem_writeBack of mem_writeBack
 
 } {} {}} E:/CMP3/first_semester/Architecture/project/Decode.vhd {1 {vcom -work work -2002 -explicit -stats=none E:/CMP3/first_semester/Architecture/project/Decode.vhd
 Model Technology ModelSim - Intel FPGA Edition vcom 10.5b Compiler 2016.10 Oct  5 2016
@@ -57,6 +45,31 @@ Model Technology ModelSim - Intel FPGA Edition vcom 10.5b Compiler 2016.10 Oct  
 -- Compiling entity decode
 -- Compiling architecture archDecode of decode
 
+} {} {}} {F:\LockD\CMP2025\Third_Year\First_Term\CMP3010_Computer_Architecture\Project\5-stage-pipelined-processor/exec_mem.vhd} {1 {vcom -work work -2002 -explicit -stats=none {F:\LockD\CMP2025\Third_Year\First_Term\CMP3010_Computer_Architecture\Project\5-stage-pipelined-processor\exec_mem.vhd}
+Model Technology ModelSim - Intel FPGA Edition vcom 2020.1 Compiler 2020.02 Feb 28 2020
+-- Loading package STANDARD
+-- Loading package TEXTIO
+-- Loading package std_logic_1164
+-- Compiling entity exec_mem
+-- Compiling architecture arch_exec_mem of exec_mem
+
+} {} {}} {F:\LockD\CMP2025\Third_Year\First_Term\CMP3010_Computer_Architecture\Project\5-stage-pipelined-processor/Integration.vhd} {1 {vcom -work work -2002 -explicit -stats=none {F:\LockD\CMP2025\Third_Year\First_Term\CMP3010_Computer_Architecture\Project\5-stage-pipelined-processor\Integration.vhd}
+Model Technology ModelSim - Intel FPGA Edition vcom 2020.1 Compiler 2020.02 Feb 28 2020
+-- Loading package STANDARD
+-- Loading package TEXTIO
+-- Loading package std_logic_1164
+-- Loading package NUMERIC_STD
+-- Compiling entity Integration
+-- Compiling architecture IntegrationArch of Integration
+
+} {} {}} {F:\LockD\CMP2025\Third_Year\First_Term\CMP3010_Computer_Architecture\Project\5-stage-pipelined-processor/WriteBack.vhd} {1 {vcom -work work -2002 -explicit -stats=none F:/LockD/CMP2025/Third_Year/First_Term/CMP3010_Computer_Architecture/Project/5-stage-pipelined-processor/WriteBack.vhd
+Model Technology ModelSim - Intel FPGA Edition vcom 2020.1 Compiler 2020.02 Feb 28 2020
+-- Loading package STANDARD
+-- Loading package TEXTIO
+-- Loading package std_logic_1164
+-- Compiling entity writeBack
+-- Compiling architecture archWriteBack of writeBack
+
 } {} {}} E:/CMP3/first_semester/Architecture/project/ControlUnit.vhd {1 {vcom -work work -2002 -explicit -stats=none E:/CMP3/first_semester/Architecture/project/ControlUnit.vhd
 Model Technology ModelSim - Intel FPGA Edition vcom 10.5b Compiler 2016.10 Oct  5 2016
 -- Loading package STANDARD
@@ -64,6 +77,85 @@ Model Technology ModelSim - Intel FPGA Edition vcom 10.5b Compiler 2016.10 Oct  
 -- Loading package std_logic_1164
 -- Compiling entity controlUnit
 -- Compiling architecture archControlUnit of controlUnit
+
+} {} {}} {F:\LockD\CMP2025\Third_Year\First_Term\CMP3010_Computer_Architecture\Project\5-stage-pipelined-processor/dec_exec.vhd} {1 {vcom -work work -2002 -explicit -stats=none {F:\LockD\CMP2025\Third_Year\First_Term\CMP3010_Computer_Architecture\Project\5-stage-pipelined-processor\dec_exec.vhd}
+Model Technology ModelSim - Intel FPGA Edition vcom 2020.1 Compiler 2020.02 Feb 28 2020
+-- Loading package STANDARD
+-- Loading package TEXTIO
+-- Loading package std_logic_1164
+-- Compiling entity dec_exec
+-- Compiling architecture arch_dec_exec of dec_exec
+
+} {} {}} E:/CMP3/first_semester/Architecture/project/mem_writeBack.vhd {1 {vcom -work work -2002 -explicit -stats=none {E:\CMP3\first_semester\Architecture\project\mem_writeBack.vhd}
+Model Technology ModelSim - Intel FPGA Edition vcom 10.5b Compiler 2016.10 Oct  5 2016
+-- Loading package STANDARD
+-- Loading package TEXTIO
+-- Loading package std_logic_1164
+-- Compiling entity mem_writeBack
+-- Compiling architecture arch_mem_writeBack of mem_writeBack
+
+} {} {}} {F:\LockD\CMP2025\Third_Year\First_Term\CMP3010_Computer_Architecture\Project\5-stage-pipelined-processor/Memory.vhd} {1 {vcom -work work -2002 -explicit -stats=none {F:\LockD\CMP2025\Third_Year\First_Term\CMP3010_Computer_Architecture\Project\5-stage-pipelined-processor\Memory.vhd}
+Model Technology ModelSim - Intel FPGA Edition vcom 2020.1 Compiler 2020.02 Feb 28 2020
+-- Loading package STANDARD
+-- Loading package TEXTIO
+-- Loading package std_logic_1164
+-- Compiling entity memory
+-- Compiling architecture archMemory of memory
+
+} {} {}} E:/CMP3/first_semester/Architecture/project/exec_mem.vhd {1 {vcom -work work -2002 -explicit -stats=none E:/CMP3/first_semester/Architecture/project/exec_mem.vhd
+Model Technology ModelSim - Intel FPGA Edition vcom 10.5b Compiler 2016.10 Oct  5 2016
+-- Loading package STANDARD
+-- Loading package TEXTIO
+-- Loading package std_logic_1164
+-- Compiling entity exec_mem
+-- Compiling architecture arch_exec_mem of exec_mem
+
+} {} {}} {F:\LockD\CMP2025\Third_Year\First_Term\CMP3010_Computer_Architecture\Project\5-stage-pipelined-processor/Fetch.vhd} {1 {vcom -work work -2002 -explicit -stats=none {F:\LockD\CMP2025\Third_Year\First_Term\CMP3010_Computer_Architecture\Project\5-stage-pipelined-processor\Fetch.vhd}
+Model Technology ModelSim - Intel FPGA Edition vcom 2020.1 Compiler 2020.02 Feb 28 2020
+-- Loading package STANDARD
+-- Loading package TEXTIO
+-- Loading package std_logic_1164
+-- Loading package NUMERIC_STD
+-- Compiling entity Fetch
+-- Compiling architecture FetchArch of Fetch
+
+} {} {}} E:/CMP3/first_semester/Architecture/project/Integration.vhd {0 {vcom -work work -2002 -explicit -stats=none E:/CMP3/first_semester/Architecture/project/Integration.vhd
+Model Technology ModelSim - Intel FPGA Edition vcom 10.5b Compiler 2016.10 Oct  5 2016
+-- Loading package STANDARD
+** Error (suppressible): E:/CMP3/first_semester/Architecture/project/Integration.vhd(2): (vcom-1491) Empty source files.
+
+} {} {}} E:/CMP3/first_semester/Architecture/project/WriteBack.vhd {1 {vcom -work work -2002 -explicit -stats=none E:/CMP3/first_semester/Architecture/project/WriteBack.vhd
+Model Technology ModelSim - Intel FPGA Edition vcom 10.5b Compiler 2016.10 Oct  5 2016
+-- Loading package STANDARD
+-- Loading package TEXTIO
+-- Loading package std_logic_1164
+-- Compiling entity writeBack
+-- Compiling architecture archWriteBack of writeBack
+
+} {} {}} {F:\LockD\CMP2025\Third_Year\First_Term\CMP3010_Computer_Architecture\Project\5-stage-pipelined-processor/Execute.vhd} {1 {vcom -work work -2002 -explicit -stats=none F:/LockD/CMP2025/Third_Year/First_Term/CMP3010_Computer_Architecture/Project/5-stage-pipelined-processor/Execute.vhd
+Model Technology ModelSim - Intel FPGA Edition vcom 2020.1 Compiler 2020.02 Feb 28 2020
+-- Loading package STANDARD
+-- Loading package TEXTIO
+-- Loading package std_logic_1164
+-- Compiling entity execute
+-- Compiling architecture archExecute of execute
+
+} {} {}} {F:\LockD\CMP2025\Third_Year\First_Term\CMP3010_Computer_Architecture\Project\5-stage-pipelined-processor/Decode.vhd} {1 {vcom -work work -2002 -explicit -stats=none {F:\LockD\CMP2025\Third_Year\First_Term\CMP3010_Computer_Architecture\Project\5-stage-pipelined-processor\Decode.vhd}
+Model Technology ModelSim - Intel FPGA Edition vcom 2020.1 Compiler 2020.02 Feb 28 2020
+-- Loading package STANDARD
+-- Loading package TEXTIO
+-- Loading package std_logic_1164
+-- Loading package NUMERIC_STD
+-- Compiling entity decode
+-- Compiling architecture archDecode of decode
+
+} {} {}} E:/CMP3/first_semester/Architecture/project/dec_exec.vhd {1 {vcom -work work -2002 -explicit -stats=none {E:\CMP3\first_semester\Architecture\project\dec_exec.vhd}
+Model Technology ModelSim - Intel FPGA Edition vcom 10.5b Compiler 2016.10 Oct  5 2016
+-- Loading package STANDARD
+-- Loading package TEXTIO
+-- Loading package std_logic_1164
+-- Compiling entity dec_exec
+-- Compiling architecture arch_dec_exec of dec_exec
 
 } {} {}} E:/CMP3/first_semester/Architecture/project/Memory.vhd {1 {vcom -work work -2002 -explicit -stats=none E:/CMP3/first_semester/Architecture/project/Memory.vhd
 Model Technology ModelSim - Intel FPGA Edition vcom 10.5b Compiler 2016.10 Oct  5 2016

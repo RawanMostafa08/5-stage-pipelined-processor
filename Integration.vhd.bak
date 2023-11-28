@@ -98,11 +98,10 @@ begin
         readData1=>readData1_temp
     );
 
-    --ID_EXE_Register: dec_exec port map(
-      --  readData1=>readData1_temp,
-	
+    ID_EXE_Register: dec_exec port map(
+        readData1=>readData1_temp
 
-    --);
+    );
     ExcuteStage:execute port map (
         op1=>readData1_temp,
         opCode=>opCode_temp,
