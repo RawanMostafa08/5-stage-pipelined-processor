@@ -27,6 +27,6 @@ begin
 -- Instruction=>Instruction
 --     );
 
-instruction <="0000001100000000";
+instruction <="0000011100000000";
 
 end architecture FetchArch;

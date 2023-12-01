@@ -13,7 +13,7 @@ Econtrolunit
 Z0 w1701176781
 Z1 DPx3 std 6 textio 0 22 zE1`LPoLg^DX3Oz^4Fj1K3
 Z2 DPx4 ieee 14 std_logic_1164 0 22 cVAk:aDinOX8^VGI1ekP<3
-!i122 536
+!i122 933
 Z3 dF:/LockD/CMP2025/Third_Year/First_Term/CMP3010_Computer_Architecture/Project/5-stage-pipelined-processor
 Z4 8F:\LockD\CMP2025\Third_Year\First_Term\CMP3010_Computer_Architecture\Project\5-stage-pipelined-processor\ControlUnit.vhd
 Z5 FF:\LockD\CMP2025\Third_Year\First_Term\CMP3010_Computer_Architecture\Project\5-stage-pipelined-processor\ControlUnit.vhd
@@ -23,9 +23,9 @@ VGS69fBg;:3O:kd=IGBleQ3
 !s100 KI^=;DelZ]@6jYUfHlUUV0
 Z6 OV;C;2020.1;71
 32
-Z7 !s110 1701189200
+Z7 !s110 1701211726
 !i10b 1
-Z8 !s108 1701189200.000000
+Z8 !s108 1701211726.000000
 Z9 !s90 -reportprogress|300|-work|work|-2002|-explicit|-stats=none|F:\LockD\CMP2025\Third_Year\First_Term\CMP3010_Computer_Architecture\Project\5-stage-pipelined-processor\ControlUnit.vhd|
 Z10 !s107 F:\LockD\CMP2025\Third_Year\First_Term\CMP3010_Computer_Architecture\Project\5-stage-pipelined-processor\ControlUnit.vhd|
 !i113 1
@@ -35,7 +35,7 @@ Aarchcontrolunit
 R1
 R2
 DEx4 work 11 controlunit 0 22 GS69fBg;:3O:kd=IGBleQ3
-!i122 536
+!i122 933
 l14
 L13 13
 VCf]A0K:0UP<niiIfn^:341
@@ -54,7 +54,7 @@ Edec_exec
 Z13 w1701186797
 R1
 R2
-!i122 533
+!i122 930
 R3
 Z14 8F:\LockD\CMP2025\Third_Year\First_Term\CMP3010_Computer_Architecture\Project\5-stage-pipelined-processor\dec_exec.vhd
 Z15 FF:\LockD\CMP2025\Third_Year\First_Term\CMP3010_Computer_Architecture\Project\5-stage-pipelined-processor\dec_exec.vhd
@@ -64,11 +64,11 @@ V]F4fTGNXfMZoIc^1OF_Ah0
 !s100 l3[j:nUQz1K`eCl>7`N>K0
 R6
 32
-Z16 !s110 1701189199
+R7
 !i10b 1
-Z17 !s108 1701189199.000000
-Z18 !s90 -reportprogress|300|-work|work|-2002|-explicit|-stats=none|F:\LockD\CMP2025\Third_Year\First_Term\CMP3010_Computer_Architecture\Project\5-stage-pipelined-processor\dec_exec.vhd|
-Z19 !s107 F:\LockD\CMP2025\Third_Year\First_Term\CMP3010_Computer_Architecture\Project\5-stage-pipelined-processor\dec_exec.vhd|
+Z16 !s108 1701211725.000000
+Z17 !s90 -reportprogress|300|-work|work|-2002|-explicit|-stats=none|F:\LockD\CMP2025\Third_Year\First_Term\CMP3010_Computer_Architecture\Project\5-stage-pipelined-processor\dec_exec.vhd|
+Z18 !s107 F:\LockD\CMP2025\Third_Year\First_Term\CMP3010_Computer_Architecture\Project\5-stage-pipelined-processor\dec_exec.vhd|
 !i113 1
 R11
 R12
@@ -76,61 +76,61 @@ Aarch_dec_exec
 R1
 R2
 DEx4 work 8 dec_exec 0 22 ]F4fTGNXfMZoIc^1OF_Ah0
-!i122 533
+!i122 930
 l21
 L20 9
 VI`CBe]Fh20^bX`3ZS_Bfm3
 !s100 VG0TS:MKgaNkMfBH1gez@3
 R6
 32
-R16
+R7
 !i10b 1
+R16
 R17
 R18
-R19
 !i113 1
 R11
 R12
 Edecode
-Z20 w1701187165
-Z21 DPx4 ieee 11 numeric_std 0 22 aU^R8eGcicLcUFIaBQSL>3
+Z19 w1701211722
+Z20 DPx4 ieee 11 numeric_std 0 22 aU^R8eGcicLcUFIaBQSL>3
 R1
 R2
-!i122 528
+!i122 925
 R3
-Z22 8F:\LockD\CMP2025\Third_Year\First_Term\CMP3010_Computer_Architecture\Project\5-stage-pipelined-processor\Decode.vhd
-Z23 FF:\LockD\CMP2025\Third_Year\First_Term\CMP3010_Computer_Architecture\Project\5-stage-pipelined-processor\Decode.vhd
+Z21 8F:\LockD\CMP2025\Third_Year\First_Term\CMP3010_Computer_Architecture\Project\5-stage-pipelined-processor\Decode.vhd
+Z22 FF:\LockD\CMP2025\Third_Year\First_Term\CMP3010_Computer_Architecture\Project\5-stage-pipelined-processor\Decode.vhd
 l0
 L4 1
-V5T[6BbC8_8FV]:RWg2<@k0
-!s100 jX:l_6CVLV5o8;J`zgk6`0
+Vdj8zk8_YE`Kho>g57QPPc3
+!s100 E@HanHeORCEzM4YSb]_Hl0
 R6
 32
-Z24 !s110 1701189197
+Z23 !s110 1701211724
 !i10b 1
-Z25 !s108 1701189197.000000
-Z26 !s90 -reportprogress|300|-work|work|-2002|-explicit|-stats=none|F:\LockD\CMP2025\Third_Year\First_Term\CMP3010_Computer_Architecture\Project\5-stage-pipelined-processor\Decode.vhd|
-Z27 !s107 F:\LockD\CMP2025\Third_Year\First_Term\CMP3010_Computer_Architecture\Project\5-stage-pipelined-processor\Decode.vhd|
+Z24 !s108 1701211724.000000
+Z25 !s90 -reportprogress|300|-work|work|-2002|-explicit|-stats=none|F:\LockD\CMP2025\Third_Year\First_Term\CMP3010_Computer_Architecture\Project\5-stage-pipelined-processor\Decode.vhd|
+Z26 !s107 F:\LockD\CMP2025\Third_Year\First_Term\CMP3010_Computer_Architecture\Project\5-stage-pipelined-processor\Decode.vhd|
 !i113 1
 R11
 R12
 Aarchdecode
-R21
+R20
 R1
 R2
-DEx4 work 6 decode 0 22 5T[6BbC8_8FV]:RWg2<@k0
-!i122 528
+DEx4 work 6 decode 0 22 dj8zk8_YE`Kho>g57QPPc3
+!i122 925
 l21
-L18 10
-VWXMl1a1`SD]Rd7;BCRc[f2
-!s100 PVBej:8eG[:J]L0ckeBIH2
+L18 18
+V5RP>H4LWOWAY3Ga[R]m]a0
+!s100 13d0h[cT@O07o7bV``54h3
 R6
 32
-R24
+R23
 !i10b 1
+R24
 R25
 R26
-R27
 !i113 1
 R11
 R12
@@ -138,21 +138,21 @@ Eexec_mem
 R0
 R1
 R2
-!i122 534
+!i122 931
 R3
-Z28 8F:\LockD\CMP2025\Third_Year\First_Term\CMP3010_Computer_Architecture\Project\5-stage-pipelined-processor\exec_mem.vhd
-Z29 FF:\LockD\CMP2025\Third_Year\First_Term\CMP3010_Computer_Architecture\Project\5-stage-pipelined-processor\exec_mem.vhd
+Z27 8F:\LockD\CMP2025\Third_Year\First_Term\CMP3010_Computer_Architecture\Project\5-stage-pipelined-processor\exec_mem.vhd
+Z28 FF:\LockD\CMP2025\Third_Year\First_Term\CMP3010_Computer_Architecture\Project\5-stage-pipelined-processor\exec_mem.vhd
 l0
 L3 1
 VK;g9aYM8c?f>B8a<Kb@Eh3
 !s100 8F6JZeRk>Hgz;2?0OP8a50
 R6
 32
-R16
+R7
 !i10b 1
-R17
-Z30 !s90 -reportprogress|300|-work|work|-2002|-explicit|-stats=none|F:\LockD\CMP2025\Third_Year\First_Term\CMP3010_Computer_Architecture\Project\5-stage-pipelined-processor\exec_mem.vhd|
-Z31 !s107 F:\LockD\CMP2025\Third_Year\First_Term\CMP3010_Computer_Architecture\Project\5-stage-pipelined-processor\exec_mem.vhd|
+R8
+Z29 !s90 -reportprogress|300|-work|work|-2002|-explicit|-stats=none|F:\LockD\CMP2025\Third_Year\First_Term\CMP3010_Computer_Architecture\Project\5-stage-pipelined-processor\exec_mem.vhd|
+Z30 !s107 F:\LockD\CMP2025\Third_Year\First_Term\CMP3010_Computer_Architecture\Project\5-stage-pipelined-processor\exec_mem.vhd|
 !i113 1
 R11
 R12
@@ -160,40 +160,40 @@ Aarch_exec_mem
 R1
 R2
 DEx4 work 8 exec_mem 0 22 K;g9aYM8c?f>B8a<Kb@Eh3
-!i122 534
+!i122 931
 l17
-Z32 L16 8
+Z31 L16 8
 VTE<dUDWoRdo8RjUcIn_992
 !s100 6]Of:::XGj;EmK?GmXCao3
 R6
 32
-R16
+R7
 !i10b 1
-R17
+R8
+R29
 R30
-R31
 !i113 1
 R11
 R12
 Eexecute
-Z33 w1701186621
+Z32 w1701191641
 R1
 R2
-!i122 529
+!i122 926
 R3
-Z34 8F:/LockD/CMP2025/Third_Year/First_Term/CMP3010_Computer_Architecture/Project/5-stage-pipelined-processor/Execute.vhd
-Z35 FF:/LockD/CMP2025/Third_Year/First_Term/CMP3010_Computer_Architecture/Project/5-stage-pipelined-processor/Execute.vhd
+Z33 8F:\LockD\CMP2025\Third_Year\First_Term\CMP3010_Computer_Architecture\Project\5-stage-pipelined-processor\Execute.vhd
+Z34 FF:\LockD\CMP2025\Third_Year\First_Term\CMP3010_Computer_Architecture\Project\5-stage-pipelined-processor\Execute.vhd
 l0
 L3 1
 V32N8W]oG=835N3XODXome1
 !s100 lHC>5TYVM6l4AIPLn0EmA1
 R6
 32
-Z36 !s110 1701189198
+Z35 !s110 1701211725
 !i10b 1
-Z37 !s108 1701189198.000000
-Z38 !s90 -reportprogress|300|-work|work|-2002|-explicit|-stats=none|F:/LockD/CMP2025/Third_Year/First_Term/CMP3010_Computer_Architecture/Project/5-stage-pipelined-processor/Execute.vhd|
-Z39 !s107 F:/LockD/CMP2025/Third_Year/First_Term/CMP3010_Computer_Architecture/Project/5-stage-pipelined-processor/Execute.vhd|
+R24
+Z36 !s90 -reportprogress|300|-work|work|-2002|-explicit|-stats=none|F:\LockD\CMP2025\Third_Year\First_Term\CMP3010_Computer_Architecture\Project\5-stage-pipelined-processor\Execute.vhd|
+Z37 !s107 F:\LockD\CMP2025\Third_Year\First_Term\CMP3010_Computer_Architecture\Project\5-stage-pipelined-processor\Execute.vhd|
 !i113 1
 R11
 R12
@@ -201,116 +201,116 @@ Aarchexecute
 R1
 R2
 DEx4 work 7 execute 0 22 32N8W]oG=835N3XODXome1
-!i122 529
+!i122 926
 l15
 L12 21
 Vh>dG2D1Ci8@BCJiCcUT@m2
 !s100 @<X=ng?Bj4K0NlO2U:BeL1
 R6
 32
-R36
+R35
 !i10b 1
+R24
+R36
 R37
-R38
-R39
 !i113 1
 R11
 R12
 Efetch
-Z40 w1701186453
-R21
+Z38 w1701192309
+R20
 R1
 R2
-!i122 527
+!i122 924
 R3
-Z41 8F:\LockD\CMP2025\Third_Year\First_Term\CMP3010_Computer_Architecture\Project\5-stage-pipelined-processor\Fetch.vhd
-Z42 FF:\LockD\CMP2025\Third_Year\First_Term\CMP3010_Computer_Architecture\Project\5-stage-pipelined-processor\Fetch.vhd
+Z39 8F:\LockD\CMP2025\Third_Year\First_Term\CMP3010_Computer_Architecture\Project\5-stage-pipelined-processor\Fetch.vhd
+Z40 FF:\LockD\CMP2025\Third_Year\First_Term\CMP3010_Computer_Architecture\Project\5-stage-pipelined-processor\Fetch.vhd
 l0
 L5 1
 VW=JKL8MgL1X=eTC^eMgD?0
 !s100 [2bBHAniKdfoOzZE8N3=I0
 R6
 32
-R24
+R23
 !i10b 1
-R25
-Z43 !s90 -reportprogress|300|-work|work|-2002|-explicit|-stats=none|F:\LockD\CMP2025\Third_Year\First_Term\CMP3010_Computer_Architecture\Project\5-stage-pipelined-processor\Fetch.vhd|
-Z44 !s107 F:\LockD\CMP2025\Third_Year\First_Term\CMP3010_Computer_Architecture\Project\5-stage-pipelined-processor\Fetch.vhd|
+R24
+Z41 !s90 -reportprogress|300|-work|work|-2002|-explicit|-stats=none|F:\LockD\CMP2025\Third_Year\First_Term\CMP3010_Computer_Architecture\Project\5-stage-pipelined-processor\Fetch.vhd|
+Z42 !s107 F:\LockD\CMP2025\Third_Year\First_Term\CMP3010_Computer_Architecture\Project\5-stage-pipelined-processor\Fetch.vhd|
 !i113 1
 R11
 R12
 Afetcharch
-R21
+R20
 R1
 R2
 DEx4 work 5 fetch 0 22 W=JKL8MgL1X=eTC^eMgD?0
-!i122 527
+!i122 924
 l23
 L11 22
-VY1ZnG@ojlAF:lzI][o9P03
-!s100 O^Lf]oQ:HYUgcBKEFV=<W0
+V<?@7R^4Si]_C<cORG6eIJ2
+!s100 Nfzi4B4cJFPRDnF_?78Pn1
 R6
 32
-R24
+R23
 !i10b 1
-R25
-R43
-R44
+R24
+R41
+R42
 !i113 1
 R11
 R12
 Eif_id_reg
-Z45 w1701189041
-R21
+Z43 w1701189041
+R20
 R1
 R2
-!i122 538
+!i122 935
 R3
-Z46 8F:\LockD\CMP2025\Third_Year\First_Term\CMP3010_Computer_Architecture\Project\5-stage-pipelined-processor\IF_ID_Reg.vhd
-Z47 FF:\LockD\CMP2025\Third_Year\First_Term\CMP3010_Computer_Architecture\Project\5-stage-pipelined-processor\IF_ID_Reg.vhd
+Z44 8F:\LockD\CMP2025\Third_Year\First_Term\CMP3010_Computer_Architecture\Project\5-stage-pipelined-processor\IF_ID_Reg.vhd
+Z45 FF:\LockD\CMP2025\Third_Year\First_Term\CMP3010_Computer_Architecture\Project\5-stage-pipelined-processor\IF_ID_Reg.vhd
 l0
 L5 1
 V9Jz1T_[70_GnMDcKb1k]l2
 !s100 Ynli2jBF;QW6Tb;jiW;0O0
 R6
 32
-Z48 !s110 1701189201
+Z46 !s110 1701211727
 !i10b 1
 R8
-Z49 !s90 -reportprogress|300|-work|work|-2002|-explicit|-stats=none|F:\LockD\CMP2025\Third_Year\First_Term\CMP3010_Computer_Architecture\Project\5-stage-pipelined-processor\IF_ID_Reg.vhd|
-Z50 !s107 F:\LockD\CMP2025\Third_Year\First_Term\CMP3010_Computer_Architecture\Project\5-stage-pipelined-processor\IF_ID_Reg.vhd|
+Z47 !s90 -reportprogress|300|-work|work|-2002|-explicit|-stats=none|F:\LockD\CMP2025\Third_Year\First_Term\CMP3010_Computer_Architecture\Project\5-stage-pipelined-processor\IF_ID_Reg.vhd|
+Z48 !s107 F:\LockD\CMP2025\Third_Year\First_Term\CMP3010_Computer_Architecture\Project\5-stage-pipelined-processor\IF_ID_Reg.vhd|
 !i113 1
 R11
 R12
 Aif_id_regarch
-R21
+R20
 R1
 R2
-Z51 DEx4 work 9 if_id_reg 0 22 9Jz1T_[70_GnMDcKb1k]l2
-!i122 538
+Z49 DEx4 work 9 if_id_reg 0 22 9Jz1T_[70_GnMDcKb1k]l2
+!i122 935
 l20
-Z52 L18 31
-Z53 VE61:NiFOFim3D]RnWWIg_2
-Z54 !s100 g@BM1XE3Ge7mjnIcokEl81
+Z50 L18 31
+Z51 VE61:NiFOFim3D]RnWWIg_2
+Z52 !s100 g@BM1XE3Ge7mjnIcokEl81
 R6
 32
-R48
+R46
 !i10b 1
 R8
-R49
-R50
+R47
+R48
 !i113 1
 R11
 R12
 Einstructionmemory
-Z55 w1701185790
-R21
+Z53 w1701185790
+R20
 R1
 R2
-!i122 537
+!i122 934
 R3
-Z56 8F:\LockD\CMP2025\Third_Year\First_Term\CMP3010_Computer_Architecture\Project\5-stage-pipelined-processor\InstructionMemory.vhd
-Z57 FF:\LockD\CMP2025\Third_Year\First_Term\CMP3010_Computer_Architecture\Project\5-stage-pipelined-processor\InstructionMemory.vhd
+Z54 8F:\LockD\CMP2025\Third_Year\First_Term\CMP3010_Computer_Architecture\Project\5-stage-pipelined-processor\InstructionMemory.vhd
+Z55 FF:\LockD\CMP2025\Third_Year\First_Term\CMP3010_Computer_Architecture\Project\5-stage-pipelined-processor\InstructionMemory.vhd
 l0
 L4 1
 V48IO`BG_:V67SSl@Bd_8W3
@@ -320,17 +320,17 @@ R6
 R7
 !i10b 1
 R8
-Z58 !s90 -reportprogress|300|-work|work|-2002|-explicit|-stats=none|F:\LockD\CMP2025\Third_Year\First_Term\CMP3010_Computer_Architecture\Project\5-stage-pipelined-processor\InstructionMemory.vhd|
-Z59 !s107 F:\LockD\CMP2025\Third_Year\First_Term\CMP3010_Computer_Architecture\Project\5-stage-pipelined-processor\InstructionMemory.vhd|
+Z56 !s90 -reportprogress|300|-work|work|-2002|-explicit|-stats=none|F:\LockD\CMP2025\Third_Year\First_Term\CMP3010_Computer_Architecture\Project\5-stage-pipelined-processor\InstructionMemory.vhd|
+Z57 !s107 F:\LockD\CMP2025\Third_Year\First_Term\CMP3010_Computer_Architecture\Project\5-stage-pipelined-processor\InstructionMemory.vhd|
 !i113 1
 R11
 R12
 Ainstructionmemoryarch
-R21
+R20
 R1
 R2
 DEx4 work 17 instructionmemory 0 22 48IO`BG_:V67SSl@Bd_8W3
-!i122 537
+!i122 934
 l14
 L13 16
 VSFf2cTh[hA1^Ml>0cXQV<3
@@ -340,51 +340,51 @@ R6
 R7
 !i10b 1
 R8
-R58
-R59
+R56
+R57
 !i113 1
 R11
 R12
 Eintegration
-Z60 w1701186748
-R21
+Z58 w1701200535
+R20
 R1
 R2
-!i122 532
+!i122 929
 R3
-Z61 8F:\LockD\CMP2025\Third_Year\First_Term\CMP3010_Computer_Architecture\Project\5-stage-pipelined-processor\Integration.vhd
-Z62 FF:\LockD\CMP2025\Third_Year\First_Term\CMP3010_Computer_Architecture\Project\5-stage-pipelined-processor\Integration.vhd
+Z59 8F:\LockD\CMP2025\Third_Year\First_Term\CMP3010_Computer_Architecture\Project\5-stage-pipelined-processor\Integration.vhd
+Z60 FF:\LockD\CMP2025\Third_Year\First_Term\CMP3010_Computer_Architecture\Project\5-stage-pipelined-processor\Integration.vhd
 l0
 L5 1
 VhJW2_[33C5`k]:M<5=L`c1
 !s100 XhDM0S=zMHUnz6^^5KaQO1
 R6
 32
-R16
+R35
 !i10b 1
-R37
-Z63 !s90 -reportprogress|300|-work|work|-2002|-explicit|-stats=none|F:\LockD\CMP2025\Third_Year\First_Term\CMP3010_Computer_Architecture\Project\5-stage-pipelined-processor\Integration.vhd|
-Z64 !s107 F:\LockD\CMP2025\Third_Year\First_Term\CMP3010_Computer_Architecture\Project\5-stage-pipelined-processor\Integration.vhd|
+R16
+Z61 !s90 -reportprogress|300|-work|work|-2002|-explicit|-stats=none|F:\LockD\CMP2025\Third_Year\First_Term\CMP3010_Computer_Architecture\Project\5-stage-pipelined-processor\Integration.vhd|
+Z62 !s107 F:\LockD\CMP2025\Third_Year\First_Term\CMP3010_Computer_Architecture\Project\5-stage-pipelined-processor\Integration.vhd|
 !i113 1
 R11
 R12
 Aintegrationarch
-R21
+R20
 R1
 R2
 DEx4 work 11 integration 0 22 hJW2_[33C5`k]:M<5=L`c1
-!i122 532
-l79
-L8 107
-V9n_EHTP@BmE=06l;8_O=n0
-!s100 27hIME32NmMKTe3;LF_bJ3
+!i122 929
+l81
+L8 131
+VnOQ4z[i4NWRjR>M[oScI<1
+!s100 UCHaR=4jKj4CMQPNS@LYH2
 R6
 32
-R16
+R35
 !i10b 1
-R37
-R63
-R64
+R16
+R61
+R62
 !i113 1
 R11
 R12
@@ -392,10 +392,10 @@ Emem_writeback
 R0
 R1
 R2
-!i122 535
+!i122 932
 R3
-Z65 8F:\LockD\CMP2025\Third_Year\First_Term\CMP3010_Computer_Architecture\Project\5-stage-pipelined-processor\mem_writeBack.vhd
-Z66 FF:\LockD\CMP2025\Third_Year\First_Term\CMP3010_Computer_Architecture\Project\5-stage-pipelined-processor\mem_writeBack.vhd
+Z63 8F:\LockD\CMP2025\Third_Year\First_Term\CMP3010_Computer_Architecture\Project\5-stage-pipelined-processor\mem_writeBack.vhd
+Z64 FF:\LockD\CMP2025\Third_Year\First_Term\CMP3010_Computer_Architecture\Project\5-stage-pipelined-processor\mem_writeBack.vhd
 l0
 L3 1
 VXm5zZ`:_e2bmJT2H@75ZU3
@@ -404,9 +404,9 @@ R6
 32
 R7
 !i10b 1
-R17
-Z67 !s90 -reportprogress|300|-work|work|-2002|-explicit|-stats=none|F:\LockD\CMP2025\Third_Year\First_Term\CMP3010_Computer_Architecture\Project\5-stage-pipelined-processor\mem_writeBack.vhd|
-Z68 !s107 F:\LockD\CMP2025\Third_Year\First_Term\CMP3010_Computer_Architecture\Project\5-stage-pipelined-processor\mem_writeBack.vhd|
+R8
+Z65 !s90 -reportprogress|300|-work|work|-2002|-explicit|-stats=none|F:\LockD\CMP2025\Third_Year\First_Term\CMP3010_Computer_Architecture\Project\5-stage-pipelined-processor\mem_writeBack.vhd|
+Z66 !s107 F:\LockD\CMP2025\Third_Year\First_Term\CMP3010_Computer_Architecture\Project\5-stage-pipelined-processor\mem_writeBack.vhd|
 !i113 1
 R11
 R12
@@ -414,18 +414,18 @@ Aarch_mem_writeback
 R1
 R2
 DEx4 work 13 mem_writeback 0 22 Xm5zZ`:_e2bmJT2H@75ZU3
-!i122 535
+!i122 932
 l17
-R32
+R31
 VZGLHi0gEm_n3WiL6fj`>Q3
 !s100 oR[ge]ffUU]M]013]k@FV3
 R6
 32
 R7
 !i10b 1
-R17
-R67
-R68
+R8
+R65
+R66
 !i113 1
 R11
 R12
@@ -433,21 +433,21 @@ Ememory
 R0
 R1
 R2
-!i122 530
+!i122 927
 R3
-Z69 8F:\LockD\CMP2025\Third_Year\First_Term\CMP3010_Computer_Architecture\Project\5-stage-pipelined-processor\Memory.vhd
-Z70 FF:\LockD\CMP2025\Third_Year\First_Term\CMP3010_Computer_Architecture\Project\5-stage-pipelined-processor\Memory.vhd
+Z67 8F:\LockD\CMP2025\Third_Year\First_Term\CMP3010_Computer_Architecture\Project\5-stage-pipelined-processor\Memory.vhd
+Z68 FF:\LockD\CMP2025\Third_Year\First_Term\CMP3010_Computer_Architecture\Project\5-stage-pipelined-processor\Memory.vhd
 l0
 L3 1
 V3@7LZnRYKe6z^edHPLKo=3
 !s100 IoNO@^Uz:;AE8`I>RiQ0Q1
 R6
 32
-R36
+R35
 !i10b 1
-R37
-Z71 !s90 -reportprogress|300|-work|work|-2002|-explicit|-stats=none|F:\LockD\CMP2025\Third_Year\First_Term\CMP3010_Computer_Architecture\Project\5-stage-pipelined-processor\Memory.vhd|
-Z72 !s107 F:\LockD\CMP2025\Third_Year\First_Term\CMP3010_Computer_Architecture\Project\5-stage-pipelined-processor\Memory.vhd|
+R16
+Z69 !s90 -reportprogress|300|-work|work|-2002|-explicit|-stats=none|F:\LockD\CMP2025\Third_Year\First_Term\CMP3010_Computer_Architecture\Project\5-stage-pipelined-processor\Memory.vhd|
+Z70 !s107 F:\LockD\CMP2025\Third_Year\First_Term\CMP3010_Computer_Architecture\Project\5-stage-pipelined-processor\Memory.vhd|
 !i113 1
 R11
 R12
@@ -455,59 +455,59 @@ Aarchmemory
 R1
 R2
 DEx4 work 6 memory 0 22 3@7LZnRYKe6z^edHPLKo=3
-!i122 530
+!i122 927
 l15
 L14 5
 Vf>=NMC:<YO_n2hQ]Oi:zM2
 !s100 _ldc;NW0jVBGG[M882S]V0
 R6
 32
-R36
+R35
 !i10b 1
-R37
-R71
-R72
+R16
+R69
+R70
 !i113 1
 R11
 R12
 Ewriteback
-R0
+Z71 w1701192028
 R1
 R2
-!i122 531
+!i122 928
 R3
-Z73 8F:/LockD/CMP2025/Third_Year/First_Term/CMP3010_Computer_Architecture/Project/5-stage-pipelined-processor/WriteBack.vhd
-Z74 FF:/LockD/CMP2025/Third_Year/First_Term/CMP3010_Computer_Architecture/Project/5-stage-pipelined-processor/WriteBack.vhd
+Z72 8F:\LockD\CMP2025\Third_Year\First_Term\CMP3010_Computer_Architecture\Project\5-stage-pipelined-processor\WriteBack.vhd
+Z73 FF:\LockD\CMP2025\Third_Year\First_Term\CMP3010_Computer_Architecture\Project\5-stage-pipelined-processor\WriteBack.vhd
 l0
 L3 1
-VnHI4zfjN[_B^P5S5g5M]D3
-!s100 8Z5Fzz8U7`3MXZzbF0D=71
+VT=;Jhk[YWa;dJd[>h_X9m0
+!s100 8dBc:LaIc=][aA3`VTNcM1
 R6
 32
-R36
+R35
 !i10b 1
-R37
-Z75 !s90 -reportprogress|300|-work|work|-2002|-explicit|-stats=none|F:/LockD/CMP2025/Third_Year/First_Term/CMP3010_Computer_Architecture/Project/5-stage-pipelined-processor/WriteBack.vhd|
-Z76 !s107 F:/LockD/CMP2025/Third_Year/First_Term/CMP3010_Computer_Architecture/Project/5-stage-pipelined-processor/WriteBack.vhd|
+R16
+Z74 !s90 -reportprogress|300|-work|work|-2002|-explicit|-stats=none|F:\LockD\CMP2025\Third_Year\First_Term\CMP3010_Computer_Architecture\Project\5-stage-pipelined-processor\WriteBack.vhd|
+Z75 !s107 F:\LockD\CMP2025\Third_Year\First_Term\CMP3010_Computer_Architecture\Project\5-stage-pipelined-processor\WriteBack.vhd|
 !i113 1
 R11
 R12
 Aarchwriteback
 R1
 R2
-DEx4 work 9 writeback 0 22 nHI4zfjN[_B^P5S5g5M]D3
-!i122 531
-l13
-L12 8
-Vfo1c]Lc:`Y@7gRfli?AMR0
-!s100 7kbDMJ<7;MY=SzFVA^6k;2
+DEx4 work 9 writeback 0 22 T=;Jhk[YWa;dJd[>h_X9m0
+!i122 928
+l15
+L14 9
+Vak0^8EfC?XLBekno56XE73
+!s100 6EGj]efU_VIfFLWB;kG>=1
 R6
 32
-R36
+R35
 !i10b 1
-R37
+R16
+R74
 R75
-R76
 !i113 1
 R11
 R12
