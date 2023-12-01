@@ -2,6 +2,8 @@
 library IEEE;
 use IEEE.std_logic_1164.all;
 use IEEE.numeric_std.all;
+
+
 entity IF_ID_Reg is
     port (
         Instruction :IN std_logic_vector(15 downto 0);
@@ -12,7 +14,6 @@ entity IF_ID_Reg is
         opCode : OUT STD_LOGIC_VECTOR (5 DOWNTO 0);
 		writeData1 : OUT STD_LOGIC_VECTOR (31 DOWNTO 0);
 		writeData2 : OUT STD_LOGIC_VECTOR (31 DOWNTO 0)
-
     );
 end entity IF_ID_Reg;
 architecture IF_ID_RegArch of IF_ID_Reg is

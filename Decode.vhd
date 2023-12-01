@@ -27,8 +27,8 @@ regFile(to_integer(unsigned((writeReg1))))<=writeData1 when writeBack='1';
 
 
 
-readData1 <= regFile(to_integer(unsigned((writeReg1))));
-
+readData1 <= regFile(to_integer(unsigned((readReg1))));
+readData2 <= regFile(to_integer(unsigned((readReg2))));
 
 
 
