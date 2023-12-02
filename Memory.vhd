@@ -12,24 +12,20 @@ ENTITY memory IS
 END memory;
 
 ARCHITECTURE archMemory OF memory IS
-TYPE mem_loc IS ARRAY (0 TO 4095) OF STD_LOGIC_VECTOR(15 DOWNTO 0);
+	TYPE mem_loc IS ARRAY (0 TO 4095) OF STD_LOGIC_VECTOR(15 DOWNTO 0);
 	SIGNAL data_mem : mem_loc;
-SIGNAL address_temp,one : STD_LOGIC_VECTOR (31 DOWNTO 0);
+	SIGNAL address_temp, one : STD_LOGIC_VECTOR (31 DOWNTO 0);
 BEGIN
-
-
-process (address,writeData,memRead,memWrite)
-begin
-address_temp <= std_logic_vector(unsigned(address)+1);	
-	if memWrite = '1' then
-		data_mem(to_integer(unsigned((address(11 downto 0)))))<=writeData(31 downto 16);
-		data_mem(to_integer(unsigned((address_temp(11 downto 0)))))<=writeData(15 downto 0);
-	else
-		if memRead = '1' then
-			readData <= data_mem(to_integer(unsigned((address(11 downto 0)))))&data_mem(to_integer(unsigned((address_temp(11 downto 0)))));
-		end if ;
-	end if ;
-end process;
-	
-
+	PROCESS (address, writeData, memRead, memWrite, address_temp)
+	BEGIN
+		address_temp <= STD_LOGIC_VECTOR(unsigned(address) + 1);
+		IF memWrite = '1' THEN
+			data_mem(to_integer(unsigned((address(11 DOWNTO 0))))) <= writeData(31 DOWNTO 16);
+			data_mem(to_integer(unsigned((address_temp(11 DOWNTO 0))))) <= writeData(15 DOWNTO 0);
+		ELSE
+			IF memRead = '1' THEN
+				readData <= data_mem(to_integer(unsigned((address(11 DOWNTO 0))))) & data_mem(to_integer(unsigned((address_temp(11 DOWNTO 0)))));
+			END IF;
+		END IF;
+	END PROCESS;
 END archMemory;
