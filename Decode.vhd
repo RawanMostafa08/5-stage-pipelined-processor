@@ -20,16 +20,10 @@ ARCHITECTURE archDecode OF decode IS
 	SIGNAL regFile : reg;
 BEGIN
 
-regFile(to_integer(unsigned((writeReg1))))<=(OTHERS => '0');
-regFile(to_integer(unsigned((writeReg1))))<=writeData2 when writeBack='1';
-regFile(to_integer(unsigned((writeReg1))))<=writeData1 when writeBack='1';
-
-
-
-
-readData1 <= regFile(to_integer(unsigned((readReg1))));
-readData2 <= regFile(to_integer(unsigned((readReg2))));
-
-
+	regFile(to_integer(unsigned((writeReg1)))) <= (OTHERS => '0');
+	regFile(to_integer(unsigned((writeReg1)))) <= writeData2 WHEN writeBack = '1';
+	regFile(to_integer(unsigned((writeReg1)))) <= writeData1 WHEN writeBack = '1';
+	readData1 <= regFile(to_integer(unsigned((readReg1))));
+	readData2 <= regFile(to_integer(unsigned((readReg2))));
 
 END archDecode;
