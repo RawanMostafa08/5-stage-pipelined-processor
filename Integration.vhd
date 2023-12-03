@@ -32,13 +32,13 @@ ARCHITECTURE IntegrationArch OF Integration IS
     COMPONENT IF_ID_Reg IS
         PORT (
             Instruction : IN STD_LOGIC_VECTOR(15 DOWNTO 0);
+            readReg0 : OUT STD_LOGIC_VECTOR (2 DOWNTO 0);
             readReg1 : OUT STD_LOGIC_VECTOR (2 DOWNTO 0);
-            readReg2 : OUT STD_LOGIC_VECTOR (2 DOWNTO 0);
+            writeReg0 : OUT STD_LOGIC_VECTOR (2 DOWNTO 0);
             writeReg1 : OUT STD_LOGIC_VECTOR (2 DOWNTO 0);
-            writeReg2 : OUT STD_LOGIC_VECTOR (2 DOWNTO 0);
-            opCode : OUT STD_LOGIC_VECTOR (5 DOWNTO 0)
-            -- writeData1 : OUT STD_LOGIC_VECTOR (31 DOWNTO 0);
-            -- writeData2 : OUT STD_LOGIC_VECTOR (31 DOWNTO 0)
+            opCode : OUT STD_LOGIC_VECTOR (5 DOWNTO 0);
+            writeData0 : OUT STD_LOGIC_VECTOR (31 DOWNTO 0);
+            writeData1 : OUT STD_LOGIC_VECTOR (31 DOWNTO 0)
 
         );
     END COMPONENT;
@@ -63,24 +63,20 @@ ARCHITECTURE IntegrationArch OF Integration IS
 
     COMPONENT dec_exec IS
         PORT (
-            readData1 : IN STD_LOGIC_VECTOR (31 DOWNTO 0);
-            -- readData2 : IN STD_LOGIC_VECTOR (31 DOWNTO 0);
-            destRegIn1 : IN STD_LOGIC_VECTOR (2 DOWNTO 0);
-            -- destRegIn2 : IN STD_LOGIC_VECTOR (2 DOWNTO 0);
-            -- opCodeIn : IN STD_LOGIC_VECTOR (5 DOWNTO 0);
-            writeBackIn : IN STD_LOGIC;
-            -- outData1 : OUT STD_LOGIC_VECTOR (31 DOWNTO 0);
-            -- outData2 : OUT STD_LOGIC_VECTOR (31 DOWNTO 0);
-            -- opCodeOut : OUT STD_LOGIC_VECTOR (5 DOWNTO 0);
-            destRegOut1 : OUT STD_LOGIC_VECTOR (2 DOWNTO 0)
-            -- destRegOut2 : OUT STD_LOGIC_VECTOR (2 DOWNTO 0);
-            -- writeBackOut : OUT STD_LOGIC
+            readData0 : INOUT STD_LOGIC_VECTOR (31 DOWNTO 0);
+            readData1 : INOUT STD_LOGIC_VECTOR (31 DOWNTO 0);
+            destReg0 : INOUT STD_LOGIC_VECTOR (2 DOWNTO 0);
+            destReg1 : INOUT STD_LOGIC_VECTOR (2 DOWNTO 0);
+            opCode : INOUT STD_LOGIC_VECTOR (5 DOWNTO 0);
+            WB0 : INOUT STD_LOGIC;
+            WB1 : INOUT STD_LOGIC
+
         );
     END COMPONENT;
     COMPONENT execute IS
         PORT (
             op1 : IN STD_LOGIC_VECTOR (31 DOWNTO 0);
-            -- op2 : IN STD_LOGIC_VECTOR (31 DOWNTO 0);
+            op2 : IN STD_LOGIC_VECTOR (31 DOWNTO 0);
             opCode : IN STD_LOGIC_VECTOR (5 DOWNTO 0);
             res : OUT STD_LOGIC_VECTOR (31 DOWNTO 0)
         );
@@ -88,26 +84,22 @@ ARCHITECTURE IntegrationArch OF Integration IS
 
     COMPONENT exec_mem IS
         PORT (
-            aluResIn : IN STD_LOGIC_VECTOR (31 DOWNTO 0);
-            destRegIn1 : IN STD_LOGIC_VECTOR (2 DOWNTO 0);
-            destRegIn2 : IN STD_LOGIC_VECTOR (2 DOWNTO 0);
-            writeBackIn : IN STD_LOGIC;
-            destRegOut1 : OUT STD_LOGIC_VECTOR (2 DOWNTO 0);
-            destRegOut2 : OUT STD_LOGIC_VECTOR (2 DOWNTO 0);
-            aluResOut : OUT STD_LOGIC_VECTOR (31 DOWNTO 0);
-            writeBackOut : OUT STD_LOGIC
+            aluResult : INOUT STD_LOGIC_VECTOR (31 DOWNTO 0);
+            destReg0 : INOUT STD_LOGIC_VECTOR (2 DOWNTO 0);
+            destReg1 : INOUT STD_LOGIC_VECTOR (2 DOWNTO 0);
+            writeBack0 : INOUT STD_LOGIC;
+            writeBack1 : INOUT STD_LOGIC
         );
     END COMPONENT;
     COMPONENT mem_writeBack IS
         PORT (
-            resMemIn : IN STD_LOGIC_VECTOR (31 DOWNTO 0);
-            resAluIn : IN STD_LOGIC_VECTOR (31 DOWNTO 0);
-            writeBackIn : IN STD_LOGIC;
-            memRegIn : IN STD_LOGIC;
-            resMemOut : OUT STD_LOGIC_VECTOR (31 DOWNTO 0);
-            resAluOut : OUT STD_LOGIC_VECTOR (31 DOWNTO 0);
-            writeBackOut : OUT STD_LOGIC;
-            memRegOut : OUT STD_LOGIC
+            resMem : INOUT STD_LOGIC_VECTOR (31 DOWNTO 0);
+            resAlu : INOUT STD_LOGIC_VECTOR (31 DOWNTO 0);
+            destReg0 : INOUT STD_LOGIC_VECTOR (31 DOWNTO 0);
+            destReg1 : INOUT STD_LOGIC_VECTOR (31 DOWNTO 0);
+            writeBack0 : INOUT STD_LOGIC;
+            writeBack1 : INOUT STD_LOGIC;
+            memReg : INOUT STD_LOGIC
         );
     END COMPONENT;
 
@@ -131,9 +123,9 @@ ARCHITECTURE IntegrationArch OF Integration IS
     END COMPONENT;
 
     SIGNAL Instruction_temp : STD_LOGIC_VECTOR(15 DOWNTO 0);
-    SIGNAL readReg1_temp, readReg2_temp, writeReg1_temp, writeReg2_temp : STD_LOGIC_VECTOR(2 DOWNTO 0);
+    SIGNAL readReg0_temp, readReg1_temp, writeReg0_temp, writeReg1_temp : STD_LOGIC_VECTOR(2 DOWNTO 0);
     SIGNAL opCode_temp : STD_LOGIC_VECTOR (5 DOWNTO 0);
-    SIGNAL readData0_temp, result, writeData1_temp, writeData2_temp : STD_LOGIC_VECTOR (31 DOWNTO 0);
+    SIGNAL readData0_temp, readData1_temp, writeData1_temp, writeData2_temp : STD_LOGIC_VECTOR (31 DOWNTO 0);
     SIGNAL write_back_temp : STD_LOGIC;
     SIGNAL regFile_reset, regFile_WE0, regFile_WE1, regFile_RE0, regFile_RE1 : STD_LOGIC;
     SIGNAL regFile_WriteAdd0, regFile_WriteAdd1, regFile_ReadAdd0, regFile_ReadAdd1 : STD_LOGIC_VECTOR (2 DOWNTO 0);
@@ -148,25 +140,30 @@ ARCHITECTURE IntegrationArch OF Integration IS
     SIGNAL executeSignals_CU : STD_LOGIC_VECTOR(2 DOWNTO 0);
     SIGNAL memorySignals_CU : STD_LOGIC_VECTOR(6 DOWNTO 0);
 
+    SIGNAL readReg0_IF_ID : STD_LOGIC_VECTOR (2 DOWNTO 0);
     SIGNAL readReg1_IF_ID : STD_LOGIC_VECTOR (2 DOWNTO 0);
-    SIGNAL readReg2_IF_ID : STD_LOGIC_VECTOR (2 DOWNTO 0);
+    SIGNAL writeReg0_IF_ID : STD_LOGIC_VECTOR (2 DOWNTO 0);
     SIGNAL writeReg1_IF_ID : STD_LOGIC_VECTOR (2 DOWNTO 0);
-    SIGNAL writeReg2_IF_ID : STD_LOGIC_VECTOR (2 DOWNTO 0);
-    signal opCode_IF_ID: std_logic_vector(5 downto 0);
+    SIGNAL opCode_IF_ID : STD_LOGIC_VECTOR(5 DOWNTO 0);
 
-    SIGNAL readData1_ID_EXE : STD_LOGIC_VECTOR(31 DOWNTO 0);
-    SIGNAL destRegIn1_ID_EXE : STD_LOGIC_VECTOR (2 DOWNTO 0);
-    SIGNAL writeBackIn_ID_EXE : STD_LOGIC;
-    SIGNAL destRegOut1_ID_EXE : STD_LOGIC_VECTOR (2 DOWNTO 0);
+    SIGNAL readData0_EXE : STD_LOGIC_VECTOR(31 DOWNTO 0);
+    SIGNAL readData1_EXE : STD_LOGIC_VECTOR(31 DOWNTO 0);
+    SIGNAL destRegIn1_EXE : STD_LOGIC_VECTOR (2 DOWNTO 0);
+    SIGNAL writeBackIn_EXE : STD_LOGIC;
+
+    SIGNAL aluRes : STD_LOGIC_VECTOR (31 DOWNTO 0);
+
     SIGNAL aluResIn_EXE_M : STD_LOGIC_VECTOR (31 DOWNTO 0);
+    SIGNAL destRegIn0_EXE_M : STD_LOGIC_VECTOR (2 DOWNTO 0);
     SIGNAL destRegIn1_EXE_M : STD_LOGIC_VECTOR (2 DOWNTO 0);
-    SIGNAL destRegIn2_EXE_M : STD_LOGIC_VECTOR (2 DOWNTO 0);
     SIGNAL writeBackIn_EXE_M : STD_LOGIC;
+    SIGNAL destRegOut0_EXE_M : STD_LOGIC_VECTOR (2 DOWNTO 0);
     SIGNAL destRegOut1_EXE_M : STD_LOGIC_VECTOR (2 DOWNTO 0);
-    SIGNAL destRegOut2_EXE_M : STD_LOGIC_VECTOR (2 DOWNTO 0);
     SIGNAL aluResOut_EXE_M : STD_LOGIC_VECTOR (31 DOWNTO 0);
     SIGNAL writeBackOut_EXE_M : STD_LOGIC;
 
+    SIGNAL address_mem : STD_LOGIC_VECTOR (31 DOWNTO 0);
+    SIGNAL writeData_mem : STD_LOGIC_VECTOR (31 DOWNTO 0);
     SIGNAL resMemIn_M_WB : STD_LOGIC_VECTOR (31 DOWNTO 0);
     SIGNAL resAluIn_M_WB : STD_LOGIC_VECTOR (31 DOWNTO 0);
     SIGNAL writeBackIn_M_WB : STD_LOGIC;
@@ -196,10 +193,10 @@ BEGIN
     );
     IF_ID_Register : IF_ID_Reg PORT MAP(
         Instruction => Instruction_F,
+        readReg0 => readReg0_IF_ID,
         readReg1 => readReg1_IF_ID,
-        readReg2 => readReg2_IF_ID,
+        writeReg0 => writeReg0_IF_ID,
         writeReg1 => writeReg1_IF_ID,
-        writeReg2 => writeReg2_IF_ID,
         opCode => opCode_IF_ID
     );
     Register_File : regFile PORT MAP(
@@ -209,83 +206,82 @@ BEGIN
         WriteEn1 => regFile_WE1,
         ReadEn0 => ReadEn0_temp,
         ReadEn1 => ReadEn1_temp,
-        WriteAdd0 => writeReg1_temp,
-        WriteAdd1 => writeReg2_temp,
-        ReadAdd0 => readReg1_temp,
-        ReadAdd1 => readReg2_temp,
+        WriteAdd0 => writeReg0_temp,
+        WriteAdd1 => writeReg1_temp,
+        ReadAdd0 => readReg0_temp,
+        ReadAdd1 => readReg1_temp,
         WriteData0 => regFile_WriteData0,
         WriteData1 => regFile_WriteData1,
         ReadData0 => readData0_temp,
-        ReadData1 => regFile_ReadData1
+        ReadData1 => readData1_temp
     );
 
     ID_EXE_Register : dec_exec PORT MAP(
-        readData1 => readData1_ID_EXE,
-        destRegIn1 => destRegIn1_ID_EXE,
-        writeBackIn => writeBackIn_ID_EXE,
-        destRegOut1 => destRegOut1_ID_EXE
-
+        readData0 => readData0_temp,
+        readData1 => readData1_temp,
+        destReg0 => writeReg0_IF_ID,
+        destReg1 => writeReg1_IF_ID,
+        WB0 => regFile_WE0,
+        WB1 => regFile_WE1
     );
 
     ExcuteStage : execute PORT MAP(
-        op1 => readData0_temp,
+        op1 => readData0_EXE,
+        op2 => readData1_EXE,
         opCode => opCode_temp,
-        res => regFile_WriteData0
+        res => aluRes
     );
 
     EXE_M : exec_mem PORT MAP(
-        aluResIn => aluResIn_EXE_M,
-        destRegIn1 => destRegIn1_EXE_M,
-        destRegIn2 => destRegIn2_EXE_M,
-        writeBackIn => writeBackIn_EXE_M,
-        destRegOut1 => destRegOut1_EXE_M,
-        destRegOut2 => destRegOut2_EXE_M,
-        aluResOut => aluResOut_EXE_M,
-        writeBackOut => writeBackOut_EXE_M
+        aluResult => aluRes,
+        destReg0 => writeReg0_IF_ID,
+        destReg1 => writeReg1_IF_ID,
+        writeBack0 => regFile_WE0,
+        writeBack1 => regFile_WE1
     );
     Memory_Stage : memory PORT MAP(
-        address => regFile_WriteData0,
-        writeData => readData0_temp,
+        address => address_mem,
+        writeData => writeData_mem,
         memRead => memread, --should be changed to get signal from EX/MEM
         memWrite => memwrite, --should be changed to get signal from EX/MEM
         readData => readData_Mem
     );
 
     M_WB : mem_writeBack PORT MAP(
-        resMemIn => resMemIn_M_WB,
-        resAluIn => resAluIn_M_WB,
-        writeBackIn => writeBackIn_M_WB,
-        memRegIn => memRegIn_M_WB,
-        resMemOut => resMemOut_M_WB,
-        resAluOut => resAluOut_M_WB,
-        writeBackOut => writeBackOut_M_WB,
-        memRegOut => memRegOut_M_WB
+        resMem => readData_Mem,
+        resAlu => aluRes,
+        destReg0 => writeReg0_IF_ID,
+        destReg1 => writeReg1_IF_ID,
+        writeBack0 => regFile_WE0,
+        writeBack1 => regFile_WE1,
+        memReg => memRegIn_M_WB
     );
 
     PROCESS (clk)
     BEGIN
         IF rising_edge(clk) THEN
             --fetch
+
             -- fetch_decode--->Decode
-            regFile_WE0 <= regFileSignals_CU(0);
-            regFile_WE1 <= regFileSignals_CU(1);
-            ReadEn0_temp <= regFileSignals_CU(2);
-            ReadEn1_temp <= regFileSignals_CU(2);
-            readReg1_temp <= readReg1_IF_ID;
-            readReg2_temp <= readReg2_IF_ID;
-            writeReg1_temp <= writeReg1_IF_ID;
-            writeReg2_temp <= writeReg2_IF_ID;
-           
-            -- decode--->decode_execute
-            
-
-
-
-
-            --memory
-
-            --wb
-
+            -- regFile_WE0 <= regFileSignals_CU(0);
+            -- regFile_WE1 <= regFileSignals_CU(1);
+            -- ReadEn0_temp <= regFileSignals_CU(2);
+            -- ReadEn1_temp <= regFileSignals_CU(2);
+            -- readReg0_temp <= readReg0_IF_ID;
+            -- readReg1_temp <= readReg1_IF_ID;
+            --DECODE_EXECUTE-->EXECUTE
+            -- readData0_EXE <= readData0_temp;
+            -- readData1_EXE <= readData1_temp;
+            -- --execute_memory-->memory
+            -- address_mem <= (OTHERS => '0');
+            -- writeData_mem <= (OTHERS => '1');
+            -- memread <= '0';
+            -- memwrite <= '0';
+            -- --wb --TEMPORARILY
+            -- memRegIn_M_WB <= '1';
+            -- regFile_WE0 <= '1';
+            -- regFile_WE1 <= '0';
+            -- writeReg0_temp <= writeReg0_IF_ID;
         END IF;
     END PROCESS;
 

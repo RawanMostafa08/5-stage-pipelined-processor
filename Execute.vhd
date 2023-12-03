@@ -3,7 +3,7 @@ USE ieee.std_logic_1164.ALL;
 ENTITY execute IS
   PORT (
     op1 : IN STD_LOGIC_VECTOR (31 DOWNTO 0);
-    -- op2 : IN STD_LOGIC_VECTOR (31 DOWNTO 0);
+    op2 : IN STD_LOGIC_VECTOR (31 DOWNTO 0);
     opCode : IN STD_LOGIC_VECTOR (5 DOWNTO 0);
     res : OUT STD_LOGIC_VECTOR (31 DOWNTO 0)
   );
