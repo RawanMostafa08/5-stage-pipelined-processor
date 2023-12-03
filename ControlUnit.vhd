@@ -2,7 +2,7 @@ LIBRARY ieee;
 USE ieee.std_logic_1164.ALL;
 ENTITY controlUnit IS
 	PORT (
-		opCode : INOUT STD_LOGIC_VECTOR (5 DOWNTO 0);
+		opCode : IN STD_LOGIC_VECTOR (5 DOWNTO 0);
 		fetchSignals : OUT STD_LOGIC_VECTOR(2 DOWNTO 0);
 		regFileSignals : OUT STD_LOGIC_VECTOR(4 DOWNTO 0);
 		executeSignals : OUT STD_LOGIC_VECTOR(2 DOWNTO 0);

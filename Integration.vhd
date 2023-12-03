@@ -11,7 +11,7 @@ ARCHITECTURE IntegrationArch OF Integration IS
 
     COMPONENT controlUnit IS
         PORT (
-            opCode : INOUT STD_LOGIC_VECTOR (5 DOWNTO 0);
+            opCode : IN STD_LOGIC_VECTOR (5 DOWNTO 0);
             fetchSignals : OUT STD_LOGIC_VECTOR(2 DOWNTO 0);
             regFileSignals : OUT STD_LOGIC_VECTOR(4 DOWNTO 0);
             executeSignals : OUT STD_LOGIC_VECTOR(2 DOWNTO 0);
@@ -95,8 +95,8 @@ ARCHITECTURE IntegrationArch OF Integration IS
         PORT (
             resMem : INOUT STD_LOGIC_VECTOR (31 DOWNTO 0);
             resAlu : INOUT STD_LOGIC_VECTOR (31 DOWNTO 0);
-            destReg0 : INOUT STD_LOGIC_VECTOR (31 DOWNTO 0);
-            destReg1 : INOUT STD_LOGIC_VECTOR (31 DOWNTO 0);
+            destReg0 : INOUT STD_LOGIC_VECTOR (2 DOWNTO 0);
+            destReg1 : INOUT STD_LOGIC_VECTOR (2 DOWNTO 0);
             writeBack0 : INOUT STD_LOGIC;
             writeBack1 : INOUT STD_LOGIC;
             memReg : INOUT STD_LOGIC
@@ -216,59 +216,61 @@ BEGIN
         ReadData1 => readData1_temp
     );
 
-    ID_EXE_Register : dec_exec PORT MAP(
-        readData0 => readData0_temp,
-        readData1 => readData1_temp,
-        destReg0 => writeReg0_IF_ID,
-        destReg1 => writeReg1_IF_ID,
-        WB0 => regFile_WE0,
-        WB1 => regFile_WE1
-    );
+    -- ID_EXE_Register : dec_exec PORT MAP(
+    --     readData0 => readData0_temp,
+    --     readData1 => readData1_temp,
+    --     destReg0 => writeReg0_IF_ID,
+    --     destReg1 => writeReg1_IF_ID,
+    --     WB0 => regFile_WE0,
+    --     WB1 => regFile_WE1
+    -- );
 
-    ExcuteStage : execute PORT MAP(
-        op1 => readData0_EXE,
-        op2 => readData1_EXE,
-        opCode => opCode_temp,
-        res => aluRes
-    );
+    -- ExcuteStage : execute PORT MAP(
+    --     op1 => readData0_EXE,
+    --     op2 => readData1_EXE,
+    --     opCode => opCode_temp,
+    --     res => aluRes
+    -- );
 
-    EXE_M : exec_mem PORT MAP(
-        aluResult => aluRes,
-        destReg0 => writeReg0_IF_ID,
-        destReg1 => writeReg1_IF_ID,
-        writeBack0 => regFile_WE0,
-        writeBack1 => regFile_WE1
-    );
-    Memory_Stage : memory PORT MAP(
-        address => address_mem,
-        writeData => writeData_mem,
-        memRead => memread, --should be changed to get signal from EX/MEM
-        memWrite => memwrite, --should be changed to get signal from EX/MEM
-        readData => readData_Mem
-    );
+    -- EXE_M : exec_mem PORT MAP(
+    --     aluResult => aluRes,
+    --     destReg0 => writeReg0_IF_ID,
+    --     destReg1 => writeReg1_IF_ID,
+    --     writeBack0 => regFile_WE0,
+    --     writeBack1 => regFile_WE1
+    -- );
+    -- Memory_Stage : memory PORT MAP(
+    --     address => address_mem,
+    --     writeData => writeData_mem,
+    --     memRead => memread, --should be changed to get signal from EX/MEM
+    --     memWrite => memwrite, --should be changed to get signal from EX/MEM
+    --     readData => readData_Mem
+    -- );
 
-    M_WB : mem_writeBack PORT MAP(
-        resMem => readData_Mem,
-        resAlu => aluRes,
-        destReg0 => writeReg0_IF_ID,
-        destReg1 => writeReg1_IF_ID,
-        writeBack0 => regFile_WE0,
-        writeBack1 => regFile_WE1,
-        memReg => memRegIn_M_WB
-    );
+    -- M_WB : mem_writeBack PORT MAP(
+    --     resMem => readData_Mem,
+    --     resAlu => aluRes,
+    --     destReg0 => writeReg0_IF_ID,
+    --     destReg1 => writeReg1_IF_ID,
+    --     writeBack0 => regFile_WE0,
+    --     writeBack1 => regFile_WE1,
+    --     memReg => memRegIn_M_WB
+    -- );
 
-    PROCESS (clk)
+    PROCESS (ALL)
     BEGIN
         IF rising_edge(clk) THEN
             --fetch
 
             -- fetch_decode--->Decode
-            -- regFile_WE0 <= regFileSignals_CU(0);
-            -- regFile_WE1 <= regFileSignals_CU(1);
-            -- ReadEn0_temp <= regFileSignals_CU(2);
-            -- ReadEn1_temp <= regFileSignals_CU(2);
-            -- readReg0_temp <= readReg0_IF_ID;
-            -- readReg1_temp <= readReg1_IF_ID;
+            REPORT "Debug: Some signal value = ";
+            opCode_CU <= "000001";
+            regFile_WE0 <= regFileSignals_CU(0);
+            regFile_WE1 <= regFileSignals_CU(1);
+            ReadEn0_temp <= regFileSignals_CU(2);
+            ReadEn1_temp <= regFileSignals_CU(2);
+            readReg0_temp <= readReg0_IF_ID;
+            readReg1_temp <= readReg1_IF_ID;
             --DECODE_EXECUTE-->EXECUTE
             -- readData0_EXE <= readData0_temp;
             -- readData1_EXE <= readData1_temp;
