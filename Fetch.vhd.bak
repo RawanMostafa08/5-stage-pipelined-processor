@@ -22,7 +22,7 @@ BEGIN
 
     process (reset,clk)
     begin
-        if reset = '1' and clk='1' then
+        if reset = '1' then
             PC <= (others => '0');
  
  

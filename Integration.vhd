@@ -1,11 +1,14 @@
 LIBRARY IEEE;
 USE IEEE.std_logic_1164.ALL;
 USE IEEE.numeric_std.ALL;
+ USE work.my_pkg.ALL;
 
 ENTITY Integration IS
     PORT (
         clk : IN STD_LOGIC;
-        reset : IN STD_LOGIC);
+        reset : IN STD_LOGIC;
+        load : IN STD_LOGIC
+    );
 END ENTITY Integration;
 ARCHITECTURE IntegrationArch OF Integration IS
 
@@ -23,9 +26,21 @@ ARCHITECTURE IntegrationArch OF Integration IS
 
         );
     END COMPONENT;
+
+    COMPONENT InstructionMemory IS
+        PORT (
+            -- PC : IN STD_LOGIC_VECTOR (31 DOWNTO 0);
+            -- memRead : IN STD_LOGIC;
+            load: IN STD_LOGIC;
+            Instruction_Memory : OUT memory_array(0 TO 4095)(15 DOWNTO 0)
+        );
+    END COMPONENT;
     COMPONENT Fetch IS
         PORT (
-            instruction : OUT STD_LOGIC_VECTOR(15 DOWNTO 0)
+	clk :IN STD_LOGIC;
+        Instruction_Memory : IN memory_array(0 TO 4095)(15 DOWNTO 0);
+        reset :IN STD_LOGIC;
+        instruction : OUT STD_LOGIC_VECTOR(15 DOWNTO 0)
         );
     END COMPONENT;
 
@@ -148,6 +163,12 @@ ARCHITECTURE IntegrationArch OF Integration IS
         );
     END COMPONENT;
 
+    signal Instruction_Memory_Processor : memory_array(0 TO 4095)(15 DOWNTO 0);
+
+    SIGNAL PC_temp : STD_LOGIC_VECTOR(31 DOWNTO 0);
+    SIGNAL memRead_temp : STD_LOGIC;
+    SIGNAL reset_temp : STD_LOGIC;
+
     SIGNAL Instruction_temp : STD_LOGIC_VECTOR(15 DOWNTO 0);
     SIGNAL readReg0_temp, readReg1_temp, writeReg0_temp, writeReg1_temp : STD_LOGIC_VECTOR(2 DOWNTO 0);
     SIGNAL opCode_temp : STD_LOGIC_VECTOR (5 DOWNTO 0);
@@ -252,10 +273,19 @@ BEGIN
         memorySignals => memorySignals_CU
 
     );
+    Read_Instrunction : InstructionMemory PORT MAP(
+        -- PC => PC_temp,
+        -- memRead => memRead_temp,
+        -- Instruction => Instruction_temp,
+        load => load,
+		Instruction_Memory =>Instruction_Memory_Processor
+    );
 
     FetchStage : Fetch PORT MAP(
-        Instruction => Instruction_F
-
+	clk=>clk,
+        Instruction_Memory =>Instruction_Memory_Processor,
+        reset =>reset,
+        instruction =>Instruction_F
     );
     IF_ID_Register : IF_ID_Reg PORT MAP(
         Instruction => Instruction_F,
@@ -361,9 +391,15 @@ BEGIN
         memReg => memReg_WB,
         res => regFile_WriteData0
     );
+    
 
-    PROCESS (clk)
+    PROCESS (clk,load)
     BEGIN
+    if load='0' then
+        
+   
+    reset_temp <= '1';
+    
         IF rising_edge(clk) THEN
             --fetch
 
@@ -399,8 +435,8 @@ BEGIN
             destReg1_MEM_WB_TEMP <= destReg1_EX_MEM;
             memorySignals_MEM_WB_TEMP <= memorySignals_EX_MEM;
             regFileSignals_MEM_WB_TEMP <= regFileSignals_EX_MEM;
-            memReg_WB<=regFileSignals_MEM_WB(3);
-            writeReg0_temp<=destReg0_MEM_WB;
+            memReg_WB <= regFileSignals_MEM_WB(3);
+            writeReg0_temp <= destReg0_MEM_WB;
             resMem_WB <= readData_Mem_WB;
             resAlu_WB <= resAlu_MEM_WB;
             -- address_mem <= (OTHERS => '0');
@@ -416,6 +452,11 @@ BEGIN
 
             -- writeReg0_temp <= writeReg0_IF_ID;
         END IF;
+       
+        else
+memRead_temp <='1';
+ end if;
+            
     END PROCESS;
 
 END ARCHITECTURE IntegrationArch;

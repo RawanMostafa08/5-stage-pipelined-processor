@@ -36,7 +36,7 @@ begin
 		-- 	Instruction <=Instruction_Memory(to_integer(unsigned((PC))));
 			
 		end if;
-
+end if;
 			
 		
 			
