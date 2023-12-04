@@ -5,7 +5,8 @@ USE IEEE.numeric_std.ALL;
 ENTITY Integration IS
     PORT (
         clk : IN STD_LOGIC;
-        reset : IN STD_LOGIC);
+        reset : IN STD_LOGIC;
+        outPort : OUT STD_LOGIC_VECTOR (31 DOWNTO 0));
 END ENTITY Integration;
 ARCHITECTURE IntegrationArch OF Integration IS
 
@@ -90,7 +91,8 @@ ARCHITECTURE IntegrationArch OF Integration IS
             op1 : IN STD_LOGIC_VECTOR (31 DOWNTO 0);
             op2 : IN STD_LOGIC_VECTOR (31 DOWNTO 0);
             opCode : IN STD_LOGIC_VECTOR (5 DOWNTO 0);
-            res : OUT STD_LOGIC_VECTOR (31 DOWNTO 0)
+            res : OUT STD_LOGIC_VECTOR (31 DOWNTO 0);
+            outPort_EXE : OUT STD_LOGIC_VECTOR (31 DOWNTO 0)
         );
     END COMPONENT;
 
@@ -314,7 +316,8 @@ BEGIN
         op1 => readData0_EXE,
         op2 => readData1_EXE,
         opCode => opCode_EXE,
-        res => aluRes
+        res => aluRes,
+        outPort_EXE => outPort
     );
 
     EXE_M : exec_mem PORT MAP(
@@ -371,7 +374,6 @@ BEGIN
             --fetch
 
             -- fetch_decode--->Decode
-            REPORT "Debug: Some signal value = ";
             opCode_CU <= opCode_IF_ID;
 
             -- regFile_RE0 <= '1';

@@ -19,29 +19,38 @@ ARCHITECTURE archControlUnit OF controlUnit IS
 BEGIN
 	PROCESS (opCode)
 	BEGIN
-	fetchSignals <= (others => '0');
-	regFileSignals<= (others => '0');
-	executeSignals<= (others => '0');
-	memorySignals <= (others => '0');
+		fetchSignals <= (OTHERS => '0');
+		regFileSignals <= (OTHERS => '0');
+		executeSignals <= (OTHERS => '0');
+		memorySignals <= (OTHERS => '0');
 		--register --> memReg=1
 		--memory--> memReg=0
-		IF opCode = "000001" THEN
+		IF opCode = "000001" THEN --NOT
 			regFileSignals(3) <= '1'; --memReg
 			regFileSignals(0) <= '1'; --wb
 			executeSignals(0) <= '1'; --aluEn
 			regFileSignals(2) <= '1'; --ren
-		else if opCode = "000100" then
-			regFileSignals(3) <= '1'; --memReg
-			regFileSignals(0) <= '1'; --wb
-			executeSignals(0) <= '1'; --aluEn
-			regFileSignals(2) <= '1'; --ren
-		else if opCode = "010101" then
-			regFileSignals(3) <= '1'; --memReg
-			regFileSignals(0) <= '1'; --wb
-			executeSignals(0) <= '1'; --aluEn
-			regFileSignals(2) <= '1'; --ren
-		end if ;
-		end if;
+		ELSE
+			IF opCode = "000100" THEN --DEC
+				regFileSignals(3) <= '1'; --memReg
+				regFileSignals(0) <= '1'; --wb
+				executeSignals(0) <= '1'; --aluEn
+				regFileSignals(2) <= '1'; --ren
+			ELSE
+				IF opCode = "010101" THEN --OR
+					regFileSignals(3) <= '1'; --memReg
+					regFileSignals(0) <= '1'; --wb
+					executeSignals(0) <= '1'; --aluEn
+					regFileSignals(2) <= '1'; --ren
+
+				ELSE
+					IF opCode = "000101" THEN --OUT
+						regFileSignals(3) <= '1'; --memReg
+						executeSignals(0) <= '1'; --aluEn
+						regFileSignals(2) <= '1'; --ren
+					END IF;
+				END IF;
+			END IF;
 		END IF;
 
 	END PROCESS;
