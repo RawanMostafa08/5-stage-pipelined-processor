@@ -146,6 +146,8 @@ ARCHITECTURE IntegrationArch OF Integration IS
             writeData : IN STD_LOGIC_VECTOR (31 DOWNTO 0);
             memRead : IN STD_LOGIC;
             memWrite : IN STD_LOGIC;
+            memProtect : IN STD_LOGIC;
+            memFree : IN STD_LOGIC;
             readData : OUT STD_LOGIC_VECTOR (31 DOWNTO 0)
         );
     END COMPONENT;
@@ -216,6 +218,8 @@ ARCHITECTURE IntegrationArch OF Integration IS
     SIGNAL destReg0_EX_MEM_TEMP : STD_LOGIC_VECTOR(2 DOWNTO 0);
     SIGNAL destReg1_EX_MEM_TEMP : STD_LOGIC_VECTOR(2 DOWNTO 0);
     SIGNAL address_mem : STD_LOGIC_VECTOR (31 DOWNTO 0);
+    SIGNAL memProtect_temp : STD_LOGIC;
+    SIGNAL memFree_temp : STD_LOGIC;
     SIGNAL writeData_mem : STD_LOGIC_VECTOR (31 DOWNTO 0);
     SIGNAL resMemIn_M_WB : STD_LOGIC_VECTOR (31 DOWNTO 0);
     SIGNAL resAluIn_M_WB : STD_LOGIC_VECTOR (31 DOWNTO 0);
@@ -341,7 +345,9 @@ BEGIN
         writeData => writeData_mem,
         memRead => memread, --should be changed to get signal from EX/MEM
         memWrite => memwrite, --should be changed to get signal from EX/MEM
-        readData => readData_Mem
+        readData => readData_Mem,
+        memProtect => memProtect_temp,
+        memFree => memFree_temp
     );
 
     M_WB : mem_writeBack PORT MAP(
@@ -398,6 +404,9 @@ BEGIN
             --execute_memory-->memory
             memread <= memorySignals_EX_MEM(3);
             memwrite <= memorySignals_EX_MEM(4);
+            memProtect_temp <= memorySignals_EX_MEM(5);
+            memFree_temp <= memorySignals_EX_MEM(6);
+            address_mem <= aluResult_EX_MEM;
             --WB
             resAlu_MEM_WB_TEMP <= aluResult_EX_MEM;
             destReg0_MEM_WB_TEMP <= destReg0_EX_MEM;

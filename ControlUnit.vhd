@@ -10,7 +10,7 @@ ENTITY controlUnit IS
 		-- Fetch-->jmp,jx,ret
 		-- Regfile-->wb,wb,ren,memReg,swap,flush
 		-- Exec-->aluEn,Reg/Imm Op2,flush
-		-- Memory-->AddSel1,AddSel2,DataSel,MemR,MemW,memRprotect,memWprotect
+		-- Memory-->AddSel1,AddSel2,DataSel,MemR,MemW,memprotect,memfree
 
 	);
 END controlUnit;
@@ -48,6 +48,14 @@ BEGIN
 						regFileSignals(3) <= '1'; --memReg
 						executeSignals(0) <= '1'; --aluEn
 						regFileSignals(2) <= '1'; --ren
+
+					ELSE
+						IF opCode = "100101" THEN --PROTECT
+							memorySignals(1 DOWNTO 0) <= "01"; --AddressSel
+							memorySignals(5) <= '1'; --protect
+							executeSignals(0) <= '1'; --aluEn
+							regFileSignals(2) <= '1'; --ren
+						END IF;
 					END IF;
 				END IF;
 			END IF;

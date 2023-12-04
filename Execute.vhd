@@ -53,6 +53,11 @@ BEGIN
             ELSE
               CCR(0) <= '0';
             END IF;
+
+          ELSE
+            IF opCode = "100101" THEN --PROTECT
+              res <= op1;
+            END IF;
           END IF;
         END IF;
       END IF;
