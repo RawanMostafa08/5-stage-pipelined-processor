@@ -1,0 +1,25 @@
+# This port will contribute value (UUU) to the signal network.
+add wave -position end  sim:/integration/clk
+add wave -position end  sim:/integration/IF_ID_Register/readReg0
+add wave -position end  sim:/integration/IF_ID_Register/writeReg0
+add wave -position end  sim:/integration/IF_ID_Register/opCode
+add wave -position end  sim:/integration/ID_EXE_Register/readData0_IN
+add wave -position end  sim:/integration/ID_EXE_Register/destReg0_IN
+add wave -position end  sim:/integration/ID_EXE_Register/regFileSignals_IN
+add wave -position end  sim:/integration/ID_EXE_Register/executeSignals_IN
+add wave -position end  sim:/integration/ID_EXE_Register/readData0_OUT
+add wave -position end  sim:/integration/ID_EXE_Register/destReg0_OUT
+add wave -position end  sim:/integration/EXE_M/aluResult_IN
+add wave -position end  sim:/integration/EXE_M/destReg0_IN
+add wave -position end  sim:/integration/EXE_M/regFileSignals_IN
+add wave -position end  sim:/integration/EXE_M/aluResult_OUT
+add wave -position end  sim:/integration/M_WB/resAlu_IN
+add wave -position end  sim:/integration/M_WB/resAlu_OUT
+add wave -position end  sim:/integration/M_WB/regFileSignals_IN
+add wave -position end  sim:/integration/M_WB/destReg0_IN
+add wave -position end  sim:/integration/WB/res
+add wave -position end  sim:/integration/Register_File/WriteAdd0
+add wave -position end  sim:/integration/Register_File/WriteEn0
+add wave -position 20  sim:/integration/Register_File/WriteData0
+force -freeze sim:/integration/clk 1 0, 0 {50 ps} -r 100
+run

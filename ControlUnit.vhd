@@ -22,7 +22,7 @@ BEGIN
 		--register --> memReg=1
 		--memory--> memReg=0
 		IF opCode = "000001" THEN
-			regFileSignals(3) <= '0'; --memReg
+			regFileSignals(3) <= '1'; --memReg
 			regFileSignals(0) <= '1'; --wb
 			executeSignals(0) <= '1'; --aluEn
 			regFileSignals(2) <= '1'; --ren
