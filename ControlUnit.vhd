@@ -19,6 +19,10 @@ ARCHITECTURE archControlUnit OF controlUnit IS
 BEGIN
 	PROCESS (opCode)
 	BEGIN
+	fetchSignals <= (others => '0');
+	regFileSignals<= (others => '0');
+	executeSignals<= (others => '0');
+	memorySignals <= (others => '0');
 		--register --> memReg=1
 		--memory--> memReg=0
 		IF opCode = "000001" THEN
@@ -26,7 +30,12 @@ BEGIN
 			regFileSignals(0) <= '1'; --wb
 			executeSignals(0) <= '1'; --aluEn
 			regFileSignals(2) <= '1'; --ren
-			executeSignals(1) <= '0'; --Reg/Imm Op2
+		else if opCode = "000100" then
+			regFileSignals(3) <= '1'; --memReg
+			regFileSignals(0) <= '1'; --wb
+			executeSignals(0) <= '1'; --aluEn
+			regFileSignals(2) <= '1'; --ren
+		end if ;
 		END IF;
 
 	END PROCESS;
