@@ -362,14 +362,14 @@ BEGIN
         res => regFile_WriteData0
     );
 
-    PROCESS (ALL)
+    PROCESS (clk)
     BEGIN
         IF rising_edge(clk) THEN
             --fetch
 
             -- fetch_decode--->Decode
             REPORT "Debug: Some signal value = ";
-            opCode_CU <= "000001";
+            opCode_CU <= opCode_IF_ID;
 
             -- regFile_RE0 <= '1';
             -- regFile_RE1 <= regFileSignals_CU(2);
@@ -401,6 +401,8 @@ BEGIN
             regFileSignals_MEM_WB_TEMP <= regFileSignals_EX_MEM;
             memReg_WB<=regFileSignals_MEM_WB(3);
             writeReg0_temp<=destReg0_MEM_WB;
+            resMem_WB <= readData_Mem_WB;
+            resAlu_WB <= resAlu_MEM_WB;
             -- address_mem <= (OTHERS => '0');
             -- writeData_mem <= (OTHERS => '1');
 

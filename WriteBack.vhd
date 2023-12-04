@@ -12,7 +12,7 @@ END writeBack;
 ARCHITECTURE archWriteBack OF writeBack IS
 BEGIN
 	res <=
-		resMem WHEN memReg = '1'
+		resMem WHEN memReg = '0'
 		ELSE
 		resAlu;
 
