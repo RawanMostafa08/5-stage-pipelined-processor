@@ -35,7 +35,13 @@ BEGIN
 			regFileSignals(0) <= '1'; --wb
 			executeSignals(0) <= '1'; --aluEn
 			regFileSignals(2) <= '1'; --ren
+		else if opCode = "010101" then
+			regFileSignals(3) <= '1'; --memReg
+			regFileSignals(0) <= '1'; --wb
+			executeSignals(0) <= '1'; --aluEn
+			regFileSignals(2) <= '1'; --ren
 		end if ;
+		end if;
 		END IF;
 
 	END PROCESS;

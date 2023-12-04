@@ -238,12 +238,14 @@ ARCHITECTURE IntegrationArch OF Integration IS
     SIGNAL regFileSignals_MEM_WB : STD_LOGIC_VECTOR(4 DOWNTO 0);
     SIGNAL instruction_F : STD_LOGIC_VECTOR (15 DOWNTO 0);
 
+    SIGNAL WriteEn0_temp : STD_LOGIC;
+    SIGNAL WriteEn1_temp : STD_LOGIC;
+
     SIGNAL resMem_WB : STD_LOGIC_VECTOR(31 DOWNTO 0);
     SIGNAL resAlu_WB : STD_LOGIC_VECTOR(31 DOWNTO 0);
     SIGNAL memReg_WB : STD_LOGIC;
 BEGIN
-    -- regFile_WE0 <= '1';
-    -- regFile_WE1 <= '1';
+
     CU : ControlUnit PORT MAP(
         opCode => opCode_CU,
         fetchSignals => fetchSignals_CU,
@@ -268,8 +270,8 @@ BEGIN
     Register_File : regFile PORT MAP(
         clk => clk,
         Reset => regFile_reset,
-        WriteEn0 => regFileSignals_MEM_WB(0), --FROM MEM WB
-        WriteEn1 => regFileSignals_MEM_WB(1), --FROM MEM WB
+        WriteEn0 => WriteEn0_temp, --FROM MEM WB
+        WriteEn1 => WriteEn1_temp, --FROM MEM WB
         ReadEn0 => regFileSignals_CU(2),
         ReadEn1 => regFileSignals_CU(2),
         WriteAdd0 => writeReg0_temp,
@@ -363,6 +365,7 @@ BEGIN
     );
 
     PROCESS (clk)
+
     BEGIN
         IF rising_edge(clk) THEN
             --fetch
@@ -399,10 +402,13 @@ BEGIN
             destReg1_MEM_WB_TEMP <= destReg1_EX_MEM;
             memorySignals_MEM_WB_TEMP <= memorySignals_EX_MEM;
             regFileSignals_MEM_WB_TEMP <= regFileSignals_EX_MEM;
-            memReg_WB<=regFileSignals_MEM_WB(3);
-            writeReg0_temp<=destReg0_MEM_WB;
+            memReg_WB <= regFileSignals_MEM_WB(3);
+            writeReg0_temp <= destReg0_MEM_WB;
             resMem_WB <= readData_Mem_WB;
             resAlu_WB <= resAlu_MEM_WB;
+            WriteEn0_temp <= regFileSignals_MEM_WB(0);
+            WriteEn1_temp <= regFileSignals_MEM_WB(1);
+
             -- address_mem <= (OTHERS => '0');
             -- writeData_mem <= (OTHERS => '1');
 
