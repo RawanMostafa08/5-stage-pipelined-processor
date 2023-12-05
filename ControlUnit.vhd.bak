@@ -84,8 +84,8 @@ BEGIN
 					END IF;
 				END IF;
 				EnD IF;
-				
-				
+				ELSE 
+				--LDD
 						
 
 			END IF;
