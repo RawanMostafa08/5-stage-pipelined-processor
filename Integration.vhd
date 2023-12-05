@@ -156,6 +156,7 @@ ARCHITECTURE IntegrationArch OF Integration IS
     END COMPONENT;
     COMPONENT memory IS
         PORT (
+            load:in std_logic;
             address : IN STD_LOGIC_VECTOR (31 DOWNTO 0);
             writeData : IN STD_LOGIC_VECTOR (31 DOWNTO 0);
             memRead : IN STD_LOGIC;
@@ -169,7 +170,6 @@ ARCHITECTURE IntegrationArch OF Integration IS
     signal Instruction_Memory_Processor : memory_array(0 TO 4095)(15 DOWNTO 0);
 
     SIGNAL PC_temp : STD_LOGIC_VECTOR(31 DOWNTO 0);
-    SIGNAL memRead_temp : STD_LOGIC;
     SIGNAL reset_temp : STD_LOGIC;
 
     SIGNAL Instruction_temp : STD_LOGIC_VECTOR(15 DOWNTO 0);
@@ -370,6 +370,7 @@ BEGIN
     );
 
     Memory_Stage : memory PORT MAP(
+        load => load,
         address => address_mem,
         writeData => writeData_mem,
         memRead => memread, --should be changed to get signal from EX/MEM
@@ -469,7 +470,7 @@ BEGIN
         END IF;
        
         else
-memRead_temp <='1';
+
  end if;
             
     END PROCESS;

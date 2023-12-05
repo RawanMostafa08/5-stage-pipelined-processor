@@ -41,10 +41,10 @@ BEGIN
 				END IF;
 			END IF;
 		ELSE
-		data_mem(0)(16 DOWNTO 1) <="1000000000000011";
-		data_mem(1)(16 DOWNTO 1) <= "1100000000000001";
-		data_mem(2)(16 DOWNTO 1) <="1110000000000010";
-		data_mem(3)(16 DOWNTO 1) <= "1111000000000011";
+		data_mem(0)(16 DOWNTO 1) <="0000000000000011";
+		data_mem(1)(16 DOWNTO 1) <= "0000000000000001";
+		data_mem(2)(16 DOWNTO 1) <="0000000000000010";
+		data_mem(3)(16 DOWNTO 1) <= "0000000000000011";
 		
 
 		END IF;
