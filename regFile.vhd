@@ -43,7 +43,7 @@ BEGIN
 			R6 <= (OTHERS => '0');
 			R7 <= (OTHERS => '0');
 		ELSE
-			IF rising_edge(clk) THEN
+			IF clk = '1' THEN
 				-- write data to writeAdd0
 				CASE SEL0 IS
 					WHEN "0001" =>

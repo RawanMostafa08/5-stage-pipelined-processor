@@ -40,3 +40,9 @@ end if;
     end process; -- identifier
 
 END ARCHITECTURE FetchArch;
+
+  -- instruction <= "0000010110000000"; --NOT
+    -- instruction <="0001000110000000"; --DEC
+    -- instruction <= "0101010110000010"; --OR
+    -- instruction <= "0001010000010000"; --OUT
+   -- instruction <= "1001010000010000"; --PROTECT

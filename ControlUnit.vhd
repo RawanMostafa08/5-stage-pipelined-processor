@@ -10,7 +10,7 @@ ENTITY controlUnit IS
 		-- Fetch-->jmp,jx,ret
 		-- Regfile-->wb,wb,ren,memReg,swap,flush
 		-- Exec-->aluEn,Reg/Imm Op2,flush
-		-- Memory-->AddSel1,AddSel2,DataSel,MemR,MemW,memRprotect,memWprotect
+		-- Memory-->AddSel1,AddSel2,DataSel,MemR,MemW,memprotect,memfree
 
 	);
 END controlUnit;
@@ -19,14 +19,46 @@ ARCHITECTURE archControlUnit OF controlUnit IS
 BEGIN
 	PROCESS (opCode)
 	BEGIN
+		fetchSignals <= (OTHERS => '0');
+		regFileSignals <= (OTHERS => '0');
+		executeSignals <= (OTHERS => '0');
+		memorySignals <= (OTHERS => '0');
 		--register --> memReg=1
 		--memory--> memReg=0
-		IF opCode = "000001" THEN
+		IF opCode = "000001" THEN --NOT
 			regFileSignals(3) <= '1'; --memReg
 			regFileSignals(0) <= '1'; --wb
 			executeSignals(0) <= '1'; --aluEn
 			regFileSignals(2) <= '1'; --ren
-			executeSignals(1) <= '0'; --Reg/Imm Op2
+		ELSE
+			IF opCode = "000100" THEN --DEC
+				regFileSignals(3) <= '1'; --memReg
+				regFileSignals(0) <= '1'; --wb
+				executeSignals(0) <= '1'; --aluEn
+				regFileSignals(2) <= '1'; --ren
+			ELSE
+				IF opCode = "010101" THEN --OR
+					regFileSignals(3) <= '1'; --memReg
+					regFileSignals(0) <= '1'; --wb
+					executeSignals(0) <= '1'; --aluEn
+					regFileSignals(2) <= '1'; --ren
+
+				ELSE
+					IF opCode = "000101" THEN --OUT
+						regFileSignals(3) <= '1'; --memReg
+						executeSignals(0) <= '1'; --aluEn
+						regFileSignals(2) <= '1'; --ren
+
+					ELSE
+						IF opCode = "100101" THEN --PROTECT
+							memorySignals(1 DOWNTO 0) <= "01"; --AddressSel
+							memorySignals(5) <= '1'; --protect
+							executeSignals(0) <= '1'; --aluEn
+							regFileSignals(2) <= '1'; --ren
+						END IF;
+					END IF;
+				END IF;
+			END IF;
 		END IF;
 
 	END PROCESS;

@@ -7,8 +7,8 @@ ENTITY Integration IS
     PORT (
         clk : IN STD_LOGIC;
         reset : IN STD_LOGIC;
-        load : IN STD_LOGIC
-    );
+        load : IN STD_LOGIC;
+        outPort : OUT STD_LOGIC_VECTOR (31 DOWNTO 0));
 END ENTITY Integration;
 ARCHITECTURE IntegrationArch OF Integration IS
 
@@ -105,7 +105,8 @@ ARCHITECTURE IntegrationArch OF Integration IS
             op1 : IN STD_LOGIC_VECTOR (31 DOWNTO 0);
             op2 : IN STD_LOGIC_VECTOR (31 DOWNTO 0);
             opCode : IN STD_LOGIC_VECTOR (5 DOWNTO 0);
-            res : OUT STD_LOGIC_VECTOR (31 DOWNTO 0)
+            res : OUT STD_LOGIC_VECTOR (31 DOWNTO 0);
+            outPort_EXE : OUT STD_LOGIC_VECTOR (31 DOWNTO 0)
         );
     END COMPONENT;
 
@@ -159,6 +160,8 @@ ARCHITECTURE IntegrationArch OF Integration IS
             writeData : IN STD_LOGIC_VECTOR (31 DOWNTO 0);
             memRead : IN STD_LOGIC;
             memWrite : IN STD_LOGIC;
+            memProtect : IN STD_LOGIC;
+            memFree : IN STD_LOGIC;
             readData : OUT STD_LOGIC_VECTOR (31 DOWNTO 0)
         );
     END COMPONENT;
@@ -235,6 +238,8 @@ ARCHITECTURE IntegrationArch OF Integration IS
     SIGNAL destReg0_EX_MEM_TEMP : STD_LOGIC_VECTOR(2 DOWNTO 0);
     SIGNAL destReg1_EX_MEM_TEMP : STD_LOGIC_VECTOR(2 DOWNTO 0);
     SIGNAL address_mem : STD_LOGIC_VECTOR (31 DOWNTO 0);
+    SIGNAL memProtect_temp : STD_LOGIC;
+    SIGNAL memFree_temp : STD_LOGIC;
     SIGNAL writeData_mem : STD_LOGIC_VECTOR (31 DOWNTO 0);
     SIGNAL resMemIn_M_WB : STD_LOGIC_VECTOR (31 DOWNTO 0);
     SIGNAL resAluIn_M_WB : STD_LOGIC_VECTOR (31 DOWNTO 0);
@@ -259,12 +264,14 @@ ARCHITECTURE IntegrationArch OF Integration IS
     SIGNAL regFileSignals_MEM_WB : STD_LOGIC_VECTOR(4 DOWNTO 0);
     SIGNAL instruction_F : STD_LOGIC_VECTOR (15 DOWNTO 0);
 
+    SIGNAL WriteEn0_temp : STD_LOGIC;
+    SIGNAL WriteEn1_temp : STD_LOGIC;
+
     SIGNAL resMem_WB : STD_LOGIC_VECTOR(31 DOWNTO 0);
     SIGNAL resAlu_WB : STD_LOGIC_VECTOR(31 DOWNTO 0);
     SIGNAL memReg_WB : STD_LOGIC;
 BEGIN
-    -- regFile_WE0 <= '1';
-    -- regFile_WE1 <= '1';
+
     CU : ControlUnit PORT MAP(
         opCode => opCode_CU,
         fetchSignals => fetchSignals_CU,
@@ -298,8 +305,8 @@ BEGIN
     Register_File : regFile PORT MAP(
         clk => clk,
         Reset => regFile_reset,
-        WriteEn0 => regFileSignals_MEM_WB(0), --FROM MEM WB
-        WriteEn1 => regFileSignals_MEM_WB(1), --FROM MEM WB
+        WriteEn0 => WriteEn0_temp, --FROM MEM WB
+        WriteEn1 => WriteEn1_temp, --FROM MEM WB
         ReadEn0 => regFileSignals_CU(2),
         ReadEn1 => regFileSignals_CU(2),
         WriteAdd0 => writeReg0_temp,
@@ -342,7 +349,8 @@ BEGIN
         op1 => readData0_EXE,
         op2 => readData1_EXE,
         opCode => opCode_EXE,
-        res => aluRes
+        res => aluRes,
+        outPort_EXE => outPort
     );
 
     EXE_M : exec_mem PORT MAP(
@@ -366,7 +374,9 @@ BEGIN
         writeData => writeData_mem,
         memRead => memread, --should be changed to get signal from EX/MEM
         memWrite => memwrite, --should be changed to get signal from EX/MEM
-        readData => readData_Mem
+        readData => readData_Mem,
+        memProtect => memProtect_temp,
+        memFree => memFree_temp
     );
 
     M_WB : mem_writeBack PORT MAP(
@@ -404,7 +414,6 @@ BEGIN
             --fetch
 
             -- fetch_decode--->Decode
-            REPORT "Debug: Some signal value = ";
             opCode_CU <= opCode_IF_ID;
 
             -- regFile_RE0 <= '1';
@@ -429,6 +438,9 @@ BEGIN
             --execute_memory-->memory
             memread <= memorySignals_EX_MEM(3);
             memwrite <= memorySignals_EX_MEM(4);
+            memProtect_temp <= memorySignals_EX_MEM(5);
+            memFree_temp <= memorySignals_EX_MEM(6);
+            address_mem <= aluResult_EX_MEM;
             --WB
             resAlu_MEM_WB_TEMP <= aluResult_EX_MEM;
             destReg0_MEM_WB_TEMP <= destReg0_EX_MEM;
@@ -439,6 +451,9 @@ BEGIN
             writeReg0_temp <= destReg0_MEM_WB;
             resMem_WB <= readData_Mem_WB;
             resAlu_WB <= resAlu_MEM_WB;
+            WriteEn0_temp <= regFileSignals_MEM_WB(0);
+            WriteEn1_temp <= regFileSignals_MEM_WB(1);
+
             -- address_mem <= (OTHERS => '0');
             -- writeData_mem <= (OTHERS => '1');
 
