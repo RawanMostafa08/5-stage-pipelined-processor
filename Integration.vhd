@@ -18,7 +18,8 @@ ARCHITECTURE IntegrationArch OF Integration IS
             fetchSignals : OUT STD_LOGIC_VECTOR(2 DOWNTO 0);
             regFileSignals : OUT STD_LOGIC_VECTOR(4 DOWNTO 0);
             executeSignals : OUT STD_LOGIC_VECTOR(2 DOWNTO 0);
-            memorySignals : OUT STD_LOGIC_VECTOR(6 DOWNTO 0)
+            memorySignals : OUT STD_LOGIC_VECTOR(6 DOWNTO 0);
+            isImm : OUT STD_LOGIC
             -- Fetch-->jmp,jx,ret
             -- Regfile-->wb,wb,ren,memReg,swap,flush
             -- Exec-->aluEn,Reg/Imm Op2,flush
@@ -79,6 +80,8 @@ ARCHITECTURE IntegrationArch OF Integration IS
 
     COMPONENT dec_exec IS
         PORT (
+            clk : IN STD_LOGIC;
+            isImm : IN STD_LOGIC;
             ImmEaValue_IN : IN STD_LOGIC_VECTOR (15 DOWNTO 0);
             readData0_IN : IN STD_LOGIC_VECTOR (31 DOWNTO 0);
             readData1_IN : IN STD_LOGIC_VECTOR (31 DOWNTO 0);
@@ -114,6 +117,7 @@ ARCHITECTURE IntegrationArch OF Integration IS
 
     COMPONENT exec_mem IS
         PORT (
+
             ImmEaValue_IN : IN STD_LOGIC_VECTOR(15 DOWNTO 0);
             aluResult_IN : IN STD_LOGIC_VECTOR (31 DOWNTO 0);
             destReg0_IN : IN STD_LOGIC_VECTOR (2 DOWNTO 0);
@@ -196,7 +200,7 @@ ARCHITECTURE IntegrationArch OF Integration IS
     SIGNAL memread, memwrite : STD_LOGIC;
     SIGNAL ReadEn0_temp : STD_LOGIC;
     SIGNAL ReadEn1_temp : STD_LOGIC;
-
+    SIGNAL IsImmediate : STD_LOGIC;
     SIGNAL opCode_CU : STD_LOGIC_VECTOR (5 DOWNTO 0);
     SIGNAL fetchSignals_CU : STD_LOGIC_VECTOR(2 DOWNTO 0);
     SIGNAL regFileSignals_CU : STD_LOGIC_VECTOR(4 DOWNTO 0);
@@ -296,7 +300,8 @@ BEGIN
         fetchSignals => fetchSignals_CU,
         regFileSignals => regFileSignals_CU,
         executeSignals => executeSignals_CU,
-        memorySignals => memorySignals_CU
+        memorySignals => memorySignals_CU,
+        isImm => IsImmediate
 
     );
     Read_Instrunction : InstructionMemory PORT MAP(
@@ -342,6 +347,8 @@ BEGIN
     );
 
     ID_EXE_Register : dec_exec PORT MAP(
+        clk => clk,
+        isImm => IsImmediate,
         ImmEaValue_IN => ImmEaValue_temp,
         readData0_IN => readData0_temp,
         readData1_IN => readData1_temp,
@@ -396,7 +403,7 @@ BEGIN
     AddressSelect_Stage : AddressSel PORT MAP(
         aluResult => aluResult_EX_MEM,
         EffectiveAddress => ImmEaValue_EX_MEM,
-        Sel => memorySignals_EX_MEM(0) & memorySignals_EX_MEM(1),
+        Sel => memorySignals_EX_MEM(1) & memorySignals_EX_MEM(0),
         Address => address_result
     );
     Memory_Stage : memory PORT MAP(
