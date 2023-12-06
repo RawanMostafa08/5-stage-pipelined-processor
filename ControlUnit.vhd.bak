@@ -30,10 +30,12 @@ BEGIN
 		--memory--> memReg=0
 		IF isImmediate = '1' THEN
 		regFileSignals(0) <= '1'; --Wb
-						executeSignals(0) <= '1'; --aluEn
-						memorySignals(0) <= '1'; --AddSel1
-						memorySignals(3) <= '1'; --memRead
-						regFileSignals(2) <= '1'; --ren
+		regFileSignals(3) <= '0'; --memReg
+		executeSignals(0) <= '1'; --aluEn
+		memorySignals(0) <= '1'; --AddSel1
+		memorySignals(3) <= '1'; --memRead
+		regFileSignals(2) <= '0'; --ren
+		isImmediate <= '0';
 			ELSE 
 			IF opCode = "000001" THEN --NOT
 				isImmediate <= '0';
@@ -44,10 +46,10 @@ BEGIN
 			ELSE
 				IF opCode = "000100" THEN --DEC
 					isImmediate <= '0';
-					regFileSignals(3) <= '1'; --memReg
+					regFileSignals(3) <= '0'; --memReg
 					regFileSignals(0) <= '1'; --wb
 					executeSignals(0) <= '1'; --aluEn
-					regFileSignals(2) <= '1'; --ren
+					regFileSignals(2) <= '0'; --ren
 				ELSE
 					IF opCode = "010101" THEN --OR
 						isImmediate <= '0';
@@ -75,8 +77,7 @@ BEGIN
 									isImmediate <= '1';
 									regFileSignals(0) <= '0'; --Wb
 									executeSignals(0) <= '0'; --aluEn
-									regFileSignals(2) <= '0'; --ren
-
+									regFileSignals(2) <= '1'; --ren
 								END IF;
 
 							END IF;
@@ -84,8 +85,8 @@ BEGIN
 					END IF;
 				END IF;
 				EnD IF;
-				ELSE 
-				--LDD
+				
+				
 						
 
 			END IF;

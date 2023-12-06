@@ -35,13 +35,7 @@ BEGIN
       regFileSignals_OUT <=regFileSignals_IN; 
       executeSignals_OUT <=executeSignals_IN ;
       memorySignals_OUT <=memorySignals_IN ;
-	PROCESS (regFileSignals_IN)
-	BEGIN 
-	if regFileSignals_IN(2)='1' then
-	destReg_temp <= destReg0_IN;
-	else
-	destReg_temp <= destReg_temp;
-	end if;
-	END PROCESS;
+      destReg_temp <=  destReg0_IN when (regFileSignals_IN(2)='1') else
+	 destReg_temp;
       destReg0_OUT <= destReg_temp;
 END arch_dec_exec;
