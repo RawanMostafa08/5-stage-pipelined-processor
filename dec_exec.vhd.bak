@@ -21,8 +21,8 @@ ENTITY dec_exec IS
             fetchSignals_OUT : OUT STD_LOGIC_VECTOR(2 DOWNTO 0);
             regFileSignals_OUT : OUT STD_LOGIC_VECTOR(4 DOWNTO 0);
             executeSignals_OUT : OUT STD_LOGIC_VECTOR(2 DOWNTO 0);
-            memorySignals_OUT : OUT STD_LOGIC_VECTOR(6 DOWNTO 0)
-            ImmEaValue_OUT : OUT STD_LOGIC_VECTOR (15 DOWNTO 0);
+            memorySignals_OUT : OUT STD_LOGIC_VECTOR(6 DOWNTO 0);
+            ImmEaValue_OUT : OUT STD_LOGIC_VECTOR (15 DOWNTO 0)
       );
 END dec_exec;
 
