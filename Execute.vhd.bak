@@ -58,6 +58,9 @@ BEGIN
             IF opCode = "100101" THEN --PROTECT
               res <= op1;
             END IF;
+            IF opCode = "100011" THEN --LDD
+              res <= op1;
+            END IF;
           END IF;
         END IF;
       END IF;
