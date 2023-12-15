@@ -1,0 +1,26 @@
+NOP
+ADD R7,R7,R7
+
+#  comment
+ADDI R7,R0,6589
+NOP # commentttttttttt
+NOP   
+NOT R1
+       
+ADDI R3,R2,-5 #comment
+
+         
+#    commenttttttttttttttttttttttttttttttttttttttt sara sara sara
+
+      BITSET R4,0
+AND R5,R6,R7
+OR R4, R0, R7
+NOT R7
+NOP   #COOOOOOOOOOOOMENT
+
+NOT
+NOT R1 , R2
+NOT R9
+NOT H1
+NOT R11
+ADD R1,R2,R3
