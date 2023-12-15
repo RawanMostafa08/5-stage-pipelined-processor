@@ -1,34 +1,48 @@
 LIBRARY IEEE;
 USE IEEE.std_logic_1164.ALL;
 USE IEEE.numeric_std.ALL;
---get instruction from memory and update pc 
+USE work.my_pkg.ALL;
+
+-- get instruction from memory and update pc 
 ENTITY Fetch IS
     PORT (
-        --PC : IN STD_LOGIC_VECTOR (31 DOWNTO 0);
+	clk:IN STD_LOGIC;
+        Instruction_Memory : IN memory_array(0 TO 4095)(15 DOWNTO 0);
+        reset : IN STD_LOGIC;
         instruction : OUT STD_LOGIC_VECTOR(15 DOWNTO 0)
     );
 END ENTITY Fetch;
-ARCHITECTURE FetchArch OF Fetch IS
-    --     component InstructionMemory is
-    --         port (
-    --             PC : IN STD_LOGIC_VECTOR (31 DOWNTO 0);
 
-    --             memRead : IN STD_LOGIC;
-    -- Instruction : OUT STD_LOGIC_VECTOR (15 DOWNTO 0)
-    --         );
-    --         end component;
+ARCHITECTURE FetchArch OF Fetch IS
+    signal PC : std_logic_vector(31 DOWNTO 0);
+    signal PC_next : std_logic_vector(31 DOWNTO 0);
+    -- signal Instruction_Memory : memory_array(0 TO 4095)(15 DOWNTO 0);
 
 BEGIN
-    --     Fetch_Data: InstructionMemory port map(
-    --         PC=>PC,
-    -- memRead=>'1',
-    -- Instruction=>Instruction
-    --     );
 
-    -- instruction <= "0000010110000000"; --NOT
+    process (reset,clk)
+    begin
+        if reset = '1' and clk='1' then
+            PC <= (others => '0');
+ 
+ 
+
+       else if clk='1' then
+            -- Increment PC by 1
+	    instruction <= Instruction_Memory(to_integer(unsigned(PC)));
+            PC <= std_logic_vector(unsigned(PC) + 1);
+		 
+            
+      end if;
+end if;
+
+       
+    end process; -- identifier
+
+END ARCHITECTURE FetchArch;
+
+  -- instruction <= "0000010110000000"; --NOT
     -- instruction <="0001000110000000"; --DEC
     -- instruction <= "0101010110000010"; --OR
     -- instruction <= "0001010000010000"; --OUT
-    instruction <= "1001010000010000"; --PROTECT
-
-END ARCHITECTURE FetchArch;
+   -- instruction <= "1001010000010000"; --PROTECT
