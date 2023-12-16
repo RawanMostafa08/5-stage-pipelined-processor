@@ -77,6 +77,62 @@ for instruction in instructions:
         else:
             instruction_string = ' '.join(instruction)
             print("error in instruction "+ instruction_string+" syntax")
+    elif instruction[0]=="neg":
+        if one_operand_check(instruction):
+            binary_instruction="000010"
+            reg=to_binary(instruction[1][1],3)
+            binary_instruction=binary_instruction+reg+reg+"0000"
+            binary_codes.append(binary_instruction)
+        else:
+            instruction_string = ' '.join(instruction)
+            print("error in instruction "+ instruction_string+" syntax")
+    elif instruction[0]=="inc":
+        if one_operand_check(instruction):
+            binary_instruction="000011"
+            reg=to_binary(instruction[1][1],3)
+            binary_instruction=binary_instruction+reg+reg+"0000"
+            binary_codes.append(binary_instruction)
+        else:
+            instruction_string = ' '.join(instruction)
+            print("error in instruction "+ instruction_string+" syntax")
+    elif instruction[0]=="dec":
+        if one_operand_check(instruction):
+            binary_instruction="000100"
+            reg=to_binary(instruction[1][1],3)
+            binary_instruction=binary_instruction+reg+reg+"0000"
+            binary_codes.append(binary_instruction)
+        else:
+            instruction_string = ' '.join(instruction)
+            print("error in instruction "+ instruction_string+" syntax")
+    elif instruction[0]=="out":
+        if one_operand_check(instruction):
+            binary_instruction="000101"
+            reg=to_binary(instruction[1][1],3)
+            binary_instruction=binary_instruction+"000"+reg+"0000"
+            binary_codes.append(binary_instruction)
+        else:
+            instruction_string = ' '.join(instruction)
+            print("error in instruction "+ instruction_string+" syntax")
+    elif instruction[0]=="in":
+        if one_operand_check(instruction):
+            binary_instruction="000110"
+            reg=to_binary(instruction[1][1],3)
+            binary_instruction=binary_instruction+reg+"0000000"
+            binary_codes.append(binary_instruction)
+        else:
+            instruction_string = ' '.join(instruction)
+            print("error in instruction "+ instruction_string+" syntax")
+    elif instruction[0]=="swap":
+        if two_operand_check(instruction):
+            binary_instruction="010000"
+            reg1=to_binary(instruction[1][1],3)
+            reg2=to_binary(instruction[2][1],3)
+            binary_instruction=binary_instruction+"000"+reg1+reg2+"0"
+            binary_codes.append(binary_instruction)
+        else:
+            instruction_string = ' '.join(instruction)
+            print("error in instruction "+ instruction_string+" syntax")
+
     elif instruction[0]=="add":
         if three_operand_check(instruction):
             binary_instruction="010001"
