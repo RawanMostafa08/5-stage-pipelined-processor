@@ -1,6 +1,21 @@
+Free R1
+Free R8
+Protect R7
+Protect 
+STD R3,150
+LDD R1,50
+LDD R2,100
+
+LDM 4,R1
+LDM R1,4
+LDM R7,20000000
+
+POP R1
+POP R1,R2
+POP R12
 NOP
 ADD R7,R7,R7
-
+PUSH R7
 #  comment
 ADDI R7,R0,6589
 #  fatma
@@ -13,14 +28,15 @@ bitset r4,-1
 rcl r5,-3
 rcl r1,3
 #  fatma
-
+PUSH R7,R1
 NOP # commentttttttttt
 NOP   
 NOT R1
        
 ADDI R3,R2,-5 #comment
 
-         
+#PUSH R7,R1
+     
 #    commenttttttttttttttttttttttttttttttttttttttt sara sara sara
 
     
@@ -35,3 +51,4 @@ NOT R9
 NOT H1
 NOT R11
 ADD R1,R2,R3
+PUSH R10

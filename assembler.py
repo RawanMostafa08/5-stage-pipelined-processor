@@ -46,7 +46,11 @@ def Imm3_operand_check(instruction):
         return True
      else: 
         return False
-
+def EA_one_operand_check(instruction):
+     if len(instruction)==3 and len(instruction[1])==2 and instruction[1][0]=='r' and 0 <= int(instruction[1][1]) <= 7 and 0 <= int(instruction[2]) <= 1048575 :
+        return True
+     else: 
+        return False
 
 file_path = 'program.txt'
 with open(file_path, 'r') as file:
@@ -240,7 +244,56 @@ for instruction in instructions:
            binary_instruction=binary_instruction+reg1+reg1+"0000"
            binary_codes.append(binary_instruction)
            binary_codes.append(imm)
-       else:
+    elif instruction[0]=="push":
+       if one_operand_check(instruction):
+           binary_instruction="100000"
+           reg1=to_binary(instruction[1][1],3)
+           binary_instruction=binary_instruction+"000"+reg1+"0000"
+           binary_codes.append(binary_instruction)
+    elif instruction[0]=="pop":
+       if one_operand_check(instruction):
+           binary_instruction="100001"
+           reg1=to_binary(instruction[1][1],3)
+           binary_instruction=binary_instruction+reg1+"0000000"
+           binary_codes.append(binary_instruction)
+    elif instruction[0]=="ldm": #LDM Rdst, Imm
+        if imm_one_operand_check(instruction):
+            binary_instruction="100010"
+            reg1=to_binary(instruction[1][1],3)
+            imm=to_binary(instruction[2],16)
+            binary_instruction=binary_instruction+reg1+"0000000"
+            binary_codes.append(binary_instruction)
+            binary_codes.append(imm)
+    elif instruction[0]=="ldd":
+        if EA_one_operand_check(instruction):
+            binary_instruction="100011"
+            reg1=to_binary(instruction[1][1],3)
+            EA=to_binary(instruction[2],20)
+            binary_instruction=binary_instruction+reg1+"000"+EA[0:4]
+            binary_codes.append(binary_instruction)
+            binary_codes.append(EA[4:20])
+    elif instruction[0]=="std":
+        if EA_one_operand_check(instruction):
+            binary_instruction="100100"
+            reg1=to_binary(instruction[1][1],3)
+            EA=to_binary(instruction[2],20)
+            binary_instruction=binary_instruction+"000"+reg1+EA[0:4]
+            binary_codes.append(binary_instruction)
+            binary_codes.append(EA[4:20])
+    elif instruction[0]=="protect":
+        if one_operand_check(instruction):
+            binary_instruction="100101"
+            reg1=to_binary(instruction[1][1],3)
+            binary_instruction=binary_instruction+"000"+reg1+"0000"
+            binary_codes.append(binary_instruction)
+    elif instruction[0]=="free":
+        if one_operand_check(instruction):
+            binary_instruction="100110"
+            reg1=to_binary(instruction[1][1],3)
+            binary_instruction=binary_instruction+"000"+reg1+"0000"
+            binary_codes.append(binary_instruction)
+            
+        else:
            instruction_string = ' '.join(instruction)
            print("error in instruction "+ instruction_string+" syntax")
 
