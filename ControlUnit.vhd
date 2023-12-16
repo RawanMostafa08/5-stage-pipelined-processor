@@ -30,69 +30,68 @@ BEGIN
 		--register --> memReg=1
 		--memory--> memReg=0
 		IF isImmediate = '1' THEN
-		isImm <='1';
-		regFileSignals(0) <= '1'; --Wb
-		executeSignals(0) <= '1'; --aluEn
-		memorySignals(0) <= '0'; --AddressSel
-		memorySignals(1) <= '1'; --AddressSel
-		memorySignals(3) <= '1'; --memRead
-		regFileSignals(2) <= '0'; --ren
-		isImmediate <= '0';
-			ELSE 
+			isImm <='1';
+			regFileSignals(0) <= '1'; --Wb
+			executeSignals(0) <= '1'; --aluEn
+			memorySignals(0) <= '0'; --AddressSel
+			memorySignals(1) <= '1'; --AddressSel
+			memorySignals(3) <= '1'; --memRead
+			regFileSignals(2) <= '0'; --ren
+			isImmediate <= '0';
+		ELSE 
 			isImm <='0';
-			IF opCode = "000001" THEN --NOT
-				isImmediate <= '0';
-				regFileSignals(3) <= '1'; --memReg
-				regFileSignals(0) <= '1'; --wb
-				executeSignals(0) <= '1'; --aluEn
-				regFileSignals(2) <= '1'; --ren
-			ELSE
-				IF opCode = "000100" THEN --DEC
+			CASE opCode IS
+				WHEN "000001" =>
+					-- NOT
 					isImmediate <= '0';
 					regFileSignals(3) <= '1'; --memReg
 					regFileSignals(0) <= '1'; --wb
 					executeSignals(0) <= '1'; --aluEn
 					regFileSignals(2) <= '1'; --ren
-				ELSE
-					IF opCode = "010101" THEN --OR
-						isImmediate <= '0';
-						regFileSignals(3) <= '1'; --memReg
-						regFileSignals(0) <= '1'; --wb
-						executeSignals(0) <= '1'; --aluEn
-						regFileSignals(2) <= '1'; --ren
 
-					ELSE
-						IF opCode = "000101" THEN --OUT
-							isImmediate <= '0';
-							regFileSignals(3) <= '1'; --memReg
-							executeSignals(0) <= '1'; --aluEn
-							regFileSignals(2) <= '1'; --ren
+				WHEN "000100" =>
+					-- DEC
+					isImmediate <= '0';
+					regFileSignals(3) <= '1'; --memReg
+					regFileSignals(0) <= '1'; --wb
+					executeSignals(0) <= '1'; --aluEn
+					regFileSignals(2) <= '1'; --ren
 
-						ELSE
-							IF opCode = "100101" THEN --PROTECT
-								isImmediate <= '0';
-								memorySignals(0) <= '1'; --AddressSel
-								memorySignals(1) <= '0'; --AddressSel
-								memorySignals(5) <= '1'; --protect
-								executeSignals(0) <= '1'; --aluEn
-								regFileSignals(2) <= '1'; --ren
-							ELSE
-								IF opCode = "100011" THEN --LDD
-									isImmediate <= '1';
-									regFileSignals(0) <= '0'; --Wb
-									executeSignals(0) <= '0'; --aluEn
-									regFileSignals(2) <= '1'; --ren
-								END IF;
+				WHEN "010101" =>
+					-- OR
+					isImmediate <= '0';
+					regFileSignals(3) <= '1'; --memReg
+					regFileSignals(0) <= '1'; --wb
+					executeSignals(0) <= '1'; --aluEn
+					regFileSignals(2) <= '1'; --ren
 
-							END IF;
-						END IF;
-					END IF;
-				END IF;
-				EnD IF;
-				
-				
-						
+				WHEN "000101" =>
+					-- OUT
+					isImmediate <= '0';
+					regFileSignals(3) <= '1'; --memReg
+					executeSignals(0) <= '1'; --aluEn
+					regFileSignals(2) <= '1'; --ren
 
-			END IF;
-		END PROCESS;
-	END archControlUnit;
+				WHEN "100101" =>
+					-- PROTECT
+					isImmediate <= '0';
+					memorySignals(0) <= '1'; --AddressSel
+					memorySignals(1) <= '0'; --AddressSel
+					memorySignals(5) <= '1'; --protect
+					executeSignals(0) <= '1'; --aluEn
+					regFileSignals(2) <= '1'; --ren
+
+				WHEN "100011" =>
+					-- LDD
+					isImmediate <= '1';
+					regFileSignals(0) <= '0'; --Wb
+					executeSignals(0) <= '0'; --aluEn
+					regFileSignals(2) <= '1'; --ren
+
+				WHEN OTHERS =>
+					-- Default case when opCode does not match any of the specified values
+					NULL;
+			END CASE;
+		END IF;
+	END PROCESS;
+END archControlUnit;

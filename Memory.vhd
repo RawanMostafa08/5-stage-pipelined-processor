@@ -20,7 +20,7 @@ ARCHITECTURE archMemory OF memory IS
 	SIGNAL data_mem : mem_loc;
 	SIGNAL address_temp, one : STD_LOGIC_VECTOR (11 DOWNTO 0);
 BEGIN
-	PROCESS (address, writeData, memRead, memWrite, address_temp, load)
+	PROCESS (address, writeData, memRead, memWrite, address_temp, load , memFree ,memProtect)
 	BEGIN
 		IF load = '0' THEN
 			address_temp <= STD_LOGIC_VECTOR(unsigned(address) + 1);
