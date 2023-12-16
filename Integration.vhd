@@ -15,6 +15,7 @@ ARCHITECTURE IntegrationArch OF Integration IS
     COMPONENT controlUnit IS
         PORT (
             opCode : IN STD_LOGIC_VECTOR (5 DOWNTO 0);
+            enterProcess : IN STD_LOGIC;
             fetchSignals : OUT STD_LOGIC_VECTOR(2 DOWNTO 0);
             regFileSignals : OUT STD_LOGIC_VECTOR(4 DOWNTO 0);
             executeSignals : OUT STD_LOGIC_VECTOR(2 DOWNTO 0);
@@ -122,6 +123,7 @@ ARCHITECTURE IntegrationArch OF Integration IS
         PORT (
             op1 : IN STD_LOGIC_VECTOR (31 DOWNTO 0);
             op2 : IN STD_LOGIC_VECTOR (31 DOWNTO 0);
+            aluEn : IN STD_LOGIC;
             opCode : IN STD_LOGIC_VECTOR (5 DOWNTO 0);
             res : OUT STD_LOGIC_VECTOR (31 DOWNTO 0);
             outPort_EXE : OUT STD_LOGIC_VECTOR (31 DOWNTO 0)
@@ -200,7 +202,7 @@ ARCHITECTURE IntegrationArch OF Integration IS
 
     SIGNAL PC_temp : STD_LOGIC_VECTOR(31 DOWNTO 0);
     SIGNAL reset_temp : STD_LOGIC;
-
+    SIGNAL EP : STD_LOGIC :='0';
     SIGNAL Instruction_temp : STD_LOGIC_VECTOR(15 DOWNTO 0);
     SIGNAL readReg0_temp, readReg1_temp, writeReg0_temp, writeReg1_temp : STD_LOGIC_VECTOR(2 DOWNTO 0);
     SIGNAL opCode_temp : STD_LOGIC_VECTOR (5 DOWNTO 0);
@@ -315,6 +317,7 @@ BEGIN
 
     CU : ControlUnit PORT MAP(
         opCode => opCode_CU,
+        enterProcess => EP,
         fetchSignals => fetchSignals_CU,
         regFileSignals => regFileSignals_CU,
         executeSignals => executeSignals_CU,
@@ -395,10 +398,10 @@ BEGIN
         --WB FROM CU
     );
     OperandSel : AluOperandsSel PORT MAP(
-        readData => readData1_ID_EX,
-        immData => ImmEaValue_ID_EX,
-        opCode => opCode_ID_EX,
-        lastOpCode => lastOpCode_ID_EX,
+        readData => readData0_temp,
+        immData => ImmEaValue_temp,
+        opCode => opCode_CU,
+        lastOpCode => lastOpCode_CU,
         Sel => executeSignals_ID_EX(1),
         op2 => selectedOp2,
         opcodeAlu => selectedOpCode
@@ -407,6 +410,7 @@ BEGIN
     ExcuteStage : execute PORT MAP(
         op1 => readData0_EXE,
         op2 => readData1_EXE,
+        aluEn => executeSignals_ID_EX(0),
         opCode => opCode_EXE,
         res => aluRes,
         outPort_EXE => outPort
@@ -521,6 +525,7 @@ BEGIN
                 resAlu_WB <= resAlu_MEM_WB;
                 WriteEn0_temp <= regFileSignals_MEM_WB(0);
                 WriteEn1_temp <= regFileSignals_MEM_WB(1);
+                EP <= NOT EP;
                 -- address_mem <= (OTHERS => '0');
                 -- writeData_mem <= (OTHERS => '1');
 

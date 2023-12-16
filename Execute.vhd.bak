@@ -70,6 +70,7 @@ BEGIN
           END IF;
         WHEN "011000" =>
           -- BITSET
+
           temp_res <= op1;
           temp_res(to_integer(unsigned(op2))) <= '1';
           res <= temp_res;
