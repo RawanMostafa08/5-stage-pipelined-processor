@@ -296,10 +296,56 @@ for instruction in instructions:
         else:
            instruction_string = ' '.join(instruction)
            print("error in instruction "+ instruction_string+" syntax")
+     ######################rawan's instructions###################################33
+    elif instruction[0]=="jz":
+        if one_operand_check(instruction):
+            binary_instruction="110000"
+            reg=to_binary(instruction[1][1],3)
+            binary_instruction=binary_instruction+"000"+reg+"0000"
+            binary_codes.append(binary_instruction)
+        else:
+            instruction_string = ' '.join(instruction)
+            print("error in instruction "+ instruction_string+" syntax")
+    elif instruction[0]=="jmp":
+        if one_operand_check(instruction):
+            binary_instruction="110001"
+            reg=to_binary(instruction[1][1],3)
+            binary_instruction=binary_instruction+"000"+reg+"0000"
+            binary_codes.append(binary_instruction)
+        else:
+            instruction_string = ' '.join(instruction)
+            print("error in instruction "+ instruction_string+" syntax")
+    elif instruction[0]=="call":
+        if one_operand_check(instruction):
+            binary_instruction="110010"
+            reg=to_binary(instruction[1][1],3)
+            binary_instruction=binary_instruction+"000"+reg+"0000"
+            binary_codes.append(binary_instruction)
+        else:
+            instruction_string = ' '.join(instruction)
+            print("error in instruction "+ instruction_string+" syntax")
+    elif instruction[0]=="ret":
+        if no_operand_check(instruction):
+            binary_instruction="110011"
+            binary_instruction=binary_instruction+"0000000000"
+            binary_codes.append(binary_instruction)
+        else:
+            instruction_string = ' '.join(instruction)
+            print("error in instruction "+ instruction_string+" syntax")
+    elif instruction[0]=="rti":
+        if no_operand_check(instruction):
+            binary_instruction="110100"
+            binary_instruction=binary_instruction+"0000000000"
+            binary_codes.append(binary_instruction)
+        else:
+            instruction_string = ' '.join(instruction)
+            print("error in instruction "+ instruction_string+" syntax")
+    else:
+        instruction_string = ' '.join(instruction)
+        print("unknown instruction "+ instruction_string)
 
 file_path = 'binary.txt'
 
 with open(file_path, 'w') as file:
     # Write each element of the array to a new line
     file.writelines('\n'.join(binary_codes))
-
