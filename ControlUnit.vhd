@@ -7,7 +7,8 @@ ENTITY controlUnit IS
 		regFileSignals : OUT STD_LOGIC_VECTOR(4 DOWNTO 0);
 		executeSignals : OUT STD_LOGIC_VECTOR(2 DOWNTO 0);
 		memorySignals : OUT STD_LOGIC_VECTOR(6 DOWNTO 0);
-		isImm : OUT STD_LOGIC
+		isImm : OUT STD_LOGIC;
+		lastOpCode : OUT STD_LOGIC_VECTOR (5 DOWNTO 0)
 		-- Fetch-->jmp,jx,ret
 		-- Regfile-->wb,wb,ren,memReg,swap,flush
 		-- Exec-->aluEn,Reg/Imm Op2,flush
@@ -20,6 +21,7 @@ END controlUnit;
 
 ARCHITECTURE archControlUnit OF controlUnit IS
 	SIGNAL isImmediate : STD_LOGIC;
+	SIGNAL lastOpCode_sig : STD_LOGIC_VECTOR (5 DOWNTO 0);
 BEGIN
 	PROCESS (opCode)
 	BEGIN
@@ -30,16 +32,29 @@ BEGIN
 		--register --> memReg=1
 		--memory--> memReg=0
 		IF isImmediate = '1' THEN
-			isImm <='1';
-			regFileSignals(0) <= '1'; --Wb
-			executeSignals(0) <= '1'; --aluEn
-			memorySignals(0) <= '0'; --AddressSel
-			memorySignals(1) <= '1'; --AddressSel
-			memorySignals(3) <= '1'; --memRead
+			isImm <= '1';
 			regFileSignals(2) <= '0'; --ren
 			isImmediate <= '0';
-		ELSE 
-			isImm <='0';
+			CASE lastOpCode_sig IS
+				WHEN "100011" =>
+					-- LDD
+					regFileSignals(0) <= '1'; --Wb
+					executeSignals(0) <= '1'; --aluEn
+					memorySignals(0) <= '0'; --AddressSel
+					memorySignals(1) <= '1'; --AddressSel
+					memorySignals(3) <= '1'; --memRead
+				WHEN "010010" =>
+					-- ADDI
+					regFileSignals(0) <= '1'; --Wb
+					executeSignals(0) <= '1'; --aluEn
+					executeSignals(1) <= '1'; --Reg/Imm Op2
+					regFileSignals(3) <= '1'; --memReg
+				WHEN OTHERS =>
+					-- Default case when opCode does not match any of the specified values
+					NULL;
+			END CASE;
+		ELSE
+			isImm <= '0';
 			CASE opCode IS
 				WHEN "000001" =>
 					-- NOT
@@ -82,16 +97,23 @@ BEGIN
 					regFileSignals(2) <= '1'; --ren
 
 				WHEN "100011" =>
-					-- LDD
+					-- LDD 
 					isImmediate <= '1';
 					regFileSignals(0) <= '0'; --Wb
 					executeSignals(0) <= '0'; --aluEn
 					regFileSignals(2) <= '1'; --ren
-
+				WHEN "010010" =>
+					--ADDI
+					isImmediate <= '1';
+					regFileSignals(0) <= '0'; --Wb
+					executeSignals(0) <= '0'; --aluEn
+					regFileSignals(2) <= '1'; --ren
 				WHEN OTHERS =>
 					-- Default case when opCode does not match any of the specified values
 					NULL;
 			END CASE;
 		END IF;
+		lastOpCode_sig <= opCode;
+		lastOpCode <= lastOpCode_sig;
 	END PROCESS;
 END archControlUnit;
