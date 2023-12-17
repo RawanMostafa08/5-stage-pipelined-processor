@@ -129,6 +129,13 @@ BEGIN
 					regFileSignals(0) <= '1'; --wb
 					executeSignals(0) <= '1'; --aluEn
 					regFileSignals(2) <= '1'; --ren
+				WHEN "010111" =>
+					-- CMP
+					isImmediate <= '0';
+					regFileSignals(3) <= '1'; --memReg
+					regFileSignals(0) <= '0'; --wb
+					executeSignals(0) <= '1'; --aluEn
+					regFileSignals(2) <= '1'; --ren
 				WHEN "000101" =>
 					-- OUT
 					isImmediate <= '0';
