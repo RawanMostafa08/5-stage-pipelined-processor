@@ -16,9 +16,10 @@ END execute;
 ARCHITECTURE archExecute OF execute IS
   SIGNAL CCR : STD_LOGIC_VECTOR(2 DOWNTO 0) := (OTHERS => '0'); --c n z 
   SIGNAL temp_res : STD_LOGIC_VECTOR (31 DOWNTO 0);
+  SIGNAL reswithcarry : STD_LOGIC_VECTOR (32 DOWNTO 0);
 BEGIN
 
-  PROCESS (opCode, op1, op2)
+  PROCESS (opCode, temp_res, reswithcarry, op1, op2)
     VARIABLE temp_rot : STD_LOGIC_VECTOR (31 DOWNTO 0);
     VARIABLE temp_carry : STD_LOGIC;
     VARIABLE last_bit : STD_LOGIC;
