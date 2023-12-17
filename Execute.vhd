@@ -14,12 +14,14 @@ ENTITY execute IS
 END execute;
 
 ARCHITECTURE archExecute OF execute IS
-  SIGNAL CCR : STD_LOGIC_VECTOR(2 DOWNTO 0); --c n z 
+  SIGNAL CCR : STD_LOGIC_VECTOR(2 DOWNTO 0) := (OTHERS => '0'); --c n z 
   SIGNAL temp_res : STD_LOGIC_VECTOR (31 DOWNTO 0);
-  SIGNAL reswithcarry : STD_LOGIC_VECTOR (32 DOWNTO 0);
 BEGIN
 
-  PROCESS (opCode, temp_res, reswithcarry, op1, op2)
+  PROCESS (opCode, op1, op2)
+    VARIABLE temp_rot : STD_LOGIC_VECTOR (31 DOWNTO 0);
+    VARIABLE temp_carry : STD_LOGIC;
+    VARIABLE last_bit : STD_LOGIC;
   BEGIN
     IF aluEn = '1' THEN
       CASE opCode IS
@@ -125,12 +127,19 @@ BEGIN
           END IF;
         WHEN "011001" =>
           -- RCL
+          temp_rot := op1;
+          temp_carry := CCR(2);
+          -- REPORT "op1 value: " & to_string(op1);
+          -- REPORT "op2 value: " & to_string(op2);
           FOR i IN 1 TO to_integer(unsigned(op2)) LOOP
-            temp_res <= CCR(2) & temp_res(30 DOWNTO 0); -- RCL operation
-            CCR(2) <= temp_res(31);
+            last_bit := temp_rot(31);
+            -- REPORT "Entering loop iteration " & INTEGER'image(i);
+            temp_rot := temp_rot(30 DOWNTO 0) & temp_carry; -- RCL operation
+            temp_carry := last_bit;
           END LOOP;
+          res <= temp_rot;
+          CCR(2) <= temp_carry;
           -- temp_res <= STD_LOGIC_VECTOR(unsigned(op1) + unsigned(op2));
-          res <= temp_res;
           CCR(1) <= temp_res(31);
           IF temp_res = X"00000000"THEN
             CCR(0) <= '1';
@@ -139,8 +148,9 @@ BEGIN
           END IF;
         WHEN "011010" =>
           -- RCR
+          temp_res <= op1;
           FOR i IN 1 TO to_integer(unsigned(op2)) LOOP
-            temp_res <= temp_res(31 DOWNTO 1) & CCR(2); -- RCL operation
+            temp_res <= CCR(2) & temp_res(31 DOWNTO 1); -- RCL operation
             CCR(2) <= temp_res(0);
           END LOOP;
           -- temp_res <= STD_LOGIC_VECTOR(unsigned(op1) + unsigned(op2));

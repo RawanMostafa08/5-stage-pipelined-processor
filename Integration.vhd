@@ -249,6 +249,7 @@ ARCHITECTURE IntegrationArch OF Integration IS
     SIGNAL destRegIn1_EXE : STD_LOGIC_VECTOR (2 DOWNTO 0);
     SIGNAL writeBackIn_EXE : STD_LOGIC;
     SIGNAL opCode_EXE : STD_LOGIC_VECTOR (5 DOWNTO 0);
+    SIGNAL aluEnable : STD_LOGIC;
     SIGNAL operand2Select : STD_LOGIC;
     SIGNAL selectedOp2 : STD_LOGIC_VECTOR (31 DOWNTO 0);
     SIGNAL selectedOpCode : STD_LOGIC_VECTOR (5 DOWNTO 0);
@@ -410,7 +411,7 @@ BEGIN
     ExcuteStage : execute PORT MAP(
         op1 => readData0_EXE,
         op2 => readData1_EXE,
-        aluEn => executeSignals_ID_EX(0),
+        aluEn => aluEnable,
         opCode => opCode_EXE,
         res => aluRes,
         outPort_EXE => outPort
@@ -496,6 +497,7 @@ BEGIN
 
                 opCode_EXE <= selectedOpCode;
 
+                aluEnable <= executeSignals_ID_EX(1);
                 fetchSignals_EX_MEM_TEMP <= fetchSignals_ID_EX;
                 regFileSignals_EX_MEM_TEMP <= regFileSignals_ID_EX;
                 memorySignals_EX_MEM_TEMP <= memorySignals_ID_EX;
