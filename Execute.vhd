@@ -37,10 +37,50 @@ BEGIN
           outPort_EXE <= op1;
         WHEN "000100" =>
           -- DEC
-          temp_res <= STD_LOGIC_VECTOR(unsigned(op1) - 1);
+          temp_res <= STD_LOGIC_VECTOR(signed(op1) - 1);
           res <= temp_res;
           CCR(1) <= temp_res(31);
           IF temp_res = X"00000000"THEN
+            CCR(0) <= '1';
+          ELSE
+            CCR(0) <= '0';
+          END IF;
+        WHEN "010001" =>
+          -- ADD
+          temp_res <= STD_LOGIC_VECTOR(signed(op1) + signed(op2));
+          res <= temp_res;
+          CCR(1) <= temp_res(31);
+          IF temp_res = X"00000000" THEN
+            CCR(0) <= '1';
+          ELSE
+            CCR(0) <= '0';
+          END IF;
+        WHEN "010011" =>
+          -- SUB
+          temp_res <= STD_LOGIC_VECTOR(signed(op1) - signed(op2));
+          res <= temp_res;
+          CCR(1) <= temp_res(31);
+          IF temp_res = X"00000000" THEN
+            CCR(0) <= '1';
+          ELSE
+            CCR(0) <= '0';
+          END IF;
+        WHEN "010100" =>
+          -- AND
+          temp_res <= op1 AND op2;
+          res <= temp_res;
+          CCR(1) <= temp_res(31);
+          IF temp_res = X"00000000" THEN
+            CCR(0) <= '1';
+          ELSE
+            CCR(0) <= '0';
+          END IF;
+        WHEN "010110" =>
+          -- XOR
+          temp_res <= op1 XOR op2;
+          res <= temp_res;
+          CCR(1) <= temp_res(31);
+          IF temp_res = X"00000000" THEN
             CCR(0) <= '1';
           ELSE
             CCR(0) <= '0';

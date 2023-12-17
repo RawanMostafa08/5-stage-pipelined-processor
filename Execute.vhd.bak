@@ -45,7 +45,18 @@ BEGIN
           ELSE
             CCR(0) <= '0';
           END IF;
-        WHEN "010101" =>
+          WHEN "010001" =>
+          -- ADD
+          
+          temp_res <=  STD_LOGIC_VECTOR(unsigned(op1) + unsigned(op2) );
+          res <= temp_res;
+          CCR(1) <= temp_res(31);
+          IF temp_res = X"00000000" THEN
+            CCR(0) <= '1';
+          ELSE
+            CCR(0) <= '0';
+          END IF;
+          WHEN "010101" =>
           -- OR
           temp_res <= op1 OR op2;
           res <= temp_res;
@@ -70,7 +81,6 @@ BEGIN
           END IF;
         WHEN "011000" =>
           -- BITSET
-
           temp_res <= op1;
           temp_res(to_integer(unsigned(op2))) <= '1';
           res <= temp_res;

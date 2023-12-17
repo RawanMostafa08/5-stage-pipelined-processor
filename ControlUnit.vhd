@@ -94,7 +94,27 @@ BEGIN
 					regFileSignals(0) <= '1'; --wb
 					executeSignals(0) <= '1'; --aluEn
 					regFileSignals(2) <= '1'; --ren
-
+				WHEN "010001" =>
+					-- ADD
+					isImmediate <= '0';
+					regFileSignals(3) <= '1'; --memReg
+					regFileSignals(0) <= '1'; --wb
+					executeSignals(0) <= '1'; --aluEn
+					regFileSignals(2) <= '1'; --ren
+				WHEN "010011" =>
+					-- SUB
+					isImmediate <= '0';
+					regFileSignals(3) <= '1'; --memReg
+					regFileSignals(0) <= '1'; --wb
+					executeSignals(0) <= '1'; --aluEn
+					regFileSignals(2) <= '1'; --ren
+				WHEN "010100" =>
+					-- AND
+					isImmediate <= '0';
+					regFileSignals(3) <= '1'; --memReg
+					regFileSignals(0) <= '1'; --wb
+					executeSignals(0) <= '1'; --aluEn
+					regFileSignals(2) <= '1'; --ren
 				WHEN "010101" =>
 					-- OR
 					isImmediate <= '0';
@@ -102,7 +122,13 @@ BEGIN
 					regFileSignals(0) <= '1'; --wb
 					executeSignals(0) <= '1'; --aluEn
 					regFileSignals(2) <= '1'; --ren
-
+				WHEN "010110" =>
+					-- XOR
+					isImmediate <= '0';
+					regFileSignals(3) <= '1'; --memReg
+					regFileSignals(0) <= '1'; --wb
+					executeSignals(0) <= '1'; --aluEn
+					regFileSignals(2) <= '1'; --ren
 				WHEN "000101" =>
 					-- OUT
 					isImmediate <= '0';
