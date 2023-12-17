@@ -398,7 +398,7 @@ BEGIN
         --WB FROM CU
     );
     OperandSel : AluOperandsSel PORT MAP(
-        readData => readData0_temp,
+        readData => readData1_temp,
         immData => ImmEaValue_temp,
         opCode => opCode_CU,
         lastOpCode => lastOpCode_CU,
