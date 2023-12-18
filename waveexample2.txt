@@ -1,3 +1,4 @@
+vsim -gui work.integration 
 add wave -position end  sim:/integration/clk
 add wave -position end  sim:/integration/reset
 add wave -position end  sim:/integration/load
@@ -28,3 +29,4 @@ run
 force -freeze sim:/integration/reset 0 0
 force -freeze sim:/integration/load 0 0
 run
+radix -hexadecimal

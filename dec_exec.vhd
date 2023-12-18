@@ -2,8 +2,8 @@ LIBRARY ieee;
 USE ieee.std_logic_1164.ALL;
 ENTITY dec_exec IS
       PORT (
-	    clk : IN STD_LOGIC;
-	    IsImm : IN STD_LOGIC;
+            clk : IN STD_LOGIC;
+            IsImm : IN STD_LOGIC;
             ImmEaValue_IN : IN STD_LOGIC_VECTOR (15 DOWNTO 0);
             readData0_IN : IN STD_LOGIC_VECTOR (31 DOWNTO 0);
             readData1_IN : IN STD_LOGIC_VECTOR (31 DOWNTO 0);
@@ -14,6 +14,7 @@ ENTITY dec_exec IS
             regFileSignals_IN : IN STD_LOGIC_VECTOR(4 DOWNTO 0);
             executeSignals_IN : IN STD_LOGIC_VECTOR(2 DOWNTO 0);
             memorySignals_IN : IN STD_LOGIC_VECTOR(6 DOWNTO 0);
+            lastOpCode_IN : IN STD_LOGIC_VECTOR(5 DOWNTO 0);
 
             readData0_OUT : OUT STD_LOGIC_VECTOR (31 DOWNTO 0);
             readData1_OUT : OUT STD_LOGIC_VECTOR (31 DOWNTO 0);
@@ -24,7 +25,8 @@ ENTITY dec_exec IS
             regFileSignals_OUT : OUT STD_LOGIC_VECTOR(4 DOWNTO 0);
             executeSignals_OUT : OUT STD_LOGIC_VECTOR(2 DOWNTO 0);
             memorySignals_OUT : OUT STD_LOGIC_VECTOR(6 DOWNTO 0);
-            ImmEaValue_OUT : OUT STD_LOGIC_VECTOR (15 DOWNTO 0)
+            ImmEaValue_OUT : OUT STD_LOGIC_VECTOR (15 DOWNTO 0);
+            lastOpCode_OUT : OUT STD_LOGIC_VECTOR(5 DOWNTO 0)
       );
 END dec_exec;
 
@@ -39,14 +41,15 @@ BEGIN
       regFileSignals_OUT <= regFileSignals_IN;
       executeSignals_OUT <= executeSignals_IN;
       memorySignals_OUT <= memorySignals_IN;
-      	PROCESS (clk)
-	BEGIN 
-	if isImm='1' then
-	destReg_temp <= destReg_temp;
-	else
-	destReg_temp <= destReg0_IN;
-	end if;
-	END PROCESS;
+      PROCESS (clk)
+      BEGIN
+            IF isImm = '1' THEN
+                  destReg_temp <= destReg_temp;
+            ELSE
+                  destReg_temp <= destReg0_IN;
+            END IF;
+      END PROCESS;
       destReg0_OUT <= destReg_temp;
       ImmEaValue_OUT <= ImmEaValue_IN;
+      lastOpCode_OUT <= lastOpCode_IN;
 END arch_dec_exec;

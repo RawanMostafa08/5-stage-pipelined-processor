@@ -15,11 +15,13 @@ ARCHITECTURE IntegrationArch OF Integration IS
     COMPONENT controlUnit IS
         PORT (
             opCode : IN STD_LOGIC_VECTOR (5 DOWNTO 0);
+            enterProcess : IN STD_LOGIC;
             fetchSignals : OUT STD_LOGIC_VECTOR(2 DOWNTO 0);
             regFileSignals : OUT STD_LOGIC_VECTOR(4 DOWNTO 0);
             executeSignals : OUT STD_LOGIC_VECTOR(2 DOWNTO 0);
             memorySignals : OUT STD_LOGIC_VECTOR(6 DOWNTO 0);
-            isImm : OUT STD_LOGIC
+            isImm : OUT STD_LOGIC;
+            lastOpCode : OUT STD_LOGIC_VECTOR (5 DOWNTO 0)
             -- Fetch-->jmp,jx,ret
             -- Regfile-->wb,wb,ren,memReg,swap,flush
             -- Exec-->aluEn,Reg/Imm Op2,flush
@@ -77,11 +79,21 @@ ARCHITECTURE IntegrationArch OF Integration IS
             ReadData1 : OUT STD_LOGIC_VECTOR (31 DOWNTO 0)
         );
     END COMPONENT;
-
+    COMPONENT AluOperandsSel IS
+        PORT (
+            readData : IN STD_LOGIC_VECTOR (31 DOWNTO 0);
+            immData : IN STD_LOGIC_VECTOR (15 DOWNTO 0);
+            opCode : IN STD_LOGIC_VECTOR (5 DOWNTO 0);
+            lastOpCode : IN STD_LOGIC_VECTOR (5 DOWNTO 0);
+            Sel : IN STD_LOGIC;
+            op2 : OUT STD_LOGIC_VECTOR (31 DOWNTO 0);
+            opcodeAlu : OUT STD_LOGIC_VECTOR(5 DOWNTO 0)
+        );
+    END COMPONENT;
     COMPONENT dec_exec IS
         PORT (
             clk : IN STD_LOGIC;
-            isImm : IN STD_LOGIC;
+            IsImm : IN STD_LOGIC;
             ImmEaValue_IN : IN STD_LOGIC_VECTOR (15 DOWNTO 0);
             readData0_IN : IN STD_LOGIC_VECTOR (31 DOWNTO 0);
             readData1_IN : IN STD_LOGIC_VECTOR (31 DOWNTO 0);
@@ -92,6 +104,7 @@ ARCHITECTURE IntegrationArch OF Integration IS
             regFileSignals_IN : IN STD_LOGIC_VECTOR(4 DOWNTO 0);
             executeSignals_IN : IN STD_LOGIC_VECTOR(2 DOWNTO 0);
             memorySignals_IN : IN STD_LOGIC_VECTOR(6 DOWNTO 0);
+            lastOpCode_IN : IN STD_LOGIC_VECTOR(5 DOWNTO 0);
 
             readData0_OUT : OUT STD_LOGIC_VECTOR (31 DOWNTO 0);
             readData1_OUT : OUT STD_LOGIC_VECTOR (31 DOWNTO 0);
@@ -102,13 +115,15 @@ ARCHITECTURE IntegrationArch OF Integration IS
             regFileSignals_OUT : OUT STD_LOGIC_VECTOR(4 DOWNTO 0);
             executeSignals_OUT : OUT STD_LOGIC_VECTOR(2 DOWNTO 0);
             memorySignals_OUT : OUT STD_LOGIC_VECTOR(6 DOWNTO 0);
-            ImmEaValue_OUT : OUT STD_LOGIC_VECTOR (15 DOWNTO 0)
+            ImmEaValue_OUT : OUT STD_LOGIC_VECTOR (15 DOWNTO 0);
+            lastOpCode_OUT : OUT STD_LOGIC_VECTOR(5 DOWNTO 0)
         );
     END COMPONENT;
     COMPONENT execute IS
         PORT (
             op1 : IN STD_LOGIC_VECTOR (31 DOWNTO 0);
             op2 : IN STD_LOGIC_VECTOR (31 DOWNTO 0);
+            aluEn : IN STD_LOGIC;
             opCode : IN STD_LOGIC_VECTOR (5 DOWNTO 0);
             res : OUT STD_LOGIC_VECTOR (31 DOWNTO 0);
             outPort_EXE : OUT STD_LOGIC_VECTOR (31 DOWNTO 0)
@@ -187,7 +202,7 @@ ARCHITECTURE IntegrationArch OF Integration IS
 
     SIGNAL PC_temp : STD_LOGIC_VECTOR(31 DOWNTO 0);
     SIGNAL reset_temp : STD_LOGIC;
-
+    SIGNAL EP : STD_LOGIC :='0';
     SIGNAL Instruction_temp : STD_LOGIC_VECTOR(15 DOWNTO 0);
     SIGNAL readReg0_temp, readReg1_temp, writeReg0_temp, writeReg1_temp : STD_LOGIC_VECTOR(2 DOWNTO 0);
     SIGNAL opCode_temp : STD_LOGIC_VECTOR (5 DOWNTO 0);
@@ -205,6 +220,7 @@ ARCHITECTURE IntegrationArch OF Integration IS
     SIGNAL fetchSignals_CU : STD_LOGIC_VECTOR(2 DOWNTO 0);
     SIGNAL regFileSignals_CU : STD_LOGIC_VECTOR(4 DOWNTO 0);
     SIGNAL executeSignals_CU : STD_LOGIC_VECTOR(2 DOWNTO 0);
+    SIGNAL lastOpCode_CU : STD_LOGIC_VECTOR(5 DOWNTO 0);
     SIGNAL memorySignals_CU : STD_LOGIC_VECTOR(6 DOWNTO 0);
 
     SIGNAL readReg0_IF_ID : STD_LOGIC_VECTOR (2 DOWNTO 0);
@@ -223,6 +239,8 @@ ARCHITECTURE IntegrationArch OF Integration IS
     SIGNAL executeSignals_ID_EX : STD_LOGIC_VECTOR(2 DOWNTO 0);
     SIGNAL ImmEaValue_ID_EX : STD_LOGIC_VECTOR (15 DOWNTO 0);
     SIGNAL memorySignals_ID_EX : STD_LOGIC_VECTOR(6 DOWNTO 0);
+    SIGNAL lastOpCode_ID_EX : STD_LOGIC_VECTOR(5 DOWNTO 0);
+
     SIGNAL destReg0_ID_EX_TEMP : STD_LOGIC_VECTOR(2 DOWNTO 0);
     SIGNAL destReg1_ID_EX_TEMP : STD_LOGIC_VECTOR(2 DOWNTO 0);
 
@@ -231,7 +249,10 @@ ARCHITECTURE IntegrationArch OF Integration IS
     SIGNAL destRegIn1_EXE : STD_LOGIC_VECTOR (2 DOWNTO 0);
     SIGNAL writeBackIn_EXE : STD_LOGIC;
     SIGNAL opCode_EXE : STD_LOGIC_VECTOR (5 DOWNTO 0);
-
+    SIGNAL aluEnable : STD_LOGIC;
+    SIGNAL operand2Select : STD_LOGIC;
+    SIGNAL selectedOp2 : STD_LOGIC_VECTOR (31 DOWNTO 0);
+    SIGNAL selectedOpCode : STD_LOGIC_VECTOR (5 DOWNTO 0);
     SIGNAL aluRes : STD_LOGIC_VECTOR (31 DOWNTO 0);
 
     -- SIGNAL aluResIn_EXE_M : STD_LOGIC_VECTOR (31 DOWNTO 0);
@@ -297,11 +318,13 @@ BEGIN
 
     CU : ControlUnit PORT MAP(
         opCode => opCode_CU,
+        enterProcess => EP,
         fetchSignals => fetchSignals_CU,
         regFileSignals => regFileSignals_CU,
         executeSignals => executeSignals_CU,
         memorySignals => memorySignals_CU,
-        isImm => IsImmediate
+        isImm => IsImmediate,
+        lastOpCode => lastOpCode_CU
 
     );
     Read_Instrunction : InstructionMemory PORT MAP(
@@ -357,6 +380,7 @@ BEGIN
         fetchSignals_IN => fetchSignals_CU,
         regFileSignals_IN => regFileSignals_CU,
         executeSignals_IN => executeSignals_CU,
+        lastOpCode_IN => lastOpCode_CU,
         memorySignals_IN => memorySignals_CU,
         opCode_IN => opCode_CU,
 
@@ -368,15 +392,26 @@ BEGIN
         regFileSignals_OUT => regFileSignals_ID_EX,
         executeSignals_OUT => executeSignals_ID_EX,
         memorySignals_OUT => memorySignals_ID_EX,
+        lastOpCode_OUT => lastOpCode_ID_EX,
 
         opCode_OUT => opCode_ID_EX,
         ImmEaValue_OUT => ImmEaValue_ID_EX
         --WB FROM CU
     );
+    OperandSel : AluOperandsSel PORT MAP(
+        readData => readData1_temp,
+        immData => ImmEaValue_temp,
+        opCode => opCode_CU,
+        lastOpCode => lastOpCode_CU,
+        Sel => executeSignals_ID_EX(1),
+        op2 => selectedOp2,
+        opcodeAlu => selectedOpCode
+    );
 
     ExcuteStage : execute PORT MAP(
         op1 => readData0_EXE,
         op2 => readData1_EXE,
+        aluEn => aluEnable,
         opCode => opCode_EXE,
         res => aluRes,
         outPort_EXE => outPort
@@ -458,9 +493,11 @@ BEGIN
                 --DECODE_EXECUTE-->EXECUTE
 
                 readData0_EXE <= readData0_ID_EX;
-                readData1_EXE <= readData1_ID_EX;
-                opCode_EXE <= opCode_ID_EX;
+                readData1_EXE <= selectedOp2;
 
+                opCode_EXE <= selectedOpCode;
+
+                aluEnable <= executeSignals_ID_EX(1);
                 fetchSignals_EX_MEM_TEMP <= fetchSignals_ID_EX;
                 regFileSignals_EX_MEM_TEMP <= regFileSignals_ID_EX;
                 memorySignals_EX_MEM_TEMP <= memorySignals_ID_EX;
@@ -490,6 +527,7 @@ BEGIN
                 resAlu_WB <= resAlu_MEM_WB;
                 WriteEn0_temp <= regFileSignals_MEM_WB(0);
                 WriteEn1_temp <= regFileSignals_MEM_WB(1);
+                EP <= NOT EP;
                 -- address_mem <= (OTHERS => '0');
                 -- writeData_mem <= (OTHERS => '1');
 
