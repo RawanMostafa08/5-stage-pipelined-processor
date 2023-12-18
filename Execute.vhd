@@ -121,7 +121,7 @@ BEGIN
         WHEN "011000" =>
           -- BITSET
           temp_res <= op1;
-          temp_res(to_integer(unsigned(op2))) <= '1';
+          temp_res(to_integer(unsigned(op2(4 DOWNTO 0)))) <= '1';
           res <= temp_res;
           CCR(1) <= temp_res(31);
           IF temp_res = X"00000000"THEN
@@ -135,7 +135,7 @@ BEGIN
           temp_carry := CCR(2);
           -- REPORT "op1 value: " & to_string(op1);
           -- REPORT "op2 value: " & to_string(op2);
-          FOR i IN 1 TO to_integer(unsigned(op2)) LOOP
+          FOR i IN 1 TO to_integer(unsigned(op2(4 DOWNTO 0))) LOOP
             last_bit := temp_rot(31);
             -- REPORT "Entering loop iteration " & INTEGER'image(i);
             temp_rot := temp_rot(30 DOWNTO 0) & temp_carry; -- RCL operation
@@ -153,7 +153,7 @@ BEGIN
           -- RCR
           temp_rot := op1;
           temp_carry := CCR(2);
-          FOR i IN 1 TO to_integer(unsigned(op2)) LOOP
+          FOR i IN 1 TO to_integer(unsigned(op2(4 DOWNTO 0))) LOOP
             last_bit := temp_rot(0);
             temp_rot := temp_carry & temp_rot(31 DOWNTO 1); -- RCL operation
             temp_carry := last_bit;
