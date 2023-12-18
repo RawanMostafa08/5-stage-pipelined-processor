@@ -140,7 +140,6 @@ BEGIN
           END LOOP;
           res <= temp_rot;
           CCR(2) <= temp_carry;
-          -- temp_res <= STD_LOGIC_VECTOR(unsigned(op1) + unsigned(op2));
           CCR(1) <= temp_res(31);
           IF temp_res = X"00000000"THEN
             CCR(0) <= '1';
@@ -149,13 +148,15 @@ BEGIN
           END IF;
         WHEN "011010" =>
           -- RCR
-          temp_res <= op1;
+          temp_rot := op1;
+          temp_carry := CCR(2);
           FOR i IN 1 TO to_integer(unsigned(op2)) LOOP
-            temp_res <= CCR(2) & temp_res(31 DOWNTO 1); -- RCL operation
-            CCR(2) <= temp_res(0);
+            last_bit := temp_rot(0);
+            temp_rot := temp_carry & temp_rot(31 DOWNTO 1); -- RCL operation
+            temp_carry := last_bit;
           END LOOP;
-          -- temp_res <= STD_LOGIC_VECTOR(unsigned(op1) + unsigned(op2));
-          res <= temp_res;
+          res <= temp_rot;
+          CCR(2) <= temp_carry;
           CCR(1) <= temp_res(31);
           IF temp_res = X"00000000"THEN
             CCR(0) <= '1';
