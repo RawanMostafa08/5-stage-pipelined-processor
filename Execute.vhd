@@ -104,6 +104,9 @@ BEGIN
         WHEN "100101" =>
           -- PROTECT
           res <= op1;
+        WHEN "100110" =>
+          -- FREE
+          res <= op1;
         WHEN "010010" =>
           -- ADDI
           reswithcarry <= STD_LOGIC_VECTOR(('0' & signed(op1)) + ('0' & signed(op2)));

@@ -152,6 +152,15 @@ BEGIN
 					executeSignals(0) <= '1'; --aluEn
 					regFileSignals(2) <= '1'; --ren
 
+				WHEN "100110" =>
+					-- FREE
+					isImmediate <= '0';
+					memorySignals(0) <= '1'; --AddressSel
+					memorySignals(1) <= '0'; --AddressSel
+					memorySignals(6) <= '1'; --protect
+					executeSignals(0) <= '1'; --aluEn
+					regFileSignals(2) <= '1'; --ren
+
 				WHEN "100011" =>
 					-- LDD 
 					isImmediate <= '1';
