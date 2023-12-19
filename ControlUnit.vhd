@@ -212,6 +212,15 @@ BEGIN
 					regFileSignals(0) <= '1'; --wb
 					executeSignals(0) <= '1'; --aluEn
 					regFileSignals(2) <= '1'; --ren
+				when "010000"=>
+				--swap
+					isImmediate <= '0';
+					regFileSignals(0) <= '1'; --wb
+					regFileSignals(1) <= '1'; --wb1
+					regFileSignals(2) <= '1'; --ren
+					regFileSignals(3) <= '1'; --memReg
+					regFileSignals(4) <= '1'; --swap
+					executeSignals(0) <= '1'; --aluEn
 
 
 				WHEN OTHERS =>

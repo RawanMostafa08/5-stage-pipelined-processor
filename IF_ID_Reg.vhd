@@ -31,6 +31,7 @@ BEGIN
                 writeReg0 <= Instruction(9 DOWNTO 7);
                 readReg0 <= Instruction(6 DOWNTO 4);
                 readReg1 <= Instruction(3 DOWNTO 1);
+                writeReg1 <=Instruction(6 DOWNTO 4);
             WHEN "10" => --memory
                 opCode <= Instruction(15 DOWNTO 10);
                 writeReg0 <= Instruction(9 DOWNTO 7);

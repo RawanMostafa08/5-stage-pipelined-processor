@@ -126,6 +126,7 @@ ARCHITECTURE IntegrationArch OF Integration IS
             aluEn       : IN STD_LOGIC;
             opCode      : IN STD_LOGIC_VECTOR (5 DOWNTO 0);
             res         : OUT STD_LOGIC_VECTOR (31 DOWNTO 0);
+            res_Swap:OUT STD_LOGIC_VECTOR (31 DOWNTO 0);
             outPort_EXE : OUT STD_LOGIC_VECTOR (31 DOWNTO 0)
         );
     END COMPONENT;
@@ -133,38 +134,43 @@ ARCHITECTURE IntegrationArch OF Integration IS
     COMPONENT exec_mem IS
         PORT (
 
-            ImmEaValue_IN     : IN STD_LOGIC_VECTOR(15 DOWNTO 0);
-            aluResult_IN      : IN STD_LOGIC_VECTOR (31 DOWNTO 0);
-            destReg0_IN       : IN STD_LOGIC_VECTOR (2 DOWNTO 0);
-            destReg1_IN       : IN STD_LOGIC_VECTOR (2 DOWNTO 0);
-            fetchSignals_IN   : IN STD_LOGIC_VECTOR(2 DOWNTO 0);
-            regFileSignals_IN : IN STD_LOGIC_VECTOR(4 DOWNTO 0);
-            memorySignals_IN  : IN STD_LOGIC_VECTOR(6 DOWNTO 0);
+        ImmEaValue_IN : IN STD_LOGIC_VECTOR(15 DOWNTO 0);
+		aluResult_IN : IN STD_LOGIC_VECTOR (31 DOWNTO 0);
+		destReg0_IN : IN STD_LOGIC_VECTOR (2 DOWNTO 0);
+		destReg1_IN : IN STD_LOGIC_VECTOR (2 DOWNTO 0);
+		fetchSignals_IN : IN STD_LOGIC_VECTOR(2 DOWNTO 0);
+		regFileSignals_IN : IN STD_LOGIC_VECTOR(4 DOWNTO 0);
+		memorySignals_IN : IN STD_LOGIC_VECTOR(6 DOWNTO 0);
+		res_Swap_IN:IN STD_LOGIC_VECTOR (31 DOWNTO 0);
 
-            aluResult_OUT      : OUT STD_LOGIC_VECTOR (31 DOWNTO 0);
-            destReg0_OUT       : OUT STD_LOGIC_VECTOR (2 DOWNTO 0);
-            destReg1_OUT       : OUT STD_LOGIC_VECTOR (2 DOWNTO 0);
-            fetchSignals_OUT   : OUT STD_LOGIC_VECTOR(2 DOWNTO 0);
-            regFileSignals_OUT : OUT STD_LOGIC_VECTOR(4 DOWNTO 0);
-            memorySignals_OUT  : OUT STD_LOGIC_VECTOR(6 DOWNTO 0);
-            ImmEaValue_OUT     : OUT STD_LOGIC_VECTOR(15 DOWNTO 0)
+
+		aluResult_OUT : OUT STD_LOGIC_VECTOR (31 DOWNTO 0);
+		destReg0_OUT : OUT STD_LOGIC_VECTOR (2 DOWNTO 0);
+		destReg1_OUT : OUT STD_LOGIC_VECTOR (2 DOWNTO 0);
+		fetchSignals_OUT : OUT STD_LOGIC_VECTOR(2 DOWNTO 0);
+		regFileSignals_OUT : OUT STD_LOGIC_VECTOR(4 DOWNTO 0);
+		memorySignals_OUT : OUT STD_LOGIC_VECTOR(6 DOWNTO 0);
+		ImmEaValue_OUT : OUT STD_LOGIC_VECTOR(15 DOWNTO 0);
+		res_Swap_OUT:OUT STD_LOGIC_VECTOR (31 DOWNTO 0)
         );
     END COMPONENT;
     COMPONENT mem_writeBack IS
         PORT (
-            resMem_IN         : IN STD_LOGIC_VECTOR (31 DOWNTO 0);
-            resAlu_IN         : IN STD_LOGIC_VECTOR (31 DOWNTO 0);
-            destReg0_IN       : IN STD_LOGIC_VECTOR (2 DOWNTO 0);
-            destReg1_IN       : IN STD_LOGIC_VECTOR (2 DOWNTO 0);
-            regFileSignals_IN : IN STD_LOGIC_VECTOR(4 DOWNTO 0);
-            memorySignals_IN  : IN STD_LOGIC_VECTOR(6 DOWNTO 0);
-
-            resMem_OUT         : OUT STD_LOGIC_VECTOR (31 DOWNTO 0);
-            resAlu_OUT         : OUT STD_LOGIC_VECTOR (31 DOWNTO 0);
-            destReg0_OUT       : OUT STD_LOGIC_VECTOR (2 DOWNTO 0);
-            destReg1_OUT       : OUT STD_LOGIC_VECTOR (2 DOWNTO 0);
-            regFileSignals_OUT : OUT STD_LOGIC_VECTOR(4 DOWNTO 0);
-            memorySignals_OUT  : OUT STD_LOGIC_VECTOR(6 DOWNTO 0)
+            resMem_IN : IN STD_LOGIC_VECTOR (31 DOWNTO 0);
+            resAlu_IN : IN STD_LOGIC_VECTOR (31 DOWNTO 0);
+            swapAlu_IN : IN STD_LOGIC_VECTOR (31 DOWNTO 0);
+            destReg0_IN : IN STD_LOGIC_VECTOR (2 DOWNTO 0);
+            destReg1_IN : IN STD_LOGIC_VECTOR (2 DOWNTO 0);
+            regFileSignals_IN :IN STD_LOGIC_VECTOR(4 DOWNTO 0);
+            memorySignals_IN :IN STD_LOGIC_VECTOR(6 DOWNTO 0);
+    
+            resMem_OUT : OUT STD_LOGIC_VECTOR (31 DOWNTO 0);
+            resAlu_OUT : OUT STD_LOGIC_VECTOR (31 DOWNTO 0);
+            swapAlu_OUT : OUT STD_LOGIC_VECTOR (31 DOWNTO 0);
+            destReg0_OUT : OUT STD_LOGIC_VECTOR (2 DOWNTO 0);
+            destReg1_OUT : OUT STD_LOGIC_VECTOR (2 DOWNTO 0);
+            regFileSignals_OUT :OUT STD_LOGIC_VECTOR(4 DOWNTO 0);
+            memorySignals_OUT  :OUT STD_LOGIC_VECTOR(6 DOWNTO 0)
         );
     END COMPONENT;
 
@@ -172,8 +178,11 @@ ARCHITECTURE IntegrationArch OF Integration IS
         PORT (
             resMem : IN STD_LOGIC_VECTOR (31 DOWNTO 0);
             resAlu : IN STD_LOGIC_VECTOR (31 DOWNTO 0);
+            swapAlu : IN STD_LOGIC_VECTOR (31 DOWNTO 0);
             memReg : IN STD_LOGIC;
-            res    : OUT STD_LOGIC_VECTOR (31 DOWNTO 0)
+            swap :IN std_logic;
+            Swap_Out: OUT std_logic_vector(31 downto 0);
+            res : OUT STD_LOGIC_VECTOR (31 DOWNTO 0)
             --regAddress:IN std_logic_vector(2 downto 0)
         );
     END COMPONENT;
@@ -254,6 +263,7 @@ ARCHITECTURE IntegrationArch OF Integration IS
     SIGNAL selectedOp2     : STD_LOGIC_VECTOR (31 DOWNTO 0);
     SIGNAL selectedOpCode  : STD_LOGIC_VECTOR (5 DOWNTO 0);
     SIGNAL aluRes          : STD_LOGIC_VECTOR (31 DOWNTO 0);
+    SIGNAL res_Swap_temp          : STD_LOGIC_VECTOR (31 DOWNTO 0);
 
     -- SIGNAL aluResIn_EXE_M : STD_LOGIC_VECTOR (31 DOWNTO 0);
     -- SIGNAL destRegIn0_EXE_M : STD_LOGIC_VECTOR (2 DOWNTO 0);
@@ -265,6 +275,7 @@ ARCHITECTURE IntegrationArch OF Integration IS
     -- SIGNAL writeBackOut_EXE_M : STD_LOGIC;
 
     SIGNAL aluResult_EX_MEM           : STD_LOGIC_VECTOR (31 DOWNTO 0);
+    SIGNAL swapResult_EX_MEM           : STD_LOGIC_VECTOR (31 DOWNTO 0);
     SIGNAL destReg0_EX_MEM            : STD_LOGIC_VECTOR (2 DOWNTO 0);
     SIGNAL destReg1_EX_MEM            : STD_LOGIC_VECTOR (2 DOWNTO 0);
     SIGNAL fetchSignals_EX_MEM        : STD_LOGIC_VECTOR(2 DOWNTO 0);
@@ -293,6 +304,7 @@ ARCHITECTURE IntegrationArch OF Integration IS
     SIGNAL memRegOut_M_WB             : STD_LOGIC;
 
     SIGNAL resAlu_MEM_WB_TEMP         : STD_LOGIC_VECTOR(31 DOWNTO 0);
+    SIGNAL Swap_MEM_WB_TEMP         : STD_LOGIC_VECTOR(31 DOWNTO 0);
     SIGNAL destReg0_MEM_WB_TEMP       : STD_LOGIC_VECTOR(2 DOWNTO 0);
     SIGNAL destReg1_MEM_WB_TEMP       : STD_LOGIC_VECTOR(2 DOWNTO 0);
     SIGNAL memorySignals_MEM_WB_TEMP  : STD_LOGIC_VECTOR(6 DOWNTO 0);
@@ -311,7 +323,9 @@ ARCHITECTURE IntegrationArch OF Integration IS
 
     SIGNAL resMem_WB : STD_LOGIC_VECTOR(31 DOWNTO 0);
     SIGNAL resAlu_WB : STD_LOGIC_VECTOR(31 DOWNTO 0);
+    SIGNAL swapAlu_WB : STD_LOGIC_VECTOR(31 DOWNTO 0);
     SIGNAL memReg_WB : STD_LOGIC;
+    SIGNAL swap_WB : STD_LOGIC;
 
     SIGNAL address_result : STD_LOGIC_VECTOR(11 DOWNTO 0);
 BEGIN
@@ -414,6 +428,7 @@ BEGIN
         aluEn       => aluEnable,
         opCode      => opCode_EXE,
         res         => aluRes,
+        res_Swap    =>res_Swap_temp,
         outPort_EXE => outPort
     );
 
@@ -425,6 +440,7 @@ BEGIN
         fetchSignals_IN   => fetchSignals_EX_MEM_TEMP,
         regFileSignals_IN => regFileSignals_EX_MEM_TEMP,
         memorySignals_IN  => memorySignals_EX_MEM_TEMP,
+        res_Swap_IN       =>res_Swap_temp,
 
         aluResult_OUT      => aluResult_EX_MEM,
         destReg0_OUT       => destReg0_EX_MEM,
@@ -432,7 +448,9 @@ BEGIN
         fetchSignals_OUT   => fetchSignals_EX_MEM,
         regFileSignals_OUT => regFileSignals_EX_MEM,
         memorySignals_OUT  => memorySignals_EX_MEM,
-        ImmEaValue_OUT     => ImmEaValue_EX_MEM
+        ImmEaValue_OUT     => ImmEaValue_EX_MEM,
+        res_Swap_OUT       =>swapResult_EX_MEM
+
     );
 
     AddressSelect_Stage : AddressSel PORT MAP(
@@ -459,19 +477,24 @@ BEGIN
         destReg1_IN       => destReg1_MEM_WB_TEMP,
         regFileSignals_IN => regFileSignals_MEM_WB_TEMP,
         memorySignals_IN  => memorySignals_MEM_WB_TEMP,
+        swapAlu_IN        =>swapResult_EX_MEM,
 
         resMem_OUT         => readData_Mem_WB,
         resAlu_OUT         => resAlu_MEM_WB,
         destReg0_OUT       => destReg0_MEM_WB,
         destReg1_OUT       => destReg1_MEM_WB,
         regFileSignals_OUT => regFileSignals_MEM_WB,
-        memorySignals_OUT  => memorySignals_MEM_WB
+        memorySignals_OUT  => memorySignals_MEM_WB,
+        swapAlu_OUT        =>Swap_MEM_WB_TEMP
     );
 
     WB : writeBack PORT MAP(
         resMem => resMem_WB,
         resAlu => resAlu_WB,
+        swapAlu =>swapAlu_WB,
         memReg => memReg_WB,
+        swap =>swap_WB,
+        Swap_Out =>regFile_WriteData1,
         res    => regFile_WriteData0
     );
     PROCESS (clk, load)
@@ -522,9 +545,12 @@ BEGIN
                 memorySignals_MEM_WB_TEMP  <= memorySignals_EX_MEM;
                 regFileSignals_MEM_WB_TEMP <= regFileSignals_EX_MEM;
                 memReg_WB                  <= regFileSignals_MEM_WB(3);
+                swap_WB                  <= regFileSignals_MEM_WB(4);
                 writeReg0_temp             <= destReg0_MEM_WB;
+                writeReg1_temp             <= destReg1_MEM_WB;
                 resMem_WB                  <= readData_Mem_WB;
                 resAlu_WB                  <= resAlu_MEM_WB;
+                swapAlu_WB                 <=Swap_MEM_WB_TEMP;
                 WriteEn0_temp              <= regFileSignals_MEM_WB(0);
                 WriteEn1_temp              <= regFileSignals_MEM_WB(1);
                 EP                         <= NOT EP;

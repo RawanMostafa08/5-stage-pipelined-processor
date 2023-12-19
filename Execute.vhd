@@ -9,6 +9,7 @@ ENTITY execute IS
     aluEn : IN STD_LOGIC;
     opCode : IN STD_LOGIC_VECTOR (5 DOWNTO 0);
     res : OUT STD_LOGIC_VECTOR (31 DOWNTO 0);
+    res_Swap:OUT STD_LOGIC_VECTOR (31 DOWNTO 0);
     outPort_EXE : OUT STD_LOGIC_VECTOR (31 DOWNTO 0)
   );
 END execute;
@@ -192,6 +193,12 @@ BEGIN
           ELSE
             CCR(0) <= '0';
           END IF;
+          When "010000"=>
+          -- swap
+           temp_res <= op1;
+           res <= temp_res;
+           res_Swap <=op2;
+
 
         WHEN OTHERS =>
           -- Default case when opCode does not match any of the specified values
