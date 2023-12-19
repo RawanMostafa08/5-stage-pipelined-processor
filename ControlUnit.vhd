@@ -191,6 +191,29 @@ BEGIN
 					regFileSignals(0) <= '0'; --Wb
 					executeSignals(0) <= '0'; --aluEn
 					regFileSignals(2) <= '1'; --ren
+				when "000000"=>
+					--NOP
+					isImmediate <= '0';
+					fetchSignals <= (OTHERS => '0');
+					regFileSignals <= (OTHERS => '0');
+					executeSignals <= (OTHERS => '0');
+					memorySignals <= (OTHERS => '0');
+				when "000011" =>
+				    --INC
+					isImmediate <= '0';
+					regFileSignals(3) <= '1'; --memReg
+					regFileSignals(0) <= '1'; --wb
+					executeSignals(0) <= '1'; --aluEn
+					regFileSignals(2) <= '1'; --ren
+				when "000010" =>
+					--NEG
+					isImmediate <= '0';
+					regFileSignals(3) <= '1'; --memReg
+					regFileSignals(0) <= '1'; --wb
+					executeSignals(0) <= '1'; --aluEn
+					regFileSignals(2) <= '1'; --ren
+
+
 				WHEN OTHERS =>
 					fetchSignals <= (OTHERS => '0');
 					regFileSignals <= (OTHERS => '0');

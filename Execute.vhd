@@ -166,6 +166,33 @@ BEGIN
           ELSE
             CCR(0) <= '0';
           END IF;
+        When "000011"=>
+        --INC
+         temp_res <= STD_LOGIC_VECTOR(signed(op1) + 1);
+         res <= temp_res;
+         CCR(1) <= temp_res(31);
+         --in case of adding -1+1
+         IF temp_res = X"00000000"THEN
+           CCR(0) <= '1';
+         ELSE
+           CCR(0) <= '0';
+         END IF;
+         IF op1 = X"FFFFFFFF"THEN
+           CCR(2) <= '1';
+         ELSE
+           CCR(2) <= '0';
+         END IF;
+         When "000010"=>
+         --NEG
+          temp_res <= STD_LOGIC_VECTOR(0-signed(op1));
+          res <= temp_res;
+          CCR(1) <= temp_res(31);
+          IF temp_res = X"00000000"THEN
+            CCR(0) <= '1';
+          ELSE
+            CCR(0) <= '0';
+          END IF;
+
         WHEN OTHERS =>
           -- Default case when opCode does not match any of the specified values
           NULL;
