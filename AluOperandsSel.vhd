@@ -23,11 +23,18 @@ END AluOperandsSel;
 
 ARCHITECTURE archAluOperandsSel OF AluOperandsSel IS
 BEGIN
-    op2 <= readData2 WHEN Sel = '0' ELSE
+
+    op2 <= AlutoAluop2 WHEN forwardingsignalop2(0) = '1' AND Sel = '0' ELSE
+        MemtoAluop2 WHEN forwardingsignalop2(1) = '1'AND Sel = '0' ELSE
+        readData2 WHEN sel = '0' ELSE
         (immData'RANGE => immData(15)) & immData;
     opcodeAlu <= opCode WHEN Sel = '0' ELSE
         lastOpCode;
-    -- op1 <= readData1;
+    -- op2 <= readData2 WHEN Sel = '0' ELSE
+    --     (immData'RANGE => immData(15)) & immData;
+    -- opcodeAlu <= opCode WHEN Sel = '0' ELSE
+    --     lastOpCode;
+
     op1 <= AlutoAluop1 WHEN forwardingsignalop1(0) = '1' ELSE
         MemtoAluop1 WHEN forwardingsignalop1(1) = '1' ELSE
         readData1;
