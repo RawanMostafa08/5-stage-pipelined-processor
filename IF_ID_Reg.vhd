@@ -41,6 +41,10 @@ BEGIN
                 opCode <= Instruction(15 DOWNTO 10);
                 writeReg0 <= Instruction(9 DOWNTO 7);
             WHEN OTHERS =>
+                opCode <= (others => 'X');
+                writeReg0 <= (others => 'X');
+                readReg0 <= (others => 'X');
+                readReg1 <= (others => 'X');
         END CASE;
     END PROCESS;
 

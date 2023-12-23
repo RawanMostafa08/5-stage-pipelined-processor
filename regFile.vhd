@@ -33,6 +33,7 @@ BEGIN
 
 	PROCESS (clk, WriteData0,SEL0,SEL1,SEL2,SEL3, WriteData1, R0, R1, R2, R3, R4, R5, R6, R7)
 	BEGIN
+	report "regfile";
 		IF Reset = '1' THEN
 			R0 <= (OTHERS => '0');
 			R1 <= (OTHERS => '0');

@@ -48,3 +48,20 @@ force -freeze sim:/integration/load 1 0
 run
 force -freeze sim:/integration/reset 0 0
 force -freeze sim:/integration/load 0 0
+force -deposit sim:/integration/Register_File/R2 ffffffff 0
+add wave -position 26  sim:/integration/FU/forwardingsignalsop1
+add wave -position 27  sim:/integration/FU/forwardingsignalsop2
+add wave -position 28  sim:/integration/FU/Rsrc1
+add wave -position 29  sim:/integration/FU/Rsrc2
+add wave -position 30  sim:/integration/FU/RegExecuteMem
+add wave -position 31  sim:/integration/FU/RegMemWb
+add wave -position 32  sim:/integration/ExcuteStage/op1
+add wave -position 33  sim:/integration/ExcuteStage/op2
+add wave -position 34  sim:/integration/ExcuteStage/aluEn
+add wave -position 35  sim:/integration/ExcuteStage/res
+add wave -position 32  sim:/integration/OperandSel/op1
+add wave -position 33  sim:/integration/OperandSel/op2
+add wave -position 38  sim:/integration/ExcuteStage/opCode
+add wave -position 38  sim:/integration/OperandSel/opCode
+add wave -position 39  sim:/integration/OperandSel/opcodeAlu
+add wave -position 35  sim:/integration/OperandSel/Sel

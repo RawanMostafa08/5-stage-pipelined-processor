@@ -81,19 +81,21 @@ ARCHITECTURE IntegrationArch OF Integration IS
     END COMPONENT;
     COMPONENT AluOperandsSel IS
         PORT (
-            readData : IN STD_LOGIC_VECTOR (31 DOWNTO 0);
-            readData1 : IN STD_LOGIC_VECTOR (31 DOWNTO 0);
-            immData : IN STD_LOGIC_VECTOR (15 DOWNTO 0);
-            opCode : IN STD_LOGIC_VECTOR (5 DOWNTO 0);
-            lastOpCode : IN STD_LOGIC_VECTOR (5 DOWNTO 0);
-            AlutoAluop1 : IN STD_LOGIC_VECTOR (31 DOWNTO 0);
-            AlutoAluop2 : IN STD_LOGIC_VECTOR (31 DOWNTO 0);
-            Sel : IN STD_LOGIC;
-            forwardingsignalop1 : IN STD_LOGIC_VECTOR(1 DOWNTO 0);
-            forwardingsignalop2 : IN STD_LOGIC_VECTOR(1 DOWNTO 0);
-            op1 : OUT STD_LOGIC_VECTOR (31 DOWNTO 0);
-            op2 : OUT STD_LOGIC_VECTOR (31 DOWNTO 0);
-            opcodeAlu : OUT STD_LOGIC_VECTOR(5 DOWNTO 0)
+             readData2 : IN STD_LOGIC_VECTOR (31 DOWNTO 0);--op2
+        readData1 : IN STD_LOGIC_VECTOR (31 DOWNTO 0);
+        immData : IN STD_LOGIC_VECTOR (15 DOWNTO 0);
+        opCode : IN STD_LOGIC_VECTOR (5 DOWNTO 0);
+        lastOpCode : IN STD_LOGIC_VECTOR (5 DOWNTO 0);
+        AlutoAluop1 : IN STD_LOGIC_VECTOR (31 DOWNTO 0);
+        AlutoAluop2 : IN STD_LOGIC_VECTOR (31 DOWNTO 0);
+        MemtoAluop1 : IN STD_LOGIC_VECTOR (31 DOWNTO 0);
+        MemtoAluop2 : IN STD_LOGIC_VECTOR (31 DOWNTO 0);
+        Sel : IN STD_LOGIC;
+        forwardingsignalop1:in std_logic_vector(1 downto 0); --alu-mem
+        forwardingsignalop2:in std_logic_vector(1 downto 0); --alu-mem
+        op1 : OUT STD_LOGIC_VECTOR (31 DOWNTO 0);
+        op2 : OUT STD_LOGIC_VECTOR (31 DOWNTO 0);
+        opcodeAlu : OUT STD_LOGIC_VECTOR(5 DOWNTO 0)
         );
     END COMPONENT;
     COMPONENT dec_exec IS
@@ -105,6 +107,8 @@ ARCHITECTURE IntegrationArch OF Integration IS
             readData1_IN : IN STD_LOGIC_VECTOR (31 DOWNTO 0);
             destReg0_IN : IN STD_LOGIC_VECTOR (2 DOWNTO 0);
             destReg1_IN : IN STD_LOGIC_VECTOR (2 DOWNTO 0);
+            srcReg0_IN : IN STD_LOGIC_VECTOR (2 DOWNTO 0);
+            srcReg1_IN : IN STD_LOGIC_VECTOR (2 DOWNTO 0);
             opCode_IN : IN STD_LOGIC_VECTOR (5 DOWNTO 0);
             fetchSignals_IN : IN STD_LOGIC_VECTOR(2 DOWNTO 0);
             regFileSignals_IN : IN STD_LOGIC_VECTOR(4 DOWNTO 0);
@@ -116,6 +120,8 @@ ARCHITECTURE IntegrationArch OF Integration IS
             readData1_OUT : OUT STD_LOGIC_VECTOR (31 DOWNTO 0);
             destReg0_OUT : OUT STD_LOGIC_VECTOR (2 DOWNTO 0);
             destReg1_OUT : OUT STD_LOGIC_VECTOR (2 DOWNTO 0);
+            srcReg0_OUT : OUT STD_LOGIC_VECTOR (2 DOWNTO 0);
+            srcReg1_OUT : OUT STD_LOGIC_VECTOR (2 DOWNTO 0);
             opCode_OUT : OUT STD_LOGIC_VECTOR (5 DOWNTO 0);
             fetchSignals_OUT : OUT STD_LOGIC_VECTOR(2 DOWNTO 0);
             regFileSignals_OUT : OUT STD_LOGIC_VECTOR(4 DOWNTO 0);
@@ -257,6 +263,8 @@ ARCHITECTURE IntegrationArch OF Integration IS
     SIGNAL readData1_ID_EX : STD_LOGIC_VECTOR (31 DOWNTO 0);
     SIGNAL destReg0_ID_EX : STD_LOGIC_VECTOR (2 DOWNTO 0);
     SIGNAL destReg1_ID_EX : STD_LOGIC_VECTOR (2 DOWNTO 0);
+    SIGNAL srcReg0_ID_EX : STD_LOGIC_VECTOR (2 DOWNTO 0);
+    SIGNAL srcReg1_ID_EX : STD_LOGIC_VECTOR (2 DOWNTO 0);
     SIGNAL opCode_ID_EX : STD_LOGIC_VECTOR (5 DOWNTO 0);
     SIGNAL fetchSignals_ID_EX : STD_LOGIC_VECTOR(2 DOWNTO 0);
     SIGNAL regFileSignals_ID_EX : STD_LOGIC_VECTOR(4 DOWNTO 0);
@@ -267,6 +275,8 @@ ARCHITECTURE IntegrationArch OF Integration IS
 
     SIGNAL destReg0_ID_EX_TEMP : STD_LOGIC_VECTOR(2 DOWNTO 0);
     SIGNAL destReg1_ID_EX_TEMP : STD_LOGIC_VECTOR(2 DOWNTO 0);
+    SIGNAL srcReg0_ID_EX_TEMP : STD_LOGIC_VECTOR(2 DOWNTO 0);
+    SIGNAL srcReg1_ID_EX_TEMP : STD_LOGIC_VECTOR(2 DOWNTO 0);
 
     SIGNAL readData0_EXE : STD_LOGIC_VECTOR(31 DOWNTO 0);
     SIGNAL readData1_EXE : STD_LOGIC_VECTOR(31 DOWNTO 0);
@@ -346,10 +356,19 @@ ARCHITECTURE IntegrationArch OF Integration IS
     SIGNAL address_result : STD_LOGIC_VECTOR(11 DOWNTO 0);
     SIGNAL forwardingsignal1_FU : STD_LOGIC_VECTOR(1 DOWNTO 0);
     SIGNAL forwardingsignal2_FU : STD_LOGIC_VECTOR(1 DOWNTO 0);
-    signal op1_FU:STD_LOGIC_VECTOR(1 DOWNTO 0);
-    signal op2_FU:STD_LOGIC_VECTOR(1 DOWNTO 0);
-    signal RegExecuteMem_FU :STD_LOGIC_VECTOR(2 DOWNTO 0);
-    signal RegMemWb_FU :STD_LOGIC_VECTOR(2 DOWNTO 0);
+    SIGNAL op1_FU : STD_LOGIC_VECTOR(1 DOWNTO 0);
+    SIGNAL op2_FU : STD_LOGIC_VECTOR(1 DOWNTO 0);
+    SIGNAL RegExecuteMem_FU : STD_LOGIC_VECTOR(2 DOWNTO 0);
+    SIGNAL RegMemWb_FU : STD_LOGIC_VECTOR(2 DOWNTO 0);
+    signal srcReg0_FU : std_logic_vector (2 downto 0);
+    signal srcReg1_FU : std_logic_vector (2 downto 0);
+
+    SIGNAL readData1_opSel : STD_LOGIC_VECTOR (31 DOWNTO 0);
+    SIGNAL readData0_opSel : STD_LOGIC_VECTOR (31 DOWNTO 0);
+    SIGNAL ImmEaValue_opSel : STD_LOGIC_VECTOR (15 DOWNTO 0);
+    SIGNAL opCode_opSel : STD_LOGIC_VECTOR (5 DOWNTO 0);
+    SIGNAL lastOpCode_opSel : STD_LOGIC_VECTOR (5 DOWNTO 0);
+    SIGNAL executeSignals_opSel : STD_LOGIC;
 BEGIN
 
     CU : ControlUnit PORT MAP(
@@ -413,6 +432,8 @@ BEGIN
         readData1_IN => readData1_temp,
         destReg0_IN => destReg0_ID_EX_TEMP,
         destReg1_IN => destReg1_ID_EX_TEMP,
+        srcReg0_IN => srcReg0_ID_EX_TEMP,
+        srcReg1_IN => srcReg1_ID_EX_TEMP,
         fetchSignals_IN => fetchSignals_CU,
         regFileSignals_IN => regFileSignals_CU,
         executeSignals_IN => executeSignals_CU,
@@ -424,6 +445,8 @@ BEGIN
         readData1_OUT => readData1_ID_EX,
         destReg0_OUT => destReg0_ID_EX,
         destReg1_OUT => destReg1_ID_EX,
+        srcReg0_OUT => srcReg0_ID_EX,
+        srcReg1_OUT => srcReg1_ID_EX,
         fetchSignals_OUT => fetchSignals_ID_EX,
         regFileSignals_OUT => regFileSignals_ID_EX,
         executeSignals_OUT => executeSignals_ID_EX,
@@ -435,19 +458,21 @@ BEGIN
         --WB FROM CU
     );
     OperandSel : AluOperandsSel PORT MAP(
-        readData => readData1_temp,
-        readData1 => readData0_temp,
-        immData => ImmEaValue_temp,
-        opCode => opCode_CU,
-        lastOpCode => lastOpCode_CU,
-        Sel => executeSignals_ID_EX(1),
-        forwardingsignalop1 => forwardingsignal1_FU,
-        forwardingsignalop2 => forwardingsignal2_FU,
-        op1 => selectedOp1,
-        op2 => selectedOp2,
-        opcodeAlu => selectedOpCode,
-        AlutoAluop1 => aluRes,
-        AlutoAluop2 => aluRes
+        readData2 => readData1_opSel,
+        readData1 => readData0_opSel,
+        immData => ImmEaValue_opSel,
+        opCode => opCode_opSel,
+        lastOpCode => lastOpCode_opSel,
+        Sel => executeSignals_opSel,
+        forwardingsignalop1 => op1_FU,
+        forwardingsignalop2 => op2_FU,
+        op1 => readData0_EXE,
+        op2 => readData1_EXE,
+        opcodeAlu => opCode_EXE,
+        AlutoAluop1 => aluResult_EX_MEM,
+        AlutoAluop2 => aluResult_EX_MEM,
+        MemtoAluop1 => readData_Mem_WB,
+        MemtoAluop2 => readData_Mem_WB
     );
 
     ExcuteStage : execute PORT MAP(
@@ -526,14 +551,14 @@ BEGIN
         res => regFile_WriteData0
     );
 
-    FU :ForwardingUnit
-    PORT map(
-        Rsrc1 =>readReg0_temp,
-        Rsrc2 =>readReg1_temp,
-        RegExecuteMem =>RegExecuteMem_FU,
-        RegMemWb =>     RegMemWb_FU,
-        forwardingsignalsop1 =>op1_FU,
-        forwardingsignalsop2 =>op2_FU
+    FU : ForwardingUnit
+    PORT MAP(
+        Rsrc1 => srcReg0_FU,
+        Rsrc2 => srcReg1_FU,
+        RegExecuteMem => RegExecuteMem_FU,
+        RegMemWb => RegMemWb_FU,
+        forwardingsignalsop1 => op1_FU,
+        forwardingsignalsop2 => op2_FU
     );
 
     PROCESS (clk, load)
@@ -555,15 +580,21 @@ BEGIN
                 --DECODE_EXECUTE-->EXECUTE
 
                 -- readData0_EXE <= readData0_ID_EX;
-                readData0_EXE <= selectedOp1;
-                readData1_EXE <= selectedOp2;
-                forwardingsignal1_FU<=op1_FU;
-                forwardingsignal2_FU<=op2_FU;
+                -- readData0_EXE <= selectedOp1;
+                -- readData1_EXE <= selectedOp2;
+                -- forwardingsignal1_FU <= op1_FU;
+                -- forwardingsignal2_FU <= op2_FU;
+                readData1_opSel<=readData1_ID_EX;
+                readData0_opSel<=readData0_ID_EX;
+                opCode_opSel<=opCode_ID_EX;
+                lastOpCode_opSel<=lastOpCode_ID_EX;
+                RegExecuteMem_FU <= destReg0_EX_MEM;
+                RegMemWb_FU <= destReg0_MEM_WB;
 
-                RegExecuteMem_FU<=destReg0_EX_MEM;
-                 RegMemWb_FU <=destReg0_MEM_WB;
-
-                opCode_EXE <= selectedOpCode;
+                srcReg0_FU<=srcReg0_ID_EX;
+                srcReg1_FU<=srcReg1_ID_EX;
+                executeSignals_opSel<=executeSignals_ID_EX(1);
+                -- opCode_EXE <= selectedOpCode;
 
                 aluEnable <= executeSignals_ID_EX(0);
                 fetchSignals_EX_MEM_TEMP <= fetchSignals_ID_EX;
@@ -572,6 +603,9 @@ BEGIN
 
                 destReg0_ID_EX_TEMP <= writeReg0_IF_ID;
                 destReg1_ID_EX_TEMP <= writeReg1_IF_ID;
+
+                srcReg0_ID_EX_TEMP <= readReg0_IF_ID;
+                srcReg1_ID_EX_TEMP <= readReg1_IF_ID;
 
                 destReg0_EX_MEM_TEMP <= destReg0_ID_EX;
                 destReg1_EX_MEM_TEMP <= destReg1_ID_EX;

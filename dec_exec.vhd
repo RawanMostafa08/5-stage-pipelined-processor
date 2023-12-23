@@ -9,6 +9,8 @@ ENTITY dec_exec IS
             readData1_IN : IN STD_LOGIC_VECTOR (31 DOWNTO 0);
             destReg0_IN : IN STD_LOGIC_VECTOR (2 DOWNTO 0);
             destReg1_IN : IN STD_LOGIC_VECTOR (2 DOWNTO 0);
+            srcReg0_IN : IN STD_LOGIC_VECTOR (2 DOWNTO 0);
+            srcReg1_IN : IN STD_LOGIC_VECTOR (2 DOWNTO 0);
             opCode_IN : IN STD_LOGIC_VECTOR (5 DOWNTO 0);
             fetchSignals_IN : IN STD_LOGIC_VECTOR(2 DOWNTO 0);
             regFileSignals_IN : IN STD_LOGIC_VECTOR(4 DOWNTO 0);
@@ -20,6 +22,8 @@ ENTITY dec_exec IS
             readData1_OUT : OUT STD_LOGIC_VECTOR (31 DOWNTO 0);
             destReg0_OUT : OUT STD_LOGIC_VECTOR (2 DOWNTO 0);
             destReg1_OUT : OUT STD_LOGIC_VECTOR (2 DOWNTO 0);
+            srcReg0_OUT : OUT STD_LOGIC_VECTOR (2 DOWNTO 0);
+            srcReg1_OUT : OUT STD_LOGIC_VECTOR (2 DOWNTO 0);
             opCode_OUT : OUT STD_LOGIC_VECTOR (5 DOWNTO 0);
             fetchSignals_OUT : OUT STD_LOGIC_VECTOR(2 DOWNTO 0);
             regFileSignals_OUT : OUT STD_LOGIC_VECTOR(4 DOWNTO 0);
@@ -41,6 +45,8 @@ BEGIN
       regFileSignals_OUT <= regFileSignals_IN;
       executeSignals_OUT <= executeSignals_IN;
       memorySignals_OUT <= memorySignals_IN;
+      srcReg0_OUT<=  srcReg0_IN;
+      srcReg1_OUT<=  srcReg1_IN;
       PROCESS (clk)
       BEGIN
             IF isImm = '1' THEN

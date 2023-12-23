@@ -25,6 +25,7 @@ BEGIN
     VARIABLE temp_carry : STD_LOGIC;
     VARIABLE last_bit : STD_LOGIC;
   BEGIN
+  report "execute";
     IF aluEn = '1' THEN
       CASE opCode IS
         WHEN "000001" =>
