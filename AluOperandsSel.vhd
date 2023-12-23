@@ -13,8 +13,8 @@ ENTITY AluOperandsSel IS
         MemtoAluop1 : IN STD_LOGIC_VECTOR (31 DOWNTO 0);
         MemtoAluop2 : IN STD_LOGIC_VECTOR (31 DOWNTO 0);
         Sel : IN STD_LOGIC;
-        forwardingsignalop1:in std_logic_vector(1 downto 0); --alu-mem
-        forwardingsignalop2:in std_logic_vector(1 downto 0); --alu-mem
+        forwardingsignalop1 : IN STD_LOGIC_VECTOR(1 DOWNTO 0); --alu-mem
+        forwardingsignalop2 : IN STD_LOGIC_VECTOR(1 DOWNTO 0); --alu-mem
         op1 : OUT STD_LOGIC_VECTOR (31 DOWNTO 0);
         op2 : OUT STD_LOGIC_VECTOR (31 DOWNTO 0);
         opcodeAlu : OUT STD_LOGIC_VECTOR(5 DOWNTO 0)
@@ -27,7 +27,9 @@ BEGIN
         (immData'RANGE => immData(15)) & immData;
     opcodeAlu <= opCode WHEN Sel = '0' ELSE
         lastOpCode;
-    op1 <=AlutoAluop1 when forwardingsignalop1(0) ='1' else
+    -- op1 <= readData1;
+    op1 <= AlutoAluop1 WHEN forwardingsignalop1(0) = '1' ELSE
+        MemtoAluop1 WHEN forwardingsignalop1(1) = '1' ELSE
         readData1;
 
 END archAluOperandsSel;

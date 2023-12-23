@@ -1,31 +1,5 @@
-nop
-NEG R0
-DEC R2
-not R7
-out r3
-INC R1
-addi r7,r0,ffff
-swap r1,r2
-add r1,r2,r3
-sub r0,r1,r3
-and r7,r7,r7
-in r4
-or r1,r2,r5
-rcl r4,5
-xor r3,r3,R6
-bitset r1,16
-cmp r4,r5
-rcr r5,7
-push r1
-pop r7
-ldm r4,7
-free r0
-LDD r0,fffff
-std r1,fff
-std r1,00fff
-protect r1
-jz r3
-Rti
-jmp r1
-call r5
-ret
+neg r2
+or r1, r2, r0
+add r3,r2,r4
+or r7, r3, r6
+dec r7

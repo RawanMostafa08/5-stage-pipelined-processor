@@ -65,3 +65,15 @@ add wave -position 38  sim:/integration/ExcuteStage/opCode
 add wave -position 38  sim:/integration/OperandSel/opCode
 add wave -position 39  sim:/integration/OperandSel/opcodeAlu
 add wave -position 35  sim:/integration/OperandSel/Sel
+add wave -position 41  sim:/integration/OperandSel/readData2
+add wave -position 42  sim:/integration/OperandSel/readData1
+add wave -position 44  sim:/integration/readData0_ID_EX
+add wave -position 45  sim:/integration/readData1_ID_EX
+add wave -position 46  sim:/integration/srcReg0_ID_EX
+add wave -position 47  sim:/integration/srcReg1_ID_EX
+add wave -position 43  sim:/integration/OperandSel/forwardingsignalop1
+add wave -position 44  sim:/integration/OperandSel/forwardingsignalop2
+add wave -position 36  sim:/integration/OperandSel/AlutoAluop1
+add wave -position 37  sim:/integration/OperandSel/AlutoAluop2
+add wave -position 38  sim:/integration/OperandSel/MemtoAluop1
+add wave -position 39  sim:/integration/OperandSel/MemtoAluop2

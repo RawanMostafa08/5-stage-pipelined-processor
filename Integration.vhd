@@ -365,6 +365,8 @@ ARCHITECTURE IntegrationArch OF Integration IS
 
     SIGNAL readData1_opSel : STD_LOGIC_VECTOR (31 DOWNTO 0);
     SIGNAL readData0_opSel : STD_LOGIC_VECTOR (31 DOWNTO 0);
+    signal aluResult_opSel: STD_LOGIC_VECTOR (31 DOWNTO 0);
+    signal readData_opSel : STD_LOGIC_VECTOR (31 DOWNTO 0);
     SIGNAL ImmEaValue_opSel : STD_LOGIC_VECTOR (15 DOWNTO 0);
     SIGNAL opCode_opSel : STD_LOGIC_VECTOR (5 DOWNTO 0);
     SIGNAL lastOpCode_opSel : STD_LOGIC_VECTOR (5 DOWNTO 0);
@@ -457,6 +459,14 @@ BEGIN
         ImmEaValue_OUT => ImmEaValue_ID_EX
         --WB FROM CU
     );
+    FU : ForwardingUnit PORT MAP(
+        Rsrc1 => srcReg0_FU,
+        Rsrc2 => srcReg1_FU,
+        RegExecuteMem => RegExecuteMem_FU,
+        RegMemWb => RegMemWb_FU,
+        forwardingsignalsop1 => op1_FU,
+        forwardingsignalsop2 => op2_FU
+    );
     OperandSel : AluOperandsSel PORT MAP(
         readData2 => readData1_opSel,
         readData1 => readData0_opSel,
@@ -466,13 +476,14 @@ BEGIN
         Sel => executeSignals_opSel,
         forwardingsignalop1 => op1_FU,
         forwardingsignalop2 => op2_FU,
+        AlutoAluop1 => aluResult_opSel,
+        AlutoAluop2 => aluResult_opSel,
+        MemtoAluop1 => regFile_WriteData0,
+        MemtoAluop2 => regFile_WriteData0,
         op1 => readData0_EXE,
         op2 => readData1_EXE,
-        opcodeAlu => opCode_EXE,
-        AlutoAluop1 => aluResult_EX_MEM,
-        AlutoAluop2 => aluResult_EX_MEM,
-        MemtoAluop1 => readData_Mem_WB,
-        MemtoAluop2 => readData_Mem_WB
+        opcodeAlu => opCode_EXE
+      
     );
 
     ExcuteStage : execute PORT MAP(
@@ -551,15 +562,7 @@ BEGIN
         res => regFile_WriteData0
     );
 
-    FU : ForwardingUnit
-    PORT MAP(
-        Rsrc1 => srcReg0_FU,
-        Rsrc2 => srcReg1_FU,
-        RegExecuteMem => RegExecuteMem_FU,
-        RegMemWb => RegMemWb_FU,
-        forwardingsignalsop1 => op1_FU,
-        forwardingsignalsop2 => op2_FU
-    );
+   
 
     PROCESS (clk, load)
     BEGIN
@@ -587,6 +590,8 @@ BEGIN
                 readData1_opSel<=readData1_ID_EX;
                 readData0_opSel<=readData0_ID_EX;
                 opCode_opSel<=opCode_ID_EX;
+                aluResult_opSel<=aluResult_EX_MEM;
+                -- readData_opSel<=resAlu_MEM_WB;
                 lastOpCode_opSel<=lastOpCode_ID_EX;
                 RegExecuteMem_FU <= destReg0_EX_MEM;
                 RegMemWb_FU <= destReg0_MEM_WB;
