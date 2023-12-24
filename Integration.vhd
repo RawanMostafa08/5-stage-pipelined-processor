@@ -22,7 +22,7 @@ ARCHITECTURE IntegrationArch OF Integration IS
             memorySignals  : OUT STD_LOGIC_VECTOR(6 DOWNTO 0);
             isImm          : OUT STD_LOGIC;
             lastOpCode     : OUT STD_LOGIC_VECTOR (5 DOWNTO 0);
-            JZ             : IN STD_LOGIC;
+            Jump           : IN STD_LOGIC;
             Flush          : OUT STD_LOGIC
 
             -- Fetch-->jmp,jx,ret
@@ -46,8 +46,8 @@ ARCHITECTURE IntegrationArch OF Integration IS
             clk                : IN STD_LOGIC;
             Instruction_Memory : IN memory_array(0 TO 4095)(15 DOWNTO 0);
             reset              : IN STD_LOGIC;
-            JZ                 : IN STD_LOGIC;
-            JZ_PC              : IN STD_LOGIC_VECTOR(31 DOWNTO 0);
+            Jump               : IN STD_LOGIC;
+            Jump_PC            : IN STD_LOGIC_VECTOR(31 DOWNTO 0);
             instruction        : OUT STD_LOGIC_VECTOR(15 DOWNTO 0)
         );
     END COMPONENT;
@@ -144,7 +144,7 @@ ARCHITECTURE IntegrationArch OF Integration IS
             aluEn       : IN STD_LOGIC;
             opCode      : IN STD_LOGIC_VECTOR (5 DOWNTO 0);
             res         : OUT STD_LOGIC_VECTOR (31 DOWNTO 0);
-            JZ          : OUT STD_LOGIC;
+            Jump        : OUT STD_LOGIC;
             res_Swap    : OUT STD_LOGIC_VECTOR (31 DOWNTO 0);
             outPort_EXE : OUT STD_LOGIC_VECTOR (31 DOWNTO 0)
         );
@@ -259,8 +259,7 @@ ARCHITECTURE IntegrationArch OF Integration IS
     SIGNAL executeSignals_CU                                                                          : STD_LOGIC_VECTOR(2 DOWNTO 0);
     SIGNAL lastOpCode_CU                                                                              : STD_LOGIC_VECTOR(5 DOWNTO 0);
     SIGNAL memorySignals_CU                                                                           : STD_LOGIC_VECTOR(6 DOWNTO 0);
-    SIGNAL jumpZeroSig                                                                                : STD_LOGIC;
-    SIGNAL jumpZeroVal                                                                                : STD_LOGIC_VECTOR(31 DOWNTO 0);
+    SIGNAL jumpSig                                                                                    : STD_LOGIC;
     SIGNAL readReg0_IF_ID                                                                             : STD_LOGIC_VECTOR (2 DOWNTO 0);
     SIGNAL readReg1_IF_ID                                                                             : STD_LOGIC_VECTOR (2 DOWNTO 0);
     SIGNAL writeReg0_IF_ID                                                                            : STD_LOGIC_VECTOR (2 DOWNTO 0);
@@ -391,7 +390,7 @@ BEGIN
         memorySignals  => memorySignals_CU,
         isImm          => IsImmediate,
         lastOpCode     => lastOpCode_CU,
-        JZ             => jumpZeroSig,
+        Jump             => jumpSig,
         Flush          => flushSig
 
     );
@@ -407,8 +406,8 @@ BEGIN
         clk                => clk,
         Instruction_Memory => Instruction_Memory_Processor,
         reset              => reset,
-        JZ                 => jumpZeroSig,
-        JZ_PC              => readData0_opSel,
+        Jump               => jumpSig,
+        Jump_PC            => readData0_opSel,
         instruction        => Instruction_F
     );
     IF_ID_Register : IF_ID_Reg PORT MAP(
@@ -506,7 +505,7 @@ BEGIN
         aluEn       => aluEnable,
         opCode      => opCode_EXE,
         res         => aluRes,
-        JZ          => jumpZeroSig,
+        Jump        => jumpSig,
         res_Swap    => res_Swap_temp,
         outPort_EXE => outPort
     );

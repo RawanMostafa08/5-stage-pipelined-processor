@@ -11,7 +11,7 @@ ENTITY controlUnit IS
 		memorySignals  : OUT STD_LOGIC_VECTOR(6 DOWNTO 0);
 		isImm          : OUT STD_LOGIC;
 		lastOpCode     : OUT STD_LOGIC_VECTOR (5 DOWNTO 0);
-		JZ             : IN STD_LOGIC;
+		Jump             : IN STD_LOGIC;
 		Flush          : OUT STD_LOGIC
 		-- Fetch-->jmp,jx,ret
 		-- Regfile-->wb,wb,ren,memReg,swap,flush
@@ -36,7 +36,7 @@ BEGIN
 		memorySignals  <= (OTHERS => '0');
 		--register --> memReg=1
 		--memory--> memReg=0
-		IF JZ = '1' THEN
+		IF Jump = '1' THEN
 			Flush <= '1';
 		ELSE
 			Flush <= '0';
@@ -230,6 +230,12 @@ BEGIN
 
 					WHEN "110000" =>
 						--jz
+						isImmediate       <= '0';
+						regFileSignals(2) <= '1'; --ren
+						executeSignals(0) <= '1'; --aluEn
+
+					WHEN "110001" =>
+						--jump
 						isImmediate       <= '0';
 						regFileSignals(2) <= '1'; --ren
 						executeSignals(0) <= '1'; --aluEn
