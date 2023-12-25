@@ -1,2 +1,2 @@
-in R1
-not r2
+protect r0
+free r1
