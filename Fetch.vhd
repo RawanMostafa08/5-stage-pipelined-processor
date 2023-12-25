@@ -54,14 +54,14 @@ BEGIN
 
                     END IF;
                 END IF;
-END IF;
             END IF;
-        END PROCESS; -- identifier
+        END IF;
+    END PROCESS; -- identifier
 
-    END ARCHITECTURE FetchArch;
+END ARCHITECTURE FetchArch;
 
-    -- instruction <= "0000010110000000"; --NOT
-    -- instruction <="0001000110000000"; --DEC
-    -- instruction <= "0101010110000010"; --OR
-    -- instruction <= "0001010000010000"; --OUT
-    -- instruction <= "1001010000010000"; --PROTECT
+-- instruction <= "0000010110000000"; --NOT
+-- instruction <="0001000110000000"; --DEC
+-- instruction <= "0101010110000010"; --OR
+-- instruction <= "0001010000010000"; --OUT
+-- instruction <= "1001010000010000"; --PROTECT

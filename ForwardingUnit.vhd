@@ -4,12 +4,12 @@ USE IEEE.numeric_std.ALL;
 
 ENTITY ForwardingUnit IS
     PORT (
-        Rsrc1 : IN STD_LOGIC_VECTOR (2 DOWNTO 0);
-        Rsrc2 : IN STD_LOGIC_VECTOR (2 DOWNTO 0);
-        RegExecuteMem : IN STD_LOGIC_VECTOR (2 DOWNTO 0);
-        RegMemWb : IN STD_LOGIC_VECTOR (2 DOWNTO 0);
-        forwardingsignalsop1 : Out STD_LOGIC_VECTOR(1 DOWNTO 0); --alu mem
-        forwardingsignalsop2 : Out STD_LOGIC_VECTOR(1 DOWNTO 0) --alu mem
+        Rsrc1                : IN STD_LOGIC_VECTOR (2 DOWNTO 0);
+        Rsrc2                : IN STD_LOGIC_VECTOR (2 DOWNTO 0);
+        RegExecuteMem        : IN STD_LOGIC_VECTOR (2 DOWNTO 0);
+        RegMemWb             : IN STD_LOGIC_VECTOR (2 DOWNTO 0);
+        forwardingsignalsop1 : OUT STD_LOGIC_VECTOR(1 DOWNTO 0); --alu mem
+        forwardingsignalsop2 : OUT STD_LOGIC_VECTOR(1 DOWNTO 0)  --alu mem
     );
 END ForwardingUnit;
 

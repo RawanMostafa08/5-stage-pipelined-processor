@@ -204,7 +204,7 @@ BEGIN
         WHEN "110000" =>
           -- jz
           REPORT "in exceute" & to_string(JZ) & "   " & to_string(temp_res);
-          IF temp_res = X"00000000"THEN
+          IF CCR(0) = '1'THEN
             JZ <= '1';
           END IF;
         WHEN OTHERS =>

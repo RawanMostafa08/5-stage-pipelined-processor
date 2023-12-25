@@ -36,34 +36,51 @@ ENTITY dec_exec IS
 END dec_exec;
 
 ARCHITECTURE arch_dec_exec OF dec_exec IS
-      SIGNAL destReg_temp : STD_LOGIC_VECTOR(2 DOWNTO 0);
+
 BEGIN
-      readData0_OUT <= readData0_IN;
-      readData1_OUT <= readData1_IN;
-      destReg1_OUT  <= destReg1_IN;
-      opCode_OUT    <= opCode_IN;
-      srcReg0_OUT   <= srcReg0_IN;
-      srcReg1_OUT   <= srcReg1_IN;
+
       PROCESS (clk)
+            VARIABLE destReg_temp0 : STD_LOGIC_VECTOR (2 DOWNTO 0);
+            VARIABLE destReg_temp1 : STD_LOGIC_VECTOR (2 DOWNTO 0);
+            VARIABLE srcReg_temp0  : STD_LOGIC_VECTOR (2 DOWNTO 0);
+            VARIABLE srcReg_temp1  : STD_LOGIC_VECTOR (2 DOWNTO 0);
       BEGIN
-            IF Flush = '1' THEN
-                  fetchSignals_OUT   <= (OTHERS => '0');
-                  regFileSignals_OUT <= (OTHERS => '0');
-                  executeSignals_OUT <= (OTHERS => '0');
-                  memorySignals_OUT  <= (OTHERS => '0');
-            ELSE
-                  fetchSignals_OUT   <= fetchSignals_IN;
-                  regFileSignals_OUT <= regFileSignals_IN;
-                  executeSignals_OUT <= executeSignals_IN;
-                  memorySignals_OUT  <= memorySignals_IN;
+            IF clk = '1' THEN
+
                   IF isImm = '1' THEN
-                        destReg_temp <= destReg_temp;
+                        destReg_temp0 := destReg_temp0;
+                        destReg_temp1 := destReg_temp1;
+                        srcReg_temp0  := srcReg_temp0;
+                        srcReg_temp1  := srcReg_temp1;
+
                   ELSE
-                        destReg_temp <= destReg0_IN;
+                        destReg_temp0 := destReg0_IN;
+                        destReg_temp1 := destReg1_IN;
+                        srcReg_temp0  := srcReg0_IN;
+                        srcReg_temp1  := srcReg1_IN;
                   END IF;
+                  readData0_OUT  <= readData0_IN;
+                  readData1_OUT  <= readData1_IN;
+                  destReg1_OUT   <= destReg_temp1;
+                  opCode_OUT     <= opCode_IN;
+                  srcReg0_OUT    <= srcReg_temp0;
+                  srcReg1_OUT    <= srcReg_temp1;
+                  destReg0_OUT   <= destReg_temp0;
+                  ImmEaValue_OUT <= ImmEaValue_IN;
+                  lastOpCode_OUT <= lastOpCode_IN;
+                  IF Flush = '1' THEN
+                        fetchSignals_OUT   <= (OTHERS => '0');
+                        regFileSignals_OUT <= (OTHERS => '0');
+                        executeSignals_OUT <= (OTHERS => '0');
+                        memorySignals_OUT  <= (OTHERS => '0');
+                  ELSE
+                        fetchSignals_OUT   <= fetchSignals_IN;
+                        regFileSignals_OUT <= regFileSignals_IN;
+                        executeSignals_OUT <= executeSignals_IN;
+                        memorySignals_OUT  <= memorySignals_IN;
+                  END IF;
+
             END IF;
       END PROCESS;
-      destReg0_OUT   <= destReg_temp;
-      ImmEaValue_OUT <= ImmEaValue_IN;
-      lastOpCode_OUT <= lastOpCode_IN;
+
 END arch_dec_exec;

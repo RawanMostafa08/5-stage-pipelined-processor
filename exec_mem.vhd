@@ -26,21 +26,24 @@ END exec_mem;
 
 ARCHITECTURE arch_exec_mem OF exec_mem IS
 BEGIN
-	aluResult_OUT  <= aluResult_IN;
-	destReg0_OUT   <= destReg0_IN;
-	destReg1_OUT   <= destReg1_IN;
-	ImmEaValue_OUT <= ImmEaValue_IN;
-	res_Swap_OUT   <= res_Swap_IN;
+
 	PROCESS (clk)
 	BEGIN
-		IF Flush = '1' THEN
-			fetchSignals_OUT   <= (OTHERS => '0');
-			regFileSignals_OUT <= (OTHERS => '0');
-			memorySignals_OUT  <= (OTHERS => '0');
-		ELSE
-			fetchSignals_OUT   <= fetchSignals_IN;
-			regFileSignals_OUT <= regFileSignals_IN;
-			memorySignals_OUT  <= memorySignals_IN;
+		IF clk = '1' THEN
+			aluResult_OUT  <= aluResult_IN;
+			destReg0_OUT   <= destReg0_IN;
+			destReg1_OUT   <= destReg1_IN;
+			ImmEaValue_OUT <= ImmEaValue_IN;
+			res_Swap_OUT   <= res_Swap_IN;
+			IF Flush = '1' THEN
+				fetchSignals_OUT   <= (OTHERS => '0');
+				regFileSignals_OUT <= (OTHERS => '0');
+				memorySignals_OUT  <= (OTHERS => '0');
+			ELSE
+				fetchSignals_OUT   <= fetchSignals_IN;
+				regFileSignals_OUT <= regFileSignals_IN;
+				memorySignals_OUT  <= memorySignals_IN;
+			END IF;
 		END IF;
 	END PROCESS;
 END arch_exec_mem;

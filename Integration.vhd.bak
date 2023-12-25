@@ -15,7 +15,7 @@ ARCHITECTURE IntegrationArch OF Integration IS
     COMPONENT controlUnit IS
         PORT (
             opCode         : IN STD_LOGIC_VECTOR (5 DOWNTO 0);
-            clk            : IN STD_LOGIC;
+            enterProcess   : IN STD_LOGIC;
             fetchSignals   : OUT STD_LOGIC_VECTOR(2 DOWNTO 0);
             regFileSignals : OUT STD_LOGIC_VECTOR(4 DOWNTO 0);
             executeSignals : OUT STD_LOGIC_VECTOR(2 DOWNTO 0);
@@ -389,8 +389,8 @@ ARCHITECTURE IntegrationArch OF Integration IS
 BEGIN
 
     CU : ControlUnit PORT MAP(
-        opCode         => Instruction_F(15 DOWNTO 10),
-        clk            => clk,
+        opCode         => opCode_CU,
+        enterProcess   => EP,
         fetchSignals   => fetchSignals_CU,
         regFileSignals => regFileSignals_CU,
         executeSignals => executeSignals_CU,
@@ -416,7 +416,7 @@ BEGIN
         Instruction_Memory => Instruction_Memory_Processor,
         reset              => reset,
         JZ                 => JZ_Sig,
-        JZ_PC              => readData0_ID_EX,
+        JZ_PC              => readData0_opSel,
         Jump               => Jump_Sig,
         Jump_PC            => readData0_temp,
         instruction        => Instruction_F
@@ -488,8 +488,8 @@ BEGIN
     FU : ForwardingUnit PORT MAP(
         Rsrc1                => srcReg0_ID_EX,
         Rsrc2                => srcReg1_ID_EX,
-        RegExecuteMem        => destReg0_EX_MEM,
-        RegMemWb             => destReg0_MEM_WB,
+        RegExecuteMem        => destReg0_EX_MEM, 
+        RegMemWb             => destReg0_MEM_WB, 
         forwardingsignalsop1 => op1_FU,
         forwardingsignalsop2 => op2_FU
     );
@@ -502,8 +502,8 @@ BEGIN
         Sel                 => executeSignals_ID_EX(1),
         forwardingsignalop1 => op1_FU,
         forwardingsignalop2 => op2_FU,
-        AlutoAluop1         => aluResult_EX_MEM,
-        AlutoAluop2         => aluResult_EX_MEM,
+        AlutoAluop1         => aluResult_EX_MEM, 
+        AlutoAluop2         => aluResult_EX_MEM, 
         MemtoAluop1         => regFile_WriteData0,
         MemtoAluop2         => regFile_WriteData0,
         op1                 => readData0_EXE,
@@ -556,11 +556,11 @@ BEGIN
         load       => load,
         address    => address_result,
         writeData  => writeData_mem,
-        memRead    => memorySignals_EX_MEM(3), --should be changed to get signal from EX/MEM
-        memWrite   => memorySignals_EX_MEM(4), --should be changed to get signal from EX/MEM
+        memRead    => memorySignals_EX_MEM(3); --should be changed to get signal from EX/MEM
+        memWrite   => memorySignals_EX_MEM(4); --should be changed to get signal from EX/MEM
         readData   => readData_Mem,
-        memProtect => memorySignals_EX_MEM(5),
-        memFree    => memorySignals_EX_MEM(6)
+        memProtect => memorySignals_EX_MEM(5);
+        memFree    => memorySignals_EX_MEM(6);
     );
     M_WB : mem_writeBack PORT MAP(
         clk               => clk,
@@ -591,98 +591,98 @@ BEGIN
         res      => regFile_WriteData0
     );
 
-    -- PROCESS (clk, load)
-    -- BEGIN
-    --     IF load = '0' THEN
-    --         reset_temp <= '1';
+    PROCESS (clk, load)
+    BEGIN
+        IF load = '0' THEN
+            reset_temp <= '1';
 
-    --         IF rising_edge(clk) THEN
-    --             --fetch
+            IF rising_edge(clk) THEN
+                --fetch
 
-    --             -- fetch_decode--->Decode
-    --             opCode_CU <= opCode_IF_ID;
+                -- fetch_decode--->Decode
+                opCode_CU <= opCode_IF_ID;
 
-    --             -- regFile_RE0 <= '1';
-    --             -- regFile_RE1 <= regFileSignals_CU(2);
-    --             readReg0_temp   <= readReg0_IF_ID;
-    --             readReg1_temp   <= readReg1_IF_ID;
-    --             ImmEaValue_temp <= ImmEaValue_IF_ID;
-    --             --DECODE_EXECUTE-->EXECUTE
+                -- regFile_RE0 <= '1';
+                -- regFile_RE1 <= regFileSignals_CU(2);
+                readReg0_temp   <= readReg0_IF_ID;
+                readReg1_temp   <= readReg1_IF_ID;
+                ImmEaValue_temp <= ImmEaValue_IF_ID;
+                --DECODE_EXECUTE-->EXECUTE
 
-    --             -- readData0_EXE <= readData0_ID_EX;
-    --             -- readData0_EXE <= selectedOp1;
-    --             -- readData1_EXE <= selectedOp2;
-    --             -- forwardingsignal1_FU <= op1_FU;
-    --             -- forwardingsignal2_FU <= op2_FU;
-    --             readData1_opSel <= readData1_ID_EX;
-    --             readData0_opSel <= readData0_ID_EX;
-    --             opCode_opSel    <= opCode_ID_EX;
-    --             aluResult_opSel <= aluResult_EX_MEM;
-    --             -- readData_opSel<=resAlu_MEM_WB;
-    --             lastOpCode_opSel <= lastOpCode_ID_EX;
-    --             RegExecuteMem_FU <= destReg0_EX_MEM;
-    --             RegMemWb_FU      <= destReg0_MEM_WB;
+                -- readData0_EXE <= readData0_ID_EX;
+                -- readData0_EXE <= selectedOp1;
+                -- readData1_EXE <= selectedOp2;
+                -- forwardingsignal1_FU <= op1_FU;
+                -- forwardingsignal2_FU <= op2_FU;
+                readData1_opSel <= readData1_ID_EX;
+                readData0_opSel <= readData0_ID_EX;
+                opCode_opSel    <= opCode_ID_EX;
+                aluResult_opSel <= aluResult_EX_MEM;
+                -- readData_opSel<=resAlu_MEM_WB;
+                lastOpCode_opSel <= lastOpCode_ID_EX;
+                RegExecuteMem_FU <= destReg0_EX_MEM;
+                RegMemWb_FU      <= destReg0_MEM_WB;
 
-    --             srcReg0_FU           <= srcReg0_ID_EX;
-    --             srcReg1_FU           <= srcReg1_ID_EX;
-    --             executeSignals_opSel <= executeSignals_ID_EX(1);
-    --             -- opCode_EXE <= selectedOpCode;
+                srcReg0_FU           <= srcReg0_ID_EX;
+                srcReg1_FU           <= srcReg1_ID_EX;
+                executeSignals_opSel <= executeSignals_ID_EX(1);
+                -- opCode_EXE <= selectedOpCode;
 
-    --             aluEnable                  <= executeSignals_ID_EX(0);
-    --             fetchSignals_EX_MEM_TEMP   <= fetchSignals_ID_EX;
-    --             regFileSignals_EX_MEM_TEMP <= regFileSignals_ID_EX;
-    --             memorySignals_EX_MEM_TEMP  <= memorySignals_ID_EX;
+                aluEnable                  <= executeSignals_ID_EX(0);
+                fetchSignals_EX_MEM_TEMP   <= fetchSignals_ID_EX;
+                regFileSignals_EX_MEM_TEMP <= regFileSignals_ID_EX;
+                memorySignals_EX_MEM_TEMP  <= memorySignals_ID_EX;
 
-    --             destReg0_ID_EX_TEMP <= writeReg0_IF_ID;
-    --             destReg1_ID_EX_TEMP <= writeReg1_IF_ID;
+                destReg0_ID_EX_TEMP <= writeReg0_IF_ID;
+                destReg1_ID_EX_TEMP <= writeReg1_IF_ID;
 
-    --             srcReg0_ID_EX_TEMP <= readReg0_IF_ID;
-    --             srcReg1_ID_EX_TEMP <= readReg1_IF_ID;
+                srcReg0_ID_EX_TEMP <= readReg0_IF_ID;
+                srcReg1_ID_EX_TEMP <= readReg1_IF_ID;
 
-    --             destReg0_EX_MEM_TEMP   <= destReg0_ID_EX;
-    --             destReg1_EX_MEM_TEMP   <= destReg1_ID_EX;
-    --             ImmEaValue_EX_MEM_TEMP <= ImmEaValue_ID_EX;
+                destReg0_EX_MEM_TEMP   <= destReg0_ID_EX;
+                destReg1_EX_MEM_TEMP   <= destReg1_ID_EX;
+                ImmEaValue_EX_MEM_TEMP <= ImmEaValue_ID_EX;
 
-    --             --execute_memory-->memory
-    --             memread         <= memorySignals_EX_MEM(3);
-    --             memwrite        <= memorySignals_EX_MEM(4);
-    --             memProtect_temp <= memorySignals_EX_MEM(5);
-    --             memFree_temp    <= memorySignals_EX_MEM(6);
-    --             address_mem     <= address_result;
-    --             --WB
-    --             resAlu_MEM_WB_TEMP         <= aluResult_EX_MEM;
-    --             destReg0_MEM_WB_TEMP       <= destReg0_EX_MEM;
-    --             destReg1_MEM_WB_TEMP       <= destReg1_EX_MEM;
-    --             memorySignals_MEM_WB_TEMP  <= memorySignals_EX_MEM;
-    --             regFileSignals_MEM_WB_TEMP <= regFileSignals_EX_MEM;
-    --             memReg_WB                  <= regFileSignals_MEM_WB(3);
-    --             swap_WB                    <= regFileSignals_MEM_WB(4);
-    --             writeReg0_temp             <= destReg0_MEM_WB;
-    --             writeReg1_temp             <= destReg1_MEM_WB;
-    --             resMem_WB                  <= readData_Mem_WB;
-    --             resAlu_WB                  <= resAlu_MEM_WB;
-    --             swapAlu_WB                 <= Swap_MEM_WB_TEMP;
-    --             WriteEn0_temp              <= regFileSignals_MEM_WB(0);
-    --             WriteEn1_temp              <= regFileSignals_MEM_WB(1);
-    --             EP                         <= NOT EP;
-    --             -- address_mem <= (OTHERS => '0');
-    --             -- writeData_mem <= (OTHERS => '1');
+                --execute_memory-->memory
+                memread         <= memorySignals_EX_MEM(3);
+                memwrite        <= memorySignals_EX_MEM(4);
+                memProtect_temp <= memorySignals_EX_MEM(5);
+                memFree_temp    <= memorySignals_EX_MEM(6);
+                address_mem     <= address_result;
+                --WB
+                resAlu_MEM_WB_TEMP         <= aluResult_EX_MEM;
+                destReg0_MEM_WB_TEMP       <= destReg0_EX_MEM;
+                destReg1_MEM_WB_TEMP       <= destReg1_EX_MEM;
+                memorySignals_MEM_WB_TEMP  <= memorySignals_EX_MEM;
+                regFileSignals_MEM_WB_TEMP <= regFileSignals_EX_MEM;
+                memReg_WB                  <= regFileSignals_MEM_WB(3);
+                swap_WB                    <= regFileSignals_MEM_WB(4);
+                writeReg0_temp             <= destReg0_MEM_WB;
+                writeReg1_temp             <= destReg1_MEM_WB;
+                resMem_WB                  <= readData_Mem_WB;
+                resAlu_WB                  <= resAlu_MEM_WB;
+                swapAlu_WB                 <= Swap_MEM_WB_TEMP;
+                WriteEn0_temp              <= regFileSignals_MEM_WB(0);
+                WriteEn1_temp              <= regFileSignals_MEM_WB(1);
+                EP                         <= NOT EP;
+                -- address_mem <= (OTHERS => '0');
+                -- writeData_mem <= (OTHERS => '1');
 
-    --             -- --wb --TEMPORARILY
-    --             -- memRegIn_M_WB <= '1';
-    --             -- regFile_WE0 <= '1';
-    --             -- regFile_WE1 <= '0';
+                -- --wb --TEMPORARILY
+                -- memRegIn_M_WB <= '1';
+                -- regFile_WE0 <= '1';
+                -- regFile_WE1 <= '0';
 
-    --             -- regFile_WE0 <= regFileSignals_CU(0);
-    --             -- regFile_WE1 <= regFileSignals_CU(1);
+                -- regFile_WE0 <= regFileSignals_CU(0);
+                -- regFile_WE1 <= regFileSignals_CU(1);
 
-    --             -- writeReg0_temp <= writeReg0_IF_ID;
-    --         END IF;
+                -- writeReg0_temp <= writeReg0_IF_ID;
+            END IF;
 
-    --     ELSE
+        ELSE
 
-    --     END IF;
+        END IF;
 
-    -- END PROCESS;
+    END PROCESS;
 
 END ARCHITECTURE IntegrationArch;
