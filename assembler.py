@@ -64,7 +64,7 @@ def EA_one_operand_check(instruction):
      else: 
         return False
 
-file_path = 'program.txt'
+file_path = 'programR.txt'
 with open(file_path, 'r') as file:
     instructions = []
     for line in file:
@@ -391,7 +391,7 @@ for instruction in instructions:
         instruction_string = ' '.join(instruction)
         print("unknown instruction "+ instruction_string)
 
-file_path = 'binary.txt'
+file_path = 'instructions.txt'
 
 with open(file_path, 'w') as file:
     # Write each element of the array to a new line
