@@ -9,7 +9,7 @@ ENTITY execute IS
     aluEn       : IN STD_LOGIC;
     opCode      : IN STD_LOGIC_VECTOR (5 DOWNTO 0);
     res         : OUT STD_LOGIC_VECTOR (31 DOWNTO 0);
-    Jump        : OUT STD_LOGIC;
+    JZ          : OUT STD_LOGIC;
     res_Swap    : OUT STD_LOGIC_VECTOR (31 DOWNTO 0);
     outPort_EXE : OUT STD_LOGIC_VECTOR (31 DOWNTO 0)
   );
@@ -27,7 +27,7 @@ BEGIN
     VARIABLE last_bit   : STD_LOGIC;
   BEGIN
     REPORT "execute";
-    Jump <= '0';
+    JZ <= '0';
     IF aluEn = '1' THEN
       CASE opCode IS
         WHEN "000001" =>
@@ -203,12 +203,10 @@ BEGIN
           res_Swap <= op2;
         WHEN "110000" =>
           -- jz
+          REPORT "in exceute" & to_string(JZ) & "   " & to_string(temp_res);
           IF temp_res = X"00000000"THEN
-            Jump <= '1';
+            JZ <= '1';
           END IF;
-        WHEN "110001" =>
-          -- jz
-          Jump <= '1';
         WHEN OTHERS =>
           -- Default case when opCode does not match any of the specified values
           NULL;

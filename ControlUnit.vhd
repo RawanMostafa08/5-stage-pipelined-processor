@@ -11,8 +11,11 @@ ENTITY controlUnit IS
 		memorySignals  : OUT STD_LOGIC_VECTOR(6 DOWNTO 0);
 		isImm          : OUT STD_LOGIC;
 		lastOpCode     : OUT STD_LOGIC_VECTOR (5 DOWNTO 0);
-		Jump             : IN STD_LOGIC;
-		Flush          : OUT STD_LOGIC
+		JZ             : IN STD_LOGIC;
+		Jump           : OUT STD_LOGIC;
+		Flush_ID_EX    : OUT STD_LOGIC;
+		Flush_EX_MEM   : OUT STD_LOGIC
+
 		-- Fetch-->jmp,jx,ret
 		-- Regfile-->wb,wb,ren,memReg,swap,flush
 		-- Exec-->aluEn,Reg/Imm Op2,flush
@@ -34,12 +37,16 @@ BEGIN
 		regFileSignals <= (OTHERS => '0');
 		executeSignals <= (OTHERS => '0');
 		memorySignals  <= (OTHERS => '0');
+		Jump           <= '0';
 		--register --> memReg=1
 		--memory--> memReg=0
-		IF Jump = '1' THEN
-			Flush <= '1';
+
+		IF JZ = '1' THEN
+			Flush_EX_MEM <= '1';
+			Flush_ID_EX  <= '1';
 		ELSE
-			Flush <= '0';
+			Flush_EX_MEM <= '0';
+			Flush_ID_EX  <= '0';
 			IF isImmediate = '1' THEN
 				isImm             <= '1';
 				regFileSignals(2) <= '0'; --ren
@@ -238,7 +245,9 @@ BEGIN
 						--jump
 						isImmediate       <= '0';
 						regFileSignals(2) <= '1'; --ren
-						executeSignals(0) <= '1'; --aluEn
+						Jump              <= '1';
+						Flush_EX_MEM      <= '0';
+						Flush_ID_EX       <= '1';
 
 					WHEN OTHERS               =>
 						fetchSignals   <= (OTHERS => '0');
