@@ -4,6 +4,7 @@ USE IEEE.numeric_std.ALL;
 
 ENTITY execute IS
   PORT (
+<<<<<<< HEAD
     op1         : IN STD_LOGIC_VECTOR (31 DOWNTO 0);
     op2         : IN STD_LOGIC_VECTOR (31 DOWNTO 0);
     aluEn       : IN STD_LOGIC;
@@ -11,20 +12,29 @@ ENTITY execute IS
     res         : OUT STD_LOGIC_VECTOR (31 DOWNTO 0);
     JZ          : OUT STD_LOGIC;
     res_Swap    : OUT STD_LOGIC_VECTOR (31 DOWNTO 0);
+=======
+    op1 : IN STD_LOGIC_VECTOR (31 DOWNTO 0);
+    op2 : IN STD_LOGIC_VECTOR (31 DOWNTO 0);
+    aluEn : IN STD_LOGIC;
+    opCode : IN STD_LOGIC_VECTOR (5 DOWNTO 0);
+    res : OUT STD_LOGIC_VECTOR (31 DOWNTO 0);
+    Jump : OUT STD_LOGIC;
+    res_Swap : OUT STD_LOGIC_VECTOR (31 DOWNTO 0);
+>>>>>>> 6acb9aeb8ae1f149c5cf688396ba962ef27399d6
     outPort_EXE : OUT STD_LOGIC_VECTOR (31 DOWNTO 0)
   );
 END execute;
 
 ARCHITECTURE archExecute OF execute IS
-  SIGNAL CCR          : STD_LOGIC_VECTOR(2 DOWNTO 0) := (OTHERS => '0'); --c n z 
-  SIGNAL temp_res     : STD_LOGIC_VECTOR (31 DOWNTO 0);
+  SIGNAL CCR : STD_LOGIC_VECTOR(2 DOWNTO 0) := (OTHERS => '0'); --c n z 
+  SIGNAL temp_res : STD_LOGIC_VECTOR (31 DOWNTO 0);
   SIGNAL reswithcarry : STD_LOGIC_VECTOR (32 DOWNTO 0);
 BEGIN
 
   PROCESS (opCode, temp_res, reswithcarry, op1, op2)
-    VARIABLE temp_rot   : STD_LOGIC_VECTOR (31 DOWNTO 0);
+    VARIABLE temp_rot : STD_LOGIC_VECTOR (31 DOWNTO 0);
     VARIABLE temp_carry : STD_LOGIC;
-    VARIABLE last_bit   : STD_LOGIC;
+    VARIABLE last_bit : STD_LOGIC;
   BEGIN
     REPORT "execute";
     JZ <= '0';
@@ -33,8 +43,8 @@ BEGIN
         WHEN "000001" =>
           -- NOT
           temp_res <= NOT op1;
-          res      <= temp_res;
-          CCR(1)   <= temp_res(31);
+          res <= temp_res;
+          CCR(1) <= temp_res(31);
           IF temp_res = X"00000000"THEN
             CCR(0) <= '1';
           ELSE
@@ -46,8 +56,8 @@ BEGIN
         WHEN "000100" =>
           -- DEC
           temp_res <= STD_LOGIC_VECTOR(signed(op1) - 1);
-          res      <= temp_res;
-          CCR(1)   <= temp_res(31);
+          res <= temp_res;
+          CCR(1) <= temp_res(31);
           IF temp_res = X"00000000"THEN
             CCR(0) <= '1';
           ELSE
@@ -56,9 +66,9 @@ BEGIN
         WHEN "010001" =>
           -- ADD
           reswithcarry <= STD_LOGIC_VECTOR(('0' & signed(op1)) + ('0' & signed(op2)));
-          res          <= reswithcarry(31 DOWNTO 0);
-          CCR(2)       <= reswithcarry(32);
-          CCR(1)       <= reswithcarry(31);
+          res <= reswithcarry(31 DOWNTO 0);
+          CCR(2) <= reswithcarry(32);
+          CCR(1) <= reswithcarry(31);
           IF reswithcarry(31 DOWNTO 0) = X"00000000" THEN
             CCR(0) <= '1';
           ELSE
@@ -67,9 +77,9 @@ BEGIN
         WHEN "010011" | "010111" =>
           -- SUB or CMP
           reswithcarry <= STD_LOGIC_VECTOR(('0' & signed(op1)) - ('0' & signed(op2)));
-          res          <= reswithcarry(31 DOWNTO 0);
-          CCR(2)       <= reswithcarry(32);
-          CCR(1)       <= reswithcarry(31);
+          res <= reswithcarry(31 DOWNTO 0);
+          CCR(2) <= reswithcarry(32);
+          CCR(1) <= reswithcarry(31);
           IF reswithcarry(31 DOWNTO 0) = X"00000000" THEN
             CCR(0) <= '1';
           ELSE
@@ -78,8 +88,8 @@ BEGIN
         WHEN "010100" =>
           -- AND
           temp_res <= op1 AND op2;
-          res      <= temp_res;
-          CCR(1)   <= temp_res(31);
+          res <= temp_res;
+          CCR(1) <= temp_res(31);
           IF temp_res = X"00000000" THEN
             CCR(0) <= '1';
           ELSE
@@ -88,8 +98,8 @@ BEGIN
         WHEN "010101" =>
           -- OR
           temp_res <= op1 OR op2;
-          res      <= temp_res;
-          CCR(1)   <= temp_res(31);
+          res <= temp_res;
+          CCR(1) <= temp_res(31);
           IF temp_res = X"00000000" THEN
             CCR(0) <= '1';
           ELSE
@@ -98,8 +108,8 @@ BEGIN
         WHEN "010110" =>
           -- XOR
           temp_res <= op1 XOR op2;
-          res      <= temp_res;
-          CCR(1)   <= temp_res(31);
+          res <= temp_res;
+          CCR(1) <= temp_res(31);
           IF temp_res = X"00000000" THEN
             CCR(0) <= '1';
           ELSE
@@ -114,9 +124,9 @@ BEGIN
         WHEN "010010" =>
           -- ADDI
           reswithcarry <= STD_LOGIC_VECTOR(('0' & signed(op1)) + ('0' & signed(op2)));
-          res          <= reswithcarry(31 DOWNTO 0);
-          CCR(2)       <= reswithcarry(32);
-          CCR(1)       <= reswithcarry(31);
+          res <= reswithcarry(31 DOWNTO 0);
+          CCR(2) <= reswithcarry(32);
+          CCR(1) <= reswithcarry(31);
           IF reswithcarry(31 DOWNTO 0) = X"00000000" THEN
             CCR(0) <= '1';
           ELSE
@@ -124,10 +134,10 @@ BEGIN
           END IF;
         WHEN "011000" =>
           -- BITSET
-          temp_res                                        <= op1;
+          temp_res <= op1;
           temp_res(to_integer(unsigned(op2(4 DOWNTO 0)))) <= '1';
-          res                                             <= temp_res;
-          CCR(1)                                          <= temp_res(31);
+          res <= temp_res;
+          CCR(1) <= temp_res(31);
           IF temp_res = X"00000000"THEN
             CCR(0) <= '1';
           ELSE
@@ -135,17 +145,17 @@ BEGIN
           END IF;
         WHEN "011001" =>
           -- RCL
-          temp_rot   := op1;
+          temp_rot := op1;
           temp_carry := CCR(2);
           -- REPORT "op1 value: " & to_string(op1);
           -- REPORT "op2 value: " & to_string(op2);
           FOR i IN 1 TO to_integer(unsigned(op2(4 DOWNTO 0))) LOOP
             last_bit := temp_rot(31);
             -- REPORT "Entering loop iteration " & INTEGER'image(i);
-            temp_rot   := temp_rot(30 DOWNTO 0) & temp_carry; -- RCL operation
+            temp_rot := temp_rot(30 DOWNTO 0) & temp_carry; -- RCL operation
             temp_carry := last_bit;
           END LOOP;
-          res    <= temp_rot;
+          res <= temp_rot;
           CCR(2) <= temp_carry;
           CCR(1) <= temp_res(31);
           IF temp_res = X"00000000"THEN
@@ -155,14 +165,14 @@ BEGIN
           END IF;
         WHEN "011010" =>
           -- RCR
-          temp_rot   := op1;
+          temp_rot := op1;
           temp_carry := CCR(2);
           FOR i IN 1 TO to_integer(unsigned(op2(4 DOWNTO 0))) LOOP
-            last_bit   := temp_rot(0);
-            temp_rot   := temp_carry & temp_rot(31 DOWNTO 1); -- RCL operation
+            last_bit := temp_rot(0);
+            temp_rot := temp_carry & temp_rot(31 DOWNTO 1); -- RCL operation
             temp_carry := last_bit;
           END LOOP;
-          res    <= temp_rot;
+          res <= temp_rot;
           CCR(2) <= temp_carry;
           CCR(1) <= temp_res(31);
           IF temp_res = X"00000000"THEN
@@ -173,8 +183,8 @@ BEGIN
         WHEN "000011" =>
           --INC
           temp_res <= STD_LOGIC_VECTOR(signed(op1) + 1);
-          res      <= temp_res;
-          CCR(1)   <= temp_res(31);
+          res <= temp_res;
+          CCR(1) <= temp_res(31);
           --in case of adding -1+1
           IF temp_res = X"00000000"THEN
             CCR(0) <= '1';
@@ -189,8 +199,8 @@ BEGIN
         WHEN "000010" =>
           --NEG
           temp_res <= STD_LOGIC_VECTOR(0 - signed(op1));
-          res      <= temp_res;
-          CCR(1)   <= temp_res(31);
+          res <= temp_res;
+          CCR(1) <= temp_res(31);
           IF temp_res = X"00000000"THEN
             CCR(0) <= '1';
           ELSE
@@ -199,7 +209,7 @@ BEGIN
         WHEN "010000" =>
           -- swap
           temp_res <= op1;
-          res      <= temp_res;
+          res <= temp_res;
           res_Swap <= op2;
         WHEN "110000" =>
           -- jz

@@ -2,24 +2,24 @@ LIBRARY ieee;
 USE ieee.std_logic_1164.ALL;
 ENTITY exec_mem IS
 	PORT (
-		clk                : IN STD_LOGIC;
-		Flush              : IN STD_LOGIC;
-		ImmEaValue_IN      : IN STD_LOGIC_VECTOR(15 DOWNTO 0);
-		aluResult_IN       : IN STD_LOGIC_VECTOR (31 DOWNTO 0);
-		destReg0_IN        : IN STD_LOGIC_VECTOR (2 DOWNTO 0);
-		destReg1_IN        : IN STD_LOGIC_VECTOR (2 DOWNTO 0);
-		fetchSignals_IN    : IN STD_LOGIC_VECTOR(2 DOWNTO 0);
-		regFileSignals_IN  : IN STD_LOGIC_VECTOR(4 DOWNTO 0);
-		memorySignals_IN   : IN STD_LOGIC_VECTOR(6 DOWNTO 0);
-		res_Swap_IN        : IN STD_LOGIC_VECTOR (31 DOWNTO 0);
-		aluResult_OUT      : OUT STD_LOGIC_VECTOR (31 DOWNTO 0);
-		destReg0_OUT       : OUT STD_LOGIC_VECTOR (2 DOWNTO 0);
-		destReg1_OUT       : OUT STD_LOGIC_VECTOR (2 DOWNTO 0);
-		fetchSignals_OUT   : OUT STD_LOGIC_VECTOR(2 DOWNTO 0);
-		regFileSignals_OUT : OUT STD_LOGIC_VECTOR(4 DOWNTO 0);
-		memorySignals_OUT  : OUT STD_LOGIC_VECTOR(6 DOWNTO 0);
-		ImmEaValue_OUT     : OUT STD_LOGIC_VECTOR(15 DOWNTO 0);
-		res_Swap_OUT       : OUT STD_LOGIC_VECTOR (31 DOWNTO 0)
+		clk : IN STD_LOGIC;
+		Flush : IN STD_LOGIC;
+		ImmEaValue_IN : IN STD_LOGIC_VECTOR(15 DOWNTO 0);
+		aluResult_IN : IN STD_LOGIC_VECTOR (31 DOWNTO 0);
+		destReg0_IN : IN STD_LOGIC_VECTOR (2 DOWNTO 0);
+		destReg1_IN : IN STD_LOGIC_VECTOR (2 DOWNTO 0);
+		fetchSignals_IN : IN STD_LOGIC_VECTOR(2 DOWNTO 0);
+		regFileSignals_IN : IN STD_LOGIC_VECTOR(5 DOWNTO 0);
+		memorySignals_IN : IN STD_LOGIC_VECTOR(6 DOWNTO 0);
+		res_Swap_IN : IN STD_LOGIC_VECTOR (31 DOWNTO 0);
+		aluResult_OUT : OUT STD_LOGIC_VECTOR (31 DOWNTO 0);
+		destReg0_OUT : OUT STD_LOGIC_VECTOR (2 DOWNTO 0);
+		destReg1_OUT : OUT STD_LOGIC_VECTOR (2 DOWNTO 0);
+		fetchSignals_OUT : OUT STD_LOGIC_VECTOR(2 DOWNTO 0);
+		regFileSignals_OUT : OUT STD_LOGIC_VECTOR(5 DOWNTO 0);
+		memorySignals_OUT : OUT STD_LOGIC_VECTOR(6 DOWNTO 0);
+		ImmEaValue_OUT : OUT STD_LOGIC_VECTOR(15 DOWNTO 0);
+		res_Swap_OUT : OUT STD_LOGIC_VECTOR (31 DOWNTO 0)
 
 	);
 END exec_mem;

@@ -17,7 +17,7 @@ ENTITY controlUnit IS
 		Flush_EX_MEM   : OUT STD_LOGIC
 
 		-- Fetch-->jmp,jx,ret
-		-- Regfile-->wb,wb,ren,memReg,swap,flush
+		-- Regfile-->wb,wb,ren,memReg,swap,flush,memReg_IN_instruction
 		-- Exec-->aluEn,Reg/Imm Op2,flush
 		-- Memory-->AddSel1,AddSel2,DataSel,MemR,MemW,memprotect,memfree
 		--AddSel1=0 -->when use SP 
@@ -27,7 +27,7 @@ ENTITY controlUnit IS
 END controlUnit;
 
 ARCHITECTURE archControlUnit OF controlUnit IS
-	SIGNAL isImmediate    : STD_LOGIC;
+	SIGNAL isImmediate : STD_LOGIC;
 	SIGNAL lastOpCode_sig : STD_LOGIC_VECTOR (5 DOWNTO 0);
 BEGIN
 

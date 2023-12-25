@@ -1,0 +1,2 @@
+protect r0
+free r1
