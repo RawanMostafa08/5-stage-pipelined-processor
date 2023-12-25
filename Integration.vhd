@@ -61,10 +61,19 @@ ARCHITECTURE IntegrationArch OF Integration IS
         PORT (
             clk : IN STD_LOGIC;
             Instruction_Memory : IN memory_array(0 TO 4095)(15 DOWNTO 0);
+<<<<<<< HEAD
             reset              : IN STD_LOGIC;
+            JZ                 : IN STD_LOGIC;
+            JZ_PC              : IN STD_LOGIC_VECTOR(31 DOWNTO 0);
             Jump               : IN STD_LOGIC;
             Jump_PC            : IN STD_LOGIC_VECTOR(31 DOWNTO 0);
             instruction        : OUT STD_LOGIC_VECTOR(15 DOWNTO 0)
+=======
+            reset : IN STD_LOGIC;
+            Jump : IN STD_LOGIC;
+            Jump_PC : IN STD_LOGIC_VECTOR(31 DOWNTO 0);
+            instruction : OUT STD_LOGIC_VECTOR(15 DOWNTO 0)
+>>>>>>> 6acb9aeb8ae1f149c5cf688396ba962ef27399d6
         );
     END COMPONENT;
 
@@ -156,13 +165,23 @@ ARCHITECTURE IntegrationArch OF Integration IS
     END COMPONENT;
     COMPONENT execute IS
         PORT (
+<<<<<<< HEAD
             op1         : IN STD_LOGIC_VECTOR (31 DOWNTO 0);
             op2         : IN STD_LOGIC_VECTOR (31 DOWNTO 0);
             aluEn       : IN STD_LOGIC;
             opCode      : IN STD_LOGIC_VECTOR (5 DOWNTO 0);
             res         : OUT STD_LOGIC_VECTOR (31 DOWNTO 0);
-            Jump        : OUT STD_LOGIC;
+            JZ          : OUT STD_LOGIC;
             res_Swap    : OUT STD_LOGIC_VECTOR (31 DOWNTO 0);
+=======
+            op1 : IN STD_LOGIC_VECTOR (31 DOWNTO 0);
+            op2 : IN STD_LOGIC_VECTOR (31 DOWNTO 0);
+            aluEn : IN STD_LOGIC;
+            opCode : IN STD_LOGIC_VECTOR (5 DOWNTO 0);
+            res : OUT STD_LOGIC_VECTOR (31 DOWNTO 0);
+            Jump : OUT STD_LOGIC;
+            res_Swap : OUT STD_LOGIC_VECTOR (31 DOWNTO 0);
+>>>>>>> 6acb9aeb8ae1f149c5cf688396ba962ef27399d6
             outPort_EXE : OUT STD_LOGIC_VECTOR (31 DOWNTO 0)
         );
     END COMPONENT;
@@ -191,6 +210,8 @@ ARCHITECTURE IntegrationArch OF Integration IS
     END COMPONENT;
     COMPONENT mem_writeBack IS
         PORT (
+<<<<<<< HEAD
+            clk               : IN STD_LOGIC;
             resMem_IN         : IN STD_LOGIC_VECTOR (31 DOWNTO 0);
             resAlu_IN         : IN STD_LOGIC_VECTOR (31 DOWNTO 0);
             swapAlu_IN        : IN STD_LOGIC_VECTOR (31 DOWNTO 0);
@@ -198,14 +219,23 @@ ARCHITECTURE IntegrationArch OF Integration IS
             destReg1_IN       : IN STD_LOGIC_VECTOR (2 DOWNTO 0);
             regFileSignals_IN : IN STD_LOGIC_VECTOR(4 DOWNTO 0);
             memorySignals_IN  : IN STD_LOGIC_VECTOR(6 DOWNTO 0);
+=======
+            resMem_IN : IN STD_LOGIC_VECTOR (31 DOWNTO 0);
+            resAlu_IN : IN STD_LOGIC_VECTOR (31 DOWNTO 0);
+            swapAlu_IN : IN STD_LOGIC_VECTOR (31 DOWNTO 0);
+            destReg0_IN : IN STD_LOGIC_VECTOR (2 DOWNTO 0);
+            destReg1_IN : IN STD_LOGIC_VECTOR (2 DOWNTO 0);
+            regFileSignals_IN : IN STD_LOGIC_VECTOR(5 DOWNTO 0);
+            memorySignals_IN : IN STD_LOGIC_VECTOR(6 DOWNTO 0);
+>>>>>>> 6acb9aeb8ae1f149c5cf688396ba962ef27399d6
 
-            resMem_OUT         : OUT STD_LOGIC_VECTOR (31 DOWNTO 0);
-            resAlu_OUT         : OUT STD_LOGIC_VECTOR (31 DOWNTO 0);
-            swapAlu_OUT        : OUT STD_LOGIC_VECTOR (31 DOWNTO 0);
-            destReg0_OUT       : OUT STD_LOGIC_VECTOR (2 DOWNTO 0);
-            destReg1_OUT       : OUT STD_LOGIC_VECTOR (2 DOWNTO 0);
-            regFileSignals_OUT : OUT STD_LOGIC_VECTOR(4 DOWNTO 0);
-            memorySignals_OUT  : OUT STD_LOGIC_VECTOR(6 DOWNTO 0)
+            resMem_OUT : OUT STD_LOGIC_VECTOR (31 DOWNTO 0);
+            resAlu_OUT : OUT STD_LOGIC_VECTOR (31 DOWNTO 0);
+            swapAlu_OUT : OUT STD_LOGIC_VECTOR (31 DOWNTO 0);
+            destReg0_OUT : OUT STD_LOGIC_VECTOR (2 DOWNTO 0);
+            destReg1_OUT : OUT STD_LOGIC_VECTOR (2 DOWNTO 0);
+            regFileSignals_OUT : OUT STD_LOGIC_VECTOR(5 DOWNTO 0);
+            memorySignals_OUT : OUT STD_LOGIC_VECTOR(6 DOWNTO 0)
         );
     END COMPONENT;
 
@@ -268,6 +298,7 @@ ARCHITECTURE IntegrationArch OF Integration IS
     SIGNAL regFile_reset, regFile_WE0, regFile_WE1, regFile_RE0, regFile_RE1 : STD_LOGIC;
     SIGNAL regFile_WriteAdd0, regFile_WriteAdd1, regFile_ReadAdd0, regFile_ReadAdd1 : STD_LOGIC_VECTOR (2 DOWNTO 0);
     SIGNAL regFile_ReadData0, regFile_ReadData1, regFile_WriteData0, regFile_WriteData1, readData_Mem : STD_LOGIC_VECTOR (31 DOWNTO 0);
+<<<<<<< HEAD
     SIGNAL memread, memwrite                                                                          : STD_LOGIC;
     SIGNAL ReadEn0_temp                                                                               : STD_LOGIC;
     SIGNAL ReadEn1_temp                                                                               : STD_LOGIC;
@@ -278,7 +309,10 @@ ARCHITECTURE IntegrationArch OF Integration IS
     SIGNAL executeSignals_CU                                                                          : STD_LOGIC_VECTOR(2 DOWNTO 0);
     SIGNAL lastOpCode_CU                                                                              : STD_LOGIC_VECTOR(5 DOWNTO 0);
     SIGNAL memorySignals_CU                                                                           : STD_LOGIC_VECTOR(6 DOWNTO 0);
-    SIGNAL jumpSig                                                                                    : STD_LOGIC;
+    SIGNAL JZ_Sig                                                                                     : STD_LOGIC;
+    SIGNAL Jump_Sig                                                                                   : STD_LOGIC;
+    SIGNAL flush_ID_EX_Sig                                                                            : STD_LOGIC;
+    SIGNAL flush_EX_MEM_Sig                                                                           : STD_LOGIC;
     SIGNAL readReg0_IF_ID                                                                             : STD_LOGIC_VECTOR (2 DOWNTO 0);
     SIGNAL readReg1_IF_ID                                                                             : STD_LOGIC_VECTOR (2 DOWNTO 0);
     SIGNAL writeReg0_IF_ID                                                                            : STD_LOGIC_VECTOR (2 DOWNTO 0);
@@ -298,6 +332,38 @@ ARCHITECTURE IntegrationArch OF Integration IS
     SIGNAL ImmEaValue_ID_EX                                                                           : STD_LOGIC_VECTOR (15 DOWNTO 0);
     SIGNAL memorySignals_ID_EX                                                                        : STD_LOGIC_VECTOR(6 DOWNTO 0);
     SIGNAL lastOpCode_ID_EX                                                                           : STD_LOGIC_VECTOR(5 DOWNTO 0);
+=======
+    SIGNAL memread, memwrite : STD_LOGIC;
+    SIGNAL ReadEn0_temp : STD_LOGIC;
+    SIGNAL ReadEn1_temp : STD_LOGIC;
+    SIGNAL IsImmediate : STD_LOGIC;
+    SIGNAL opCode_CU : STD_LOGIC_VECTOR (5 DOWNTO 0);
+    SIGNAL fetchSignals_CU : STD_LOGIC_VECTOR(2 DOWNTO 0);
+    SIGNAL regFileSignals_CU : STD_LOGIC_VECTOR(5 DOWNTO 0);
+    SIGNAL executeSignals_CU : STD_LOGIC_VECTOR(2 DOWNTO 0);
+    SIGNAL lastOpCode_CU : STD_LOGIC_VECTOR(5 DOWNTO 0);
+    SIGNAL memorySignals_CU : STD_LOGIC_VECTOR(6 DOWNTO 0);
+    SIGNAL jumpSig : STD_LOGIC;
+    SIGNAL readReg0_IF_ID : STD_LOGIC_VECTOR (2 DOWNTO 0);
+    SIGNAL readReg1_IF_ID : STD_LOGIC_VECTOR (2 DOWNTO 0);
+    SIGNAL writeReg0_IF_ID : STD_LOGIC_VECTOR (2 DOWNTO 0);
+    SIGNAL writeReg1_IF_ID : STD_LOGIC_VECTOR (2 DOWNTO 0);
+    SIGNAL ImmEaValue_IF_ID : STD_LOGIC_VECTOR (15 DOWNTO 0);
+    SIGNAL opCode_IF_ID : STD_LOGIC_VECTOR(5 DOWNTO 0);
+    SIGNAL readData0_ID_EX : STD_LOGIC_VECTOR (31 DOWNTO 0);
+    SIGNAL readData1_ID_EX : STD_LOGIC_VECTOR (31 DOWNTO 0);
+    SIGNAL destReg0_ID_EX : STD_LOGIC_VECTOR (2 DOWNTO 0);
+    SIGNAL destReg1_ID_EX : STD_LOGIC_VECTOR (2 DOWNTO 0);
+    SIGNAL srcReg0_ID_EX : STD_LOGIC_VECTOR (2 DOWNTO 0);
+    SIGNAL srcReg1_ID_EX : STD_LOGIC_VECTOR (2 DOWNTO 0);
+    SIGNAL opCode_ID_EX : STD_LOGIC_VECTOR (5 DOWNTO 0);
+    SIGNAL fetchSignals_ID_EX : STD_LOGIC_VECTOR(2 DOWNTO 0);
+    SIGNAL regFileSignals_ID_EX : STD_LOGIC_VECTOR(5 DOWNTO 0);
+    SIGNAL executeSignals_ID_EX : STD_LOGIC_VECTOR(2 DOWNTO 0);
+    SIGNAL ImmEaValue_ID_EX : STD_LOGIC_VECTOR (15 DOWNTO 0);
+    SIGNAL memorySignals_ID_EX : STD_LOGIC_VECTOR(6 DOWNTO 0);
+    SIGNAL lastOpCode_ID_EX : STD_LOGIC_VECTOR(5 DOWNTO 0);
+>>>>>>> 6acb9aeb8ae1f149c5cf688396ba962ef27399d6
 
     SIGNAL destReg0_ID_EX_TEMP : STD_LOGIC_VECTOR(2 DOWNTO 0);
     SIGNAL destReg1_ID_EX_TEMP : STD_LOGIC_VECTOR(2 DOWNTO 0);
@@ -399,20 +465,38 @@ ARCHITECTURE IntegrationArch OF Integration IS
     SIGNAL opCode_opSel : STD_LOGIC_VECTOR (5 DOWNTO 0);
     SIGNAL lastOpCode_opSel : STD_LOGIC_VECTOR (5 DOWNTO 0);
     SIGNAL executeSignals_opSel : STD_LOGIC;
-    SIGNAL flushSig             : STD_LOGIC;
+<<<<<<< HEAD
 BEGIN
 
     CU : ControlUnit PORT MAP(
-        opCode         => opCode_CU,
-        enterProcess   => EP,
+        opCode         => Instruction_F(15 DOWNTO 10),
+        clk            => clk,
         fetchSignals   => fetchSignals_CU,
         regFileSignals => regFileSignals_CU,
         executeSignals => executeSignals_CU,
         memorySignals  => memorySignals_CU,
         isImm          => IsImmediate,
         lastOpCode     => lastOpCode_CU,
-        Jump             => jumpSig,
-        Flush          => flushSig
+        JZ             => JZ_Sig,
+        Jump           => Jump_Sig,
+        Flush_ID_EX    => flush_ID_EX_Sig,
+        Flush_EX_MEM   => flush_EX_MEM_Sig
+=======
+    SIGNAL flushSig : STD_LOGIC;
+BEGIN
+
+    CU : ControlUnit PORT MAP(
+        opCode => opCode_CU,
+        enterProcess => EP,
+        fetchSignals => fetchSignals_CU,
+        regFileSignals => regFileSignals_CU,
+        executeSignals => executeSignals_CU,
+        memorySignals => memorySignals_CU,
+        isImm => IsImmediate,
+        lastOpCode => lastOpCode_CU,
+        Jump => jumpSig,
+        Flush => flushSig
+>>>>>>> 6acb9aeb8ae1f149c5cf688396ba962ef27399d6
 
     );
     Read_Instrunction : InstructionMemory PORT MAP(
@@ -426,10 +510,19 @@ BEGIN
     FetchStage : Fetch PORT MAP(
         clk => clk,
         Instruction_Memory => Instruction_Memory_Processor,
+<<<<<<< HEAD
         reset              => reset,
-        Jump               => jumpSig,
-        Jump_PC            => readData0_opSel,
+        JZ                 => JZ_Sig,
+        JZ_PC              => readData0_ID_EX,
+        Jump               => Jump_Sig,
+        Jump_PC            => readData0_temp,
         instruction        => Instruction_F
+=======
+        reset => reset,
+        Jump => jumpSig,
+        Jump_PC => readData0_opSel,
+        instruction => Instruction_F
+>>>>>>> 6acb9aeb8ae1f149c5cf688396ba962ef27399d6
     );
 
     IF_ID_Register : IF_ID_Reg PORT MAP(
@@ -444,16 +537,29 @@ BEGIN
 
     );
     Register_File : regFile PORT MAP(
+<<<<<<< HEAD
         clk        => clk,
         Reset      => regFile_reset,
-        WriteEn0   => WriteEn0_temp, --FROM MEM WB
-        WriteEn1   => WriteEn1_temp, --FROM MEM WB
+        WriteEn0   => regFileSignals_MEM_WB(0),
+        WriteEn1   => regFileSignals_MEM_WB(1),
         ReadEn0    => regFileSignals_CU(2),
         ReadEn1    => regFileSignals_CU(2),
-        WriteAdd0  => writeReg0_temp,
-        WriteAdd1  => writeReg1_temp,
-        ReadAdd0   => readReg0_temp,
-        ReadAdd1   => readReg1_temp,
+        WriteAdd0  => destReg0_MEM_WB,
+        WriteAdd1  => destReg1_MEM_WB,
+        ReadAdd0   => readReg0_IF_ID,
+        ReadAdd1   => readReg1_IF_ID,
+=======
+        clk => clk,
+        Reset => regFile_reset,
+        WriteEn0 => WriteEn0_temp, --FROM MEM WB
+        WriteEn1 => WriteEn1_temp, --FROM MEM WB
+        ReadEn0 => regFileSignals_CU(2),
+        ReadEn1 => regFileSignals_CU(2),
+        WriteAdd0 => writeReg0_temp,
+        WriteAdd1 => writeReg1_temp,
+        ReadAdd0 => readReg0_temp,
+        ReadAdd1 => readReg1_temp,
+>>>>>>> 6acb9aeb8ae1f149c5cf688396ba962ef27399d6
         WriteData0 => regFile_WriteData0,
         WriteData1 => regFile_WriteData1,
         ReadData0 => readData0_temp,
@@ -462,30 +568,49 @@ BEGIN
     );
 
     ID_EXE_Register : dec_exec PORT MAP(
-        Flush             => flushSig,
+<<<<<<< HEAD
         clk               => clk,
+        Flush             => flush_ID_EX_Sig,
         isImm             => IsImmediate,
-        ImmEaValue_IN     => ImmEaValue_temp,
+        ImmEaValue_IN     => ImmEaValue_IF_ID,
         readData0_IN      => readData0_temp,
         readData1_IN      => readData1_temp,
-        destReg0_IN       => destReg0_ID_EX_TEMP,
-        destReg1_IN       => destReg1_ID_EX_TEMP,
-        srcReg0_IN        => srcReg0_ID_EX_TEMP,
-        srcReg1_IN        => srcReg1_ID_EX_TEMP,
+        destReg0_IN       => writeReg0_IF_ID,
+        destReg1_IN       => writeReg1_IF_ID,
+        srcReg0_IN        => readReg0_IF_ID,
+        srcReg1_IN        => readReg1_IF_ID,
         fetchSignals_IN   => fetchSignals_CU,
         regFileSignals_IN => regFileSignals_CU,
         executeSignals_IN => executeSignals_CU,
         lastOpCode_IN     => lastOpCode_CU,
         memorySignals_IN  => memorySignals_CU,
-        opCode_IN         => opCode_CU,
+        opCode_IN         => opCode_IF_ID,
+=======
+        Flush => flushSig,
+        clk => clk,
+        isImm => IsImmediate,
+        ImmEaValue_IN => ImmEaValue_temp,
+        readData0_IN => readData0_temp,
+        readData1_IN => readData1_temp,
+        destReg0_IN => destReg0_ID_EX_TEMP,
+        destReg1_IN => destReg1_ID_EX_TEMP,
+        srcReg0_IN => srcReg0_ID_EX_TEMP,
+        srcReg1_IN => srcReg1_ID_EX_TEMP,
+        fetchSignals_IN => fetchSignals_CU,
+        regFileSignals_IN => regFileSignals_CU,
+        executeSignals_IN => executeSignals_CU,
+        lastOpCode_IN => lastOpCode_CU,
+        memorySignals_IN => memorySignals_CU,
+        opCode_IN => opCode_CU,
+>>>>>>> 6acb9aeb8ae1f149c5cf688396ba962ef27399d6
 
-        readData0_OUT      => readData0_ID_EX,
-        readData1_OUT      => readData1_ID_EX,
-        destReg0_OUT       => destReg0_ID_EX,
-        destReg1_OUT       => destReg1_ID_EX,
-        srcReg0_OUT        => srcReg0_ID_EX,
-        srcReg1_OUT        => srcReg1_ID_EX,
-        fetchSignals_OUT   => fetchSignals_ID_EX,
+        readData0_OUT => readData0_ID_EX,
+        readData1_OUT => readData1_ID_EX,
+        destReg0_OUT => destReg0_ID_EX,
+        destReg1_OUT => destReg1_ID_EX,
+        srcReg0_OUT => srcReg0_ID_EX,
+        srcReg1_OUT => srcReg1_ID_EX,
+        fetchSignals_OUT => fetchSignals_ID_EX,
         regFileSignals_OUT => regFileSignals_ID_EX,
         executeSignals_OUT => executeSignals_ID_EX,
         memorySignals_OUT => memorySignals_ID_EX,
@@ -496,54 +621,102 @@ BEGIN
         --WB FROM CU
     );
     FU : ForwardingUnit PORT MAP(
-        Rsrc1                => srcReg0_FU,
-        Rsrc2                => srcReg1_FU,
-        RegExecuteMem        => RegExecuteMem_FU,
-        RegMemWb             => RegMemWb_FU,
+<<<<<<< HEAD
+        Rsrc1                => srcReg0_ID_EX,
+        Rsrc2                => srcReg1_ID_EX,
+        RegExecuteMem        => destReg0_EX_MEM,
+        RegMemWb             => destReg0_MEM_WB,
+=======
+        Rsrc1 => srcReg0_FU,
+        Rsrc2 => srcReg1_FU,
+        RegExecuteMem => RegExecuteMem_FU,
+        RegMemWb => RegMemWb_FU,
+>>>>>>> 6acb9aeb8ae1f149c5cf688396ba962ef27399d6
         forwardingsignalsop1 => op1_FU,
         forwardingsignalsop2 => op2_FU
     );
     OperandSel : AluOperandsSel PORT MAP(
-        readData2           => readData1_opSel,
-        readData1           => readData0_opSel,
-        immData             => ImmEaValue_opSel,
-        opCode              => opCode_opSel,
-        lastOpCode          => lastOpCode_opSel,
-        Sel                 => executeSignals_opSel,
+<<<<<<< HEAD
+        readData2           => readData1_ID_EX,
+        readData1           => readData0_ID_EX,
+        immData             => ImmEaValue_ID_EX,
+        opCode              => opCode_ID_EX,
+        lastOpCode          => lastOpCode_ID_EX,
+        Sel                 => executeSignals_ID_EX(1),
         forwardingsignalop1 => op1_FU,
         forwardingsignalop2 => op2_FU,
-        AlutoAluop1         => aluResult_opSel,
-        AlutoAluop2         => aluResult_opSel,
+        AlutoAluop1         => aluResult_EX_MEM,
+        AlutoAluop2         => aluResult_EX_MEM,
         MemtoAluop1         => regFile_WriteData0,
         MemtoAluop2         => regFile_WriteData0,
         op1                 => readData0_EXE,
         op2                 => readData1_EXE,
         opcodeAlu           => opCode_EXE
+=======
+        readData2 => readData1_opSel,
+        readData1 => readData0_opSel,
+        immData => ImmEaValue_opSel,
+        opCode => opCode_opSel,
+        lastOpCode => lastOpCode_opSel,
+        Sel => executeSignals_opSel,
+        forwardingsignalop1 => op1_FU,
+        forwardingsignalop2 => op2_FU,
+        AlutoAluop1 => aluResult_opSel,
+        AlutoAluop2 => aluResult_opSel,
+        MemtoAluop1 => regFile_WriteData0,
+        MemtoAluop2 => regFile_WriteData0,
+        op1 => readData0_EXE,
+        op2 => readData1_EXE,
+        opcodeAlu => opCode_EXE
+>>>>>>> 6acb9aeb8ae1f149c5cf688396ba962ef27399d6
 
     );
 
     ExcuteStage : execute PORT MAP(
+<<<<<<< HEAD
         op1         => readData0_EXE,
         op2         => readData1_EXE,
-        aluEn       => aluEnable,
+        aluEn       => executeSignals_ID_EX(0),
         opCode      => opCode_EXE,
         res         => aluRes,
-        Jump        => jumpSig,
+        JZ          => JZ_Sig,
         res_Swap    => res_Swap_temp,
+=======
+        op1 => readData0_EXE,
+        op2 => readData1_EXE,
+        aluEn => aluEnable,
+        opCode => opCode_EXE,
+        res => aluRes,
+        Jump => jumpSig,
+        res_Swap => res_Swap_temp,
+>>>>>>> 6acb9aeb8ae1f149c5cf688396ba962ef27399d6
         outPort_EXE => outPort
     );
 
     EXE_M : exec_mem PORT MAP(
+<<<<<<< HEAD
         clk               => clk,
-        Flush             => flushSig,
-        ImmEaValue_IN     => ImmEaValue_EX_MEM_TEMP,
+        Flush             => flush_EX_MEM_Sig,
+        ImmEaValue_IN     => ImmEaValue_ID_EX,
         aluResult_IN      => aluRes,
-        destReg0_IN       => destReg0_EX_MEM_TEMP,
-        destReg1_IN       => destReg1_EX_MEM_TEMP,
-        fetchSignals_IN   => fetchSignals_EX_MEM_TEMP,
-        regFileSignals_IN => regFileSignals_EX_MEM_TEMP,
-        memorySignals_IN  => memorySignals_EX_MEM_TEMP,
+        destReg0_IN       => destReg0_ID_EX,
+        destReg1_IN       => destReg1_ID_EX,
+        fetchSignals_IN   => fetchSignals_ID_EX,
+        regFileSignals_IN => regFileSignals_ID_EX,
+        memorySignals_IN  => memorySignals_ID_EX,
         res_Swap_IN       => res_Swap_temp,
+=======
+        clk => clk,
+        Flush => flushSig,
+        ImmEaValue_IN => ImmEaValue_EX_MEM_TEMP,
+        aluResult_IN => aluRes,
+        destReg0_IN => destReg0_EX_MEM_TEMP,
+        destReg1_IN => destReg1_EX_MEM_TEMP,
+        fetchSignals_IN => fetchSignals_EX_MEM_TEMP,
+        regFileSignals_IN => regFileSignals_EX_MEM_TEMP,
+        memorySignals_IN => memorySignals_EX_MEM_TEMP,
+        res_Swap_IN => res_Swap_temp,
+>>>>>>> 6acb9aeb8ae1f149c5cf688396ba962ef27399d6
 
         aluResult_OUT => aluResult_EX_MEM,
         destReg0_OUT => destReg0_EX_MEM,
@@ -563,23 +736,45 @@ BEGIN
         Address => address_result
     );
     Memory_Stage : memory PORT MAP(
+<<<<<<< HEAD
         load       => load,
-        address    => address_mem,
+        address    => address_result,
         writeData  => writeData_mem,
-        memRead    => memread,  --should be changed to get signal from EX/MEM
-        memWrite   => memwrite, --should be changed to get signal from EX/MEM
+        memRead    => memorySignals_EX_MEM(3), --should be changed to get signal from EX/MEM
+        memWrite   => memorySignals_EX_MEM(4), --should be changed to get signal from EX/MEM
         readData   => readData_Mem,
+        memProtect => memorySignals_EX_MEM(5),
+        memFree    => memorySignals_EX_MEM(6)
+=======
+        load => load,
+        address => address_mem,
+        writeData => writeData_mem,
+        memRead => memread, --should be changed to get signal from EX/MEM
+        memWrite => memwrite, --should be changed to get signal from EX/MEM
+        readData => readData_Mem,
         memProtect => memProtect_temp,
-        memFree    => memFree_temp
+        memFree => memFree_temp
+>>>>>>> 6acb9aeb8ae1f149c5cf688396ba962ef27399d6
     );
     M_WB : mem_writeBack PORT MAP(
+<<<<<<< HEAD
+        clk               => clk,
         resMem_IN         => readData_Mem,
-        resAlu_IN         => resAlu_MEM_WB_TEMP,
-        destReg0_IN       => destReg0_MEM_WB_TEMP,
-        destReg1_IN       => destReg1_MEM_WB_TEMP,
-        regFileSignals_IN => regFileSignals_MEM_WB_TEMP,
-        memorySignals_IN  => memorySignals_MEM_WB_TEMP,
+        resAlu_IN         => aluResult_EX_MEM,
+        destReg0_IN       => destReg0_EX_MEM,
+        destReg1_IN       => destReg1_EX_MEM,
+        regFileSignals_IN => regFileSignals_EX_MEM,
+        memorySignals_IN  => memorySignals_EX_MEM,
         swapAlu_IN        => swapResult_EX_MEM,
+=======
+        resMem_IN => readData_Mem,
+        resAlu_IN => resAlu_MEM_WB_TEMP,
+        destReg0_IN => destReg0_MEM_WB_TEMP,
+        destReg1_IN => destReg1_MEM_WB_TEMP,
+        regFileSignals_IN => regFileSignals_MEM_WB_TEMP,
+        memorySignals_IN => memorySignals_MEM_WB_TEMP,
+        swapAlu_IN => swapResult_EX_MEM,
+>>>>>>> 6acb9aeb8ae1f149c5cf688396ba962ef27399d6
 
         resMem_OUT => readData_Mem_WB,
         resAlu_OUT => resAlu_MEM_WB,
@@ -591,11 +786,21 @@ BEGIN
     );
 
     WB : writeBack PORT MAP(
-        resMem   => resMem_WB,
-        resAlu   => resAlu_WB,
-        swapAlu  => swapAlu_WB,
-        memReg   => memReg_WB,
-        swap     => swap_WB,
+<<<<<<< HEAD
+        resMem   => readData_Mem_WB,
+        resAlu   => resAlu_MEM_WB,
+        swapAlu  => Swap_MEM_WB_TEMP,
+        memReg   => regFileSignals_MEM_WB(3),
+        swap     => regFileSignals_MEM_WB(4),
+=======
+        resMem => resMem_WB,
+        resAlu => resAlu_WB,
+        swapAlu => swapAlu_WB,
+        memReg => memReg_WB,
+        memReg_in_instr => memReg_IN_instr_WB,
+        inPort => inPortSignal,
+        swap => swap_WB,
+>>>>>>> 6acb9aeb8ae1f149c5cf688396ba962ef27399d6
         Swap_Out => regFile_WriteData1,
         res => regFile_WriteData0
     );
@@ -672,7 +877,8 @@ BEGIN
                 aluEnable <= executeSignals_ID_EX(0);
                 fetchSignals_EX_MEM_TEMP <= fetchSignals_ID_EX;
                 regFileSignals_EX_MEM_TEMP <= regFileSignals_ID_EX;
-                memorySignals_EX_MEM_TEMP  <= memorySignals_ID_EX;
+                memorySignals_EX_MEM_TEMP <= memorySignals_ID_EX;
+>>>>>>> 6acb9aeb8ae1f149c5cf688396ba962ef27399d6
 
     --             destReg0_ID_EX_TEMP <= writeReg0_IF_ID;
     --             destReg1_ID_EX_TEMP <= writeReg1_IF_ID;
@@ -680,8 +886,38 @@ BEGIN
     --             srcReg0_ID_EX_TEMP <= readReg0_IF_ID;
     --             srcReg1_ID_EX_TEMP <= readReg1_IF_ID;
 
-                destReg0_EX_MEM_TEMP   <= destReg0_ID_EX;
-                destReg1_EX_MEM_TEMP   <= destReg1_ID_EX;
+<<<<<<< HEAD
+    --             destReg0_EX_MEM_TEMP   <= destReg0_ID_EX;
+    --             destReg1_EX_MEM_TEMP   <= destReg1_ID_EX;
+    --             ImmEaValue_EX_MEM_TEMP <= ImmEaValue_ID_EX;
+
+    --             --execute_memory-->memory
+    --             memread         <= memorySignals_EX_MEM(3);
+    --             memwrite        <= memorySignals_EX_MEM(4);
+    --             memProtect_temp <= memorySignals_EX_MEM(5);
+    --             memFree_temp    <= memorySignals_EX_MEM(6);
+    --             address_mem     <= address_result;
+    --             --WB
+    --             resAlu_MEM_WB_TEMP         <= aluResult_EX_MEM;
+    --             destReg0_MEM_WB_TEMP       <= destReg0_EX_MEM;
+    --             destReg1_MEM_WB_TEMP       <= destReg1_EX_MEM;
+    --             memorySignals_MEM_WB_TEMP  <= memorySignals_EX_MEM;
+    --             regFileSignals_MEM_WB_TEMP <= regFileSignals_EX_MEM;
+    --             memReg_WB                  <= regFileSignals_MEM_WB(3);
+    --             swap_WB                    <= regFileSignals_MEM_WB(4);
+    --             writeReg0_temp             <= destReg0_MEM_WB;
+    --             writeReg1_temp             <= destReg1_MEM_WB;
+    --             resMem_WB                  <= readData_Mem_WB;
+    --             resAlu_WB                  <= resAlu_MEM_WB;
+    --             swapAlu_WB                 <= Swap_MEM_WB_TEMP;
+    --             WriteEn0_temp              <= regFileSignals_MEM_WB(0);
+    --             WriteEn1_temp              <= regFileSignals_MEM_WB(1);
+    --             EP                         <= NOT EP;
+    --             -- address_mem <= (OTHERS => '0');
+    --             -- writeData_mem <= (OTHERS => '1');
+=======
+                destReg0_EX_MEM_TEMP <= destReg0_ID_EX;
+                destReg1_EX_MEM_TEMP <= destReg1_ID_EX;
                 ImmEaValue_EX_MEM_TEMP <= ImmEaValue_ID_EX;
 
                 --execute_memory-->memory
