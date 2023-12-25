@@ -11,7 +11,8 @@ ENTITY execute IS
     res : OUT STD_LOGIC_VECTOR (31 DOWNTO 0);
     Jump : OUT STD_LOGIC;
     res_Swap : OUT STD_LOGIC_VECTOR (31 DOWNTO 0);
-    outPort_EXE : OUT STD_LOGIC_VECTOR (31 DOWNTO 0)
+    outPort_EXE : OUT STD_LOGIC_VECTOR (31 DOWNTO 0);
+    SP :OUT std_logic_vector(31 downto 0)
   );
 END execute;
 
@@ -19,7 +20,8 @@ ARCHITECTURE archExecute OF execute IS
   SIGNAL CCR : STD_LOGIC_VECTOR(2 DOWNTO 0) := (OTHERS => '0'); --c n z 
   SIGNAL temp_res : STD_LOGIC_VECTOR (31 DOWNTO 0);
   SIGNAL reswithcarry : STD_LOGIC_VECTOR (32 DOWNTO 0);
-BEGIN
+  signal SP_signal :std_logic_vector(31 downto 0) :="00000000000000000000111111111111"; --SP is intially =4095
+BEGIN 
 
   PROCESS (opCode, temp_res, reswithcarry, op1, op2)
     VARIABLE temp_rot : STD_LOGIC_VECTOR (31 DOWNTO 0);
@@ -209,6 +211,15 @@ BEGIN
         WHEN "110001" =>
           -- jz
           Jump <= '1';
+        WHEN "100000" =>
+          --PUSH
+          SP <=SP_signal;
+          SP_signal <=STD_LOGIC_VECTOR(unsigned(SP_signal) + 1);
+        When "100001"=>
+        --POP
+        SP_signal <=STD_LOGIC_VECTOR(unsigned(SP_signal) - 1);
+        SP <=SP_signal;
+
         WHEN OTHERS =>
           -- Default case when opCode does not match any of the specified values
           NULL;

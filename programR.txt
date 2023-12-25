@@ -1,2 +1,15 @@
-protect r0
-free r1
+LDD R1,fff
+NOP
+NOP
+NOP
+NOP
+POP r2
+NOP
+NOP
+NOP
+NOP
+LDD R1,ffe
+NOP
+NOP
+NOP
+POP r3

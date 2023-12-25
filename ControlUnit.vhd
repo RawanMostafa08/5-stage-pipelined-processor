@@ -243,6 +243,30 @@ BEGIN
 						isImmediate <= '0';
 						regFileSignals(2) <= '1'; --ren
 						executeSignals(0) <= '1'; --aluEn
+					when "100000"=>
+					--PUSH
+						isImmediate <= '0';
+						regFileSignals(2) <= '1'; --ren
+						executeSignals(0) <= '1'; --aluEn
+						memorySignals(0) <= '0'; --AddressSel
+						memorySignals(1) <= '0'; --AddressSel
+						memorySignals(2) <= '1'; --DataSel
+						memorySignals(4) <= '1'; --MemWrite
+
+					when "100001"=>
+						--POP
+							isImmediate <= '0';
+							executeSignals(0) <= '1'; --aluEn
+							regFileSignals(0) <= '1'; --wb
+
+							memorySignals(0) <= '0'; --AddressSel
+							memorySignals(1) <= '0'; --AddressSel
+
+							memorySignals(2) <= '1'; --DataSel
+							memorySignals(3) <= '1'; --MemRead
+
+
+
 
 					WHEN OTHERS =>
 						fetchSignals <= (OTHERS => '0');

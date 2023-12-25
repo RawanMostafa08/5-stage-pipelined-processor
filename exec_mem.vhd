@@ -12,6 +12,9 @@ ENTITY exec_mem IS
 		regFileSignals_IN : IN STD_LOGIC_VECTOR(5 DOWNTO 0);
 		memorySignals_IN : IN STD_LOGIC_VECTOR(6 DOWNTO 0);
 		res_Swap_IN : IN STD_LOGIC_VECTOR (31 DOWNTO 0);
+		SP_IN: IN STD_LOGIC_VECTOR (31 DOWNTO 0);
+
+
 		aluResult_OUT : OUT STD_LOGIC_VECTOR (31 DOWNTO 0);
 		destReg0_OUT : OUT STD_LOGIC_VECTOR (2 DOWNTO 0);
 		destReg1_OUT : OUT STD_LOGIC_VECTOR (2 DOWNTO 0);
@@ -19,7 +22,8 @@ ENTITY exec_mem IS
 		regFileSignals_OUT : OUT STD_LOGIC_VECTOR(5 DOWNTO 0);
 		memorySignals_OUT : OUT STD_LOGIC_VECTOR(6 DOWNTO 0);
 		ImmEaValue_OUT : OUT STD_LOGIC_VECTOR(15 DOWNTO 0);
-		res_Swap_OUT : OUT STD_LOGIC_VECTOR (31 DOWNTO 0)
+		res_Swap_OUT : OUT STD_LOGIC_VECTOR (31 DOWNTO 0);
+		SP_OUT:OUT STD_LOGIC_VECTOR (31 DOWNTO 0)
 
 	);
 END exec_mem;
@@ -31,6 +35,7 @@ BEGIN
 	destReg1_OUT <= destReg1_IN;
 	ImmEaValue_OUT <= ImmEaValue_IN;
 	res_Swap_OUT <= res_Swap_IN;
+	SP_OUT <= SP_IN;
 	PROCESS (clk)
 	BEGIN
 		IF Flush = '1' THEN
