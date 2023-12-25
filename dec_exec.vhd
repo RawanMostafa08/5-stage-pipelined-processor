@@ -81,11 +81,5 @@ BEGIN
 
             END IF;
       END PROCESS;
-<<<<<<< HEAD
 
-=======
-      destReg0_OUT <= destReg_temp;
-      ImmEaValue_OUT <= ImmEaValue_IN;
-      lastOpCode_OUT <= lastOpCode_IN;
->>>>>>> 6acb9aeb8ae1f149c5cf688396ba962ef27399d6
 END arch_dec_exec;

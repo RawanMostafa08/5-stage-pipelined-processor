@@ -4,7 +4,6 @@ USE IEEE.numeric_std.ALL;
 
 ENTITY execute IS
   PORT (
-<<<<<<< HEAD
     op1         : IN STD_LOGIC_VECTOR (31 DOWNTO 0);
     op2         : IN STD_LOGIC_VECTOR (31 DOWNTO 0);
     aluEn       : IN STD_LOGIC;
@@ -12,15 +11,7 @@ ENTITY execute IS
     res         : OUT STD_LOGIC_VECTOR (31 DOWNTO 0);
     JZ          : OUT STD_LOGIC;
     res_Swap    : OUT STD_LOGIC_VECTOR (31 DOWNTO 0);
-=======
-    op1 : IN STD_LOGIC_VECTOR (31 DOWNTO 0);
-    op2 : IN STD_LOGIC_VECTOR (31 DOWNTO 0);
-    aluEn : IN STD_LOGIC;
-    opCode : IN STD_LOGIC_VECTOR (5 DOWNTO 0);
-    res : OUT STD_LOGIC_VECTOR (31 DOWNTO 0);
-    Jump : OUT STD_LOGIC;
-    res_Swap : OUT STD_LOGIC_VECTOR (31 DOWNTO 0);
->>>>>>> 6acb9aeb8ae1f149c5cf688396ba962ef27399d6
+
     outPort_EXE : OUT STD_LOGIC_VECTOR (31 DOWNTO 0)
   );
 END execute;
