@@ -28,7 +28,7 @@ BEGIN
         VARIABLE jz_value   : INTEGER;
         VARIABLE pc_value   : STD_LOGIC_VECTOR(31 DOWNTO 0);
     BEGIN
-        PC <= pc_value;
+
         jump_value := to_integer(unsigned(Jump_PC));
         jz_value   := to_integer(unsigned(JZ_PC));
         IF reset = '1' AND clk = '1' THEN
@@ -37,6 +37,7 @@ BEGIN
             instruction <= (OTHERS => 'X');
         ELSE
             IF clk = '1' THEN
+                PC <= pc_value;
                 IF JZ = '1' AND jz_value >= 0 AND jz_value < 4096 THEN
                     -- Check if index is within the valid range
                     pc_value := (STD_LOGIC_VECTOR(to_unsigned(jz_value, 32)));
