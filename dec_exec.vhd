@@ -31,6 +31,7 @@ ENTITY dec_exec IS
             executeSignals_OUT : OUT STD_LOGIC_VECTOR(2 DOWNTO 0);
             memorySignals_OUT  : OUT STD_LOGIC_VECTOR(6 DOWNTO 0);
             ImmEaValue_OUT     : OUT STD_LOGIC_VECTOR (15 DOWNTO 0);
+            isImm_OUT          : OUT STD_LOGIC;
             lastOpCode_OUT     : OUT STD_LOGIC_VECTOR(5 DOWNTO 0)
       );
 END dec_exec;
@@ -68,6 +69,7 @@ BEGIN
                   destReg0_OUT   <= destReg_temp0;
                   ImmEaValue_OUT <= ImmEaValue_IN;
                   lastOpCode_OUT <= lastOpCode_IN;
+                  isImm_OUT      <= isImm;
                   IF Flush = '1' THEN
                         fetchSignals_OUT   <= (OTHERS => '0');
                         regFileSignals_OUT <= (OTHERS => '0');

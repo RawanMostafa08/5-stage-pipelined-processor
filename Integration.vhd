@@ -138,6 +138,7 @@ ARCHITECTURE IntegrationArch OF Integration IS
             executeSignals_OUT : OUT STD_LOGIC_VECTOR(2 DOWNTO 0);
             memorySignals_OUT  : OUT STD_LOGIC_VECTOR(6 DOWNTO 0);
             ImmEaValue_OUT     : OUT STD_LOGIC_VECTOR (15 DOWNTO 0);
+            isImm_OUT          : OUT STD_LOGIC;
             lastOpCode_OUT     : OUT STD_LOGIC_VECTOR(5 DOWNTO 0)
         );
     END COMPONENT;
@@ -232,6 +233,7 @@ ARCHITECTURE IntegrationArch OF Integration IS
 
     COMPONENT ForwardingUnit IS
         PORT (
+            isImm                : IN STD_LOGIC;
             Rsrc1                : IN STD_LOGIC_VECTOR (2 DOWNTO 0);
             Rsrc2                : IN STD_LOGIC_VECTOR (2 DOWNTO 0);
             RegExecuteMem        : IN STD_LOGIC_VECTOR (2 DOWNTO 0);
@@ -288,6 +290,7 @@ ARCHITECTURE IntegrationArch OF Integration IS
     SIGNAL memorySignals_ID_EX                                                                        : STD_LOGIC_VECTOR(6 DOWNTO 0);
     SIGNAL lastOpCode_ID_EX                                                                           : STD_LOGIC_VECTOR(5 DOWNTO 0);
 
+    SIGNAL isImm_ID_EX         : STD_LOGIC;
     SIGNAL destReg0_ID_EX_TEMP : STD_LOGIC_VECTOR(2 DOWNTO 0);
     SIGNAL destReg1_ID_EX_TEMP : STD_LOGIC_VECTOR(2 DOWNTO 0);
     SIGNAL srcReg0_ID_EX_TEMP  : STD_LOGIC_VECTOR(2 DOWNTO 0);
@@ -480,12 +483,14 @@ BEGIN
         executeSignals_OUT => executeSignals_ID_EX,
         memorySignals_OUT  => memorySignals_ID_EX,
         lastOpCode_OUT     => lastOpCode_ID_EX,
+        isImm_OUT          => isImm_ID_EX,
 
         opCode_OUT     => opCode_ID_EX,
         ImmEaValue_OUT => ImmEaValue_ID_EX
         --WB FROM CU
     );
     FU : ForwardingUnit PORT MAP(
+        isImm                => isImm_ID_EX,
         Rsrc1                => srcReg0_ID_EX,
         Rsrc2                => srcReg1_ID_EX,
         RegExecuteMem        => destReg0_EX_MEM,
