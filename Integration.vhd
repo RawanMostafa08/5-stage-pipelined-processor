@@ -14,6 +14,7 @@ ARCHITECTURE IntegrationArch OF Integration IS
 
     COMPONENT controlUnit IS
         PORT (
+            reset          : IN STD_LOGIC;
             opCode         : IN STD_LOGIC_VECTOR (5 DOWNTO 0);
             clk            : IN STD_LOGIC;
             fetchSignals   : OUT STD_LOGIC_VECTOR(2 DOWNTO 0);
@@ -60,6 +61,7 @@ ARCHITECTURE IntegrationArch OF Integration IS
     COMPONENT IF_ID_Reg IS
         PORT (
             clk         : IN STD_LOGIC;
+            reset       : IN STD_LOGIC;
             PC_IN       : IN STD_LOGIC_VECTOR (31 DOWNTO 0);
             Instruction : IN STD_LOGIC_VECTOR(15 DOWNTO 0);
             readReg0    : OUT STD_LOGIC_VECTOR (2 DOWNTO 0);
@@ -430,6 +432,7 @@ ARCHITECTURE IntegrationArch OF Integration IS
 BEGIN
 
     CU : ControlUnit PORT MAP(
+        reset          => reset,
         opCode         => Instruction_F(15 DOWNTO 10),
         clk            => clk,
         fetchSignals   => fetchSignals_CU,
@@ -466,6 +469,7 @@ BEGIN
     );
 
     IF_ID_Register : IF_ID_Reg PORT MAP(
+        reset       => reset,
         clk         => clk,
         PC_IN       => PC_F,
         Instruction => Instruction_F,
@@ -480,7 +484,7 @@ BEGIN
     );
     Register_File : regFile PORT MAP(
         clk        => clk,
-        Reset      => regFile_reset,
+        Reset      => reset,
         WriteEn0   => regFileSignals_MEM_WB(0),
         WriteEn1   => regFileSignals_MEM_WB(1),
         ReadEn0    => regFileSignals_CU(2),

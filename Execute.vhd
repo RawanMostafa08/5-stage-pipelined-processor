@@ -222,6 +222,10 @@ BEGIN
           --POP
           SP_signal <= STD_LOGIC_VECTOR(unsigned(SP_signal) + 1);
           SP        <= SP_signal;
+        WHEN "111111" =>
+          -- reset
+          temp_res <= (OTHERS => '0');
+          res      <= temp_res;
         WHEN OTHERS =>
           -- Default case when opCode does not match any of the specified values
           NULL;
