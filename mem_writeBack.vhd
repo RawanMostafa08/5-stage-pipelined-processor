@@ -8,7 +8,7 @@ ENTITY mem_writeBack IS
 		swapAlu_IN        : IN STD_LOGIC_VECTOR (31 DOWNTO 0);
 		destReg0_IN       : IN STD_LOGIC_VECTOR (2 DOWNTO 0);
 		destReg1_IN       : IN STD_LOGIC_VECTOR (2 DOWNTO 0);
-		regFileSignals_IN : IN STD_LOGIC_VECTOR(4 DOWNTO 0);
+		regFileSignals_IN : IN STD_LOGIC_VECTOR(5 DOWNTO 0);
 		memorySignals_IN  : IN STD_LOGIC_VECTOR(6 DOWNTO 0);
 
 		resMem_OUT         : OUT STD_LOGIC_VECTOR (31 DOWNTO 0);
@@ -16,7 +16,7 @@ ENTITY mem_writeBack IS
 		swapAlu_OUT        : OUT STD_LOGIC_VECTOR (31 DOWNTO 0);
 		destReg0_OUT       : OUT STD_LOGIC_VECTOR (2 DOWNTO 0);
 		destReg1_OUT       : OUT STD_LOGIC_VECTOR (2 DOWNTO 0);
-		regFileSignals_OUT : OUT STD_LOGIC_VECTOR(4 DOWNTO 0);
+		regFileSignals_OUT : OUT STD_LOGIC_VECTOR(5 DOWNTO 0);
 		memorySignals_OUT  : OUT STD_LOGIC_VECTOR(6 DOWNTO 0)
 
 	);

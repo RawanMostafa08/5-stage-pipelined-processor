@@ -14,7 +14,7 @@ ENTITY dec_exec IS
             srcReg1_IN        : IN STD_LOGIC_VECTOR (2 DOWNTO 0);
             opCode_IN         : IN STD_LOGIC_VECTOR (5 DOWNTO 0);
             fetchSignals_IN   : IN STD_LOGIC_VECTOR(2 DOWNTO 0);
-            regFileSignals_IN : IN STD_LOGIC_VECTOR(4 DOWNTO 0);
+            regFileSignals_IN : IN STD_LOGIC_VECTOR(5 DOWNTO 0);
             executeSignals_IN : IN STD_LOGIC_VECTOR(2 DOWNTO 0);
             memorySignals_IN  : IN STD_LOGIC_VECTOR(6 DOWNTO 0);
             lastOpCode_IN     : IN STD_LOGIC_VECTOR(5 DOWNTO 0);
@@ -28,7 +28,7 @@ ENTITY dec_exec IS
             srcReg1_OUT        : OUT STD_LOGIC_VECTOR (2 DOWNTO 0);
             opCode_OUT         : OUT STD_LOGIC_VECTOR (5 DOWNTO 0);
             fetchSignals_OUT   : OUT STD_LOGIC_VECTOR(2 DOWNTO 0);
-            regFileSignals_OUT : OUT STD_LOGIC_VECTOR(4 DOWNTO 0);
+            regFileSignals_OUT : OUT STD_LOGIC_VECTOR(5 DOWNTO 0);
             executeSignals_OUT : OUT STD_LOGIC_VECTOR(2 DOWNTO 0);
             memorySignals_OUT  : OUT STD_LOGIC_VECTOR(6 DOWNTO 0);
             ImmEaValue_OUT     : OUT STD_LOGIC_VECTOR (15 DOWNTO 0);

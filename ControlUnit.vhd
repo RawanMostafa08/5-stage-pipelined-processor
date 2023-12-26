@@ -6,7 +6,7 @@ ENTITY controlUnit IS
 		opCode         : IN STD_LOGIC_VECTOR (5 DOWNTO 0);
 		clk            : IN STD_LOGIC;
 		fetchSignals   : OUT STD_LOGIC_VECTOR(2 DOWNTO 0);
-		regFileSignals : OUT STD_LOGIC_VECTOR(4 DOWNTO 0);
+		regFileSignals : OUT STD_LOGIC_VECTOR(5 DOWNTO 0);
 		executeSignals : OUT STD_LOGIC_VECTOR(2 DOWNTO 0);
 		memorySignals  : OUT STD_LOGIC_VECTOR(6 DOWNTO 0);
 		isImm          : OUT STD_LOGIC;
@@ -17,7 +17,7 @@ ENTITY controlUnit IS
 		Flush_EX_MEM   : OUT STD_LOGIC
 
 		-- Fetch-->jmp,jx,ret
-		-- Regfile-->wb,wb,ren,memReg,swap,flush
+		-- Regfile-->wb,wb,ren,memReg,swap,flush,memReg_IN_instruction
 		-- Exec-->aluEn,Reg/Imm Op2,flush
 		-- Memory-->AddSel1,AddSel2,DataSel,MemR,MemW,memprotect,memfree
 		--AddSel1=0 -->when use SP 
@@ -163,7 +163,12 @@ BEGIN
 								regFileSignals(3) <= '1'; --memReg
 								executeSignals(0) <= '1'; --aluEn
 								regFileSignals(2) <= '1'; --ren
-
+							WHEN "000110" =>
+								-- IN
+								isImmediate       <= '0';
+								regFileSignals(0) <= '1'; --Wb
+								regFileSignals(5) <= '1'; --memReg_in_instruction
+								executeSignals(0) <= '1'; --aluEn
 							WHEN "100101" =>
 								-- PROTECT
 								isImmediate       <= '0';
