@@ -224,7 +224,6 @@ END COMPONENT;
 
 COMPONENT DataSel is
     port (
-        clk :IN std_logic;
         PC : In std_logic_vector(31 downto 0);
         CC :IN std_logic_vector(2 downto 0);
         write_Data : IN std_logic_vector(31 downto 0);
@@ -410,7 +409,6 @@ SIGNAL opCode_opSel : STD_LOGIC_VECTOR (5 DOWNTO 0);
 SIGNAL lastOpCode_opSel : STD_LOGIC_VECTOR (5 DOWNTO 0);
 SIGNAL executeSignals_opSel : STD_LOGIC;
 SIGNAL flushSig : STD_LOGIC;
-SIGNAL CC_temp : std_logic_vector(2 downto 0);
 BEGIN
 
 CU : ControlUnit PORT MAP(
@@ -577,12 +575,12 @@ Address => address_result
 );
 
 DataSelect_Stage : DataSel port map (
-    clk =>clk,
+   
             PC =>PC_temp,
             CC =>CC_temp,
             write_Data =>aluResult_EX_MEM,
             Sel =>memorySignals_EX_MEM(2) ,
-            Selected_Data =>writeData_mem
+            Selected_Data =>writeData_mem,
 );
 
 

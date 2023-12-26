@@ -3,7 +3,7 @@ NOP
 NOP
 NOP
 NOP
-POP r2
+push r2
 NOP
 NOP
 NOP
@@ -12,4 +12,4 @@ LDD R1,ffe
 NOP
 NOP
 NOP
-POP r3
+push r3

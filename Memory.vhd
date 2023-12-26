@@ -30,7 +30,7 @@ BEGIN
 				IF memFree = '1' THEN
 					data_mem(to_integer(unsigned((address)))) <= (OTHERS => '0');
 				ELSE
-					IF memWrite = '1' AND data_mem(to_integer(unsigned((address))))(0) = '0' AND data_mem(to_integer(unsigned((address_temp))))(0) = '0' THEN
+					IF memWrite = '1' AND data_mem(to_integer(unsigned((address))))(0) = '0' AND data_mem(to_integer(unsigned((address_temp))))(0) = '0' THEN  --this needs to be changed 
 						data_mem(to_integer(unsigned((address))))(16 DOWNTO 1) <= writeData(31 DOWNTO 16);
 						data_mem(to_integer(unsigned((address_temp))))(16 DOWNTO 1) <= writeData(15 DOWNTO 0);
 					ELSE
@@ -41,12 +41,12 @@ BEGIN
 				END IF;
 			END IF;
 		ELSE
-			data_mem(0)(16 DOWNTO 1) <= "1000000000000011";
-			data_mem(1)(16 DOWNTO 1) <= "1100000000000001";
-			data_mem(2)(16 DOWNTO 1) <= "1110000000000010";
-			data_mem(3)(16 DOWNTO 1) <= "1111000000000011";
-			data_mem(4095)(16 DOWNTO 1) <= "1111000000000011";
-			data_mem(4094)(16 DOWNTO 1) <= "1111000000000011";
+			-- data_mem(0)(16 DOWNTO 1) <= "1000000000000011";
+			-- data_mem(1)(16 DOWNTO 1) <= "1100000000000001";
+			-- data_mem(2)(16 DOWNTO 1) <= "1110000000000010";
+			-- data_mem(3)(16 DOWNTO 1) <= "1111000000000011";
+			-- data_mem(4095)(16 DOWNTO 1) <= "1111000000000011";
+			-- data_mem(4094)(16 DOWNTO 1) <= "1111000000000011";
 		END IF;
 	END PROCESS;
 END archMemory;

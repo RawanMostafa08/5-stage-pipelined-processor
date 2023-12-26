@@ -214,10 +214,11 @@ BEGIN
         WHEN "100000" =>
           --PUSH
           SP <=SP_signal;
-          SP_signal <=STD_LOGIC_VECTOR(unsigned(SP_signal) + 1);
+          SP_signal <=STD_LOGIC_VECTOR(unsigned(SP_signal) - 1);
+          res <= op1;
         When "100001"=>
         --POP
-        SP_signal <=STD_LOGIC_VECTOR(unsigned(SP_signal) - 1);
+        SP_signal <=STD_LOGIC_VECTOR(unsigned(SP_signal) + 1);
         SP <=SP_signal;
 
         WHEN OTHERS =>
