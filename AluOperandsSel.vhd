@@ -5,7 +5,7 @@ ENTITY AluOperandsSel IS
     PORT (
         readData2 : IN STD_LOGIC_VECTOR (31 DOWNTO 0);--op2
         readData1 : IN STD_LOGIC_VECTOR (31 DOWNTO 0);
-        immData : IN STD_LOGIC_VECTOR (15 DOWNTO 0);
+        immData : IN STD_LOGIC_VECTOR (19 DOWNTO 0);
         opCode : IN STD_LOGIC_VECTOR (5 DOWNTO 0);
         lastOpCode : IN STD_LOGIC_VECTOR (5 DOWNTO 0);
         AlutoAluop1 : IN STD_LOGIC_VECTOR (31 DOWNTO 0);
@@ -27,7 +27,7 @@ BEGIN
     op2 <= AlutoAluop2 WHEN forwardingsignalop2(0) = '1' AND Sel = '0' ELSE
         MemtoAluop2 WHEN forwardingsignalop2(1) = '1'AND Sel = '0' ELSE
         readData2 WHEN sel = '0' ELSE
-        (immData'RANGE => immData(15)) & immData;
+        (immData(15 DOWNTO 0)'RANGE => immData(15)) & immData(15 DOWNTO 0);
     opcodeAlu <= opCode WHEN Sel = '0' ELSE
         lastOpCode;
     -- op2 <= readData2 WHEN Sel = '0' ELSE

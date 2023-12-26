@@ -40,7 +40,7 @@ BEGIN
                     readReg1 <= (OTHERS => '0');
                 ELSE
                     PC_OUT <= PC_IN;
-                    ImmEaValue(15 downto 0) <= Instruction;
+                    ImmEaValue <= Instruction;
                     CASE Instruction(15 DOWNTO 14) IS
                         WHEN "00" => --one operand
                             opCode <= Instruction(15 DOWNTO 10);
