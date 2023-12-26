@@ -42,12 +42,12 @@ BEGIN
 				END IF;
 			END IF;
 		ELSE
-			data_mem(0)(16 DOWNTO 1)    <= "1000000000000011";
-			data_mem(1)(16 DOWNTO 1)    <= "1100000000000001";
-			data_mem(2)(16 DOWNTO 1)    <= "1110000000000010";
-			data_mem(3)(16 DOWNTO 1)    <= "1111000000000011";
-			data_mem(4095)(16 DOWNTO 1) <= "1111000000000011";
-			data_mem(4094)(16 DOWNTO 1) <= "1111000000000011";
+			data_mem(0)    <= "10000000000000110";
+			data_mem(1)    <= "11000000000000010";
+			data_mem(2)    <= "11100000000000100";
+			data_mem(3)    <= "11110000000000110";
+			data_mem(4095) <= "11110000000000110";
+			data_mem(4094) <= "11110000000000110";
 		END IF;
 	END PROCESS;
 END archMemory;

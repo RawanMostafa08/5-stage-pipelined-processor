@@ -4,7 +4,7 @@ ENTITY controlUnit IS
 	PORT (
 		reset          : IN STD_LOGIC;
 		opCode         : IN STD_LOGIC_VECTOR (5 DOWNTO 0);
-		clk            : IN STD_LOGIC;
+		enterProcess   : IN STD_LOGIC;
 		fetchSignals   : OUT STD_LOGIC_VECTOR(2 DOWNTO 0);
 		regFileSignals : OUT STD_LOGIC_VECTOR(5 DOWNTO 0);
 		executeSignals : OUT STD_LOGIC_VECTOR(2 DOWNTO 0);
@@ -13,6 +13,7 @@ ENTITY controlUnit IS
 		lastOpCode     : OUT STD_LOGIC_VECTOR (5 DOWNTO 0);
 		JZ             : IN STD_LOGIC;
 		Jump           : OUT STD_LOGIC;
+		Flush_IF_ID    : OUT STD_LOGIC;
 		Flush_ID_EX    : OUT STD_LOGIC;
 		Flush_EX_MEM   : OUT STD_LOGIC
 
@@ -31,7 +32,7 @@ ARCHITECTURE archControlUnit OF controlUnit IS
 	SIGNAL lastOpCode_sig : STD_LOGIC_VECTOR (5 DOWNTO 0);
 BEGIN
 
-	PROCESS (clk)
+	PROCESS (enterProcess)
 	BEGIN
 		IF reset = '1' THEN
 			fetchSignals   <= (OTHERS => '0');
@@ -40,7 +41,7 @@ BEGIN
 			memorySignals  <= (OTHERS => '0');
 			Jump           <= '0';
 		ELSE
-			IF clk = '1' THEN
+			-- IF clk = '1' THEN
 				fetchSignals   <= (OTHERS => '0');
 				regFileSignals <= (OTHERS => '0');
 				executeSignals <= (OTHERS => '0');
@@ -55,6 +56,7 @@ BEGIN
 				ELSE
 					Flush_EX_MEM <= '0';
 					Flush_ID_EX  <= '0';
+					Flush_IF_ID  <= '0';
 					IF isImmediate = '1' THEN
 						isImm             <= '1';
 						regFileSignals(2) <= '0'; --ren
@@ -261,6 +263,20 @@ BEGIN
 								Jump              <= '1';
 								Flush_EX_MEM      <= '0';
 								Flush_ID_EX       <= '1';
+							WHEN "110010" =>
+								--call
+								isImmediate       <= '0';
+								regFileSignals(2) <= '1'; --ren
+								memorySignals(4)  <= '1'; --memw
+								memorySignals(1)  <= '0'; -- address select (sp)
+								memorySignals(0)  <= '0'; -- address select
+								memorySignals(2)  <= '0'; -- data select (pc) 
+								Jump              <= '1';
+								Flush_EX_MEM      <= '0';
+								executeSignals(0) <= '1'; --aluEn
+								Flush_ID_EX       <= '0';
+								Flush_IF_ID       <= '1';
+
 							WHEN "100000" =>
 								--PUSH
 								isImmediate       <= '0';
@@ -293,7 +309,7 @@ BEGIN
 				END IF;
 				lastOpCode_sig <= opCode;
 				lastOpCode     <= lastOpCode_sig;
-			END IF;
+			-- END IF;
 		END IF;
 	END PROCESS;
 END archControlUnit;

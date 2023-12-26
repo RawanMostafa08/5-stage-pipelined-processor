@@ -17,12 +17,12 @@ END ForwardingUnit;
 ARCHITECTURE archForwardingUnit OF ForwardingUnit IS
 BEGIN
 
-    forwardingsignalsop1(0) <= '1' WHEN ((Rsrc1 = RegExecuteMem) AND (isImm = '0'))ELSE
+    forwardingsignalsop1(0) <= '1' WHEN ((Rsrc1 = RegExecuteMem) AND (isImm = '0'))ELSE --alu to alu
     '0';
-    forwardingsignalsop1(1) <= '1' WHEN (Rsrc1 = RegMemWb OR ((Rsrc1 = RegExecuteMem) AND (isImm = '1'))) ELSE
+    forwardingsignalsop1(1) <= '1' WHEN (Rsrc1 = RegMemWb) ELSE --mem to alu
     '0';
-    forwardingsignalsop2(0) <= '1' WHEN ((Rsrc2 = RegExecuteMem) AND (isImm = '0'))ELSE
+    forwardingsignalsop2(0) <= '1' WHEN ((Rsrc2 = RegExecuteMem) AND (isImm = '0'))ELSE --alu to alu
     '0';
-    forwardingsignalsop2(1) <= '1' WHEN (Rsrc2 = RegMemWb OR ((Rsrc1 = RegExecuteMem) AND (isImm = '1'))) ELSE
+    forwardingsignalsop2(1) <= '1' WHEN (Rsrc2 = RegMemWb) ELSE --mem to alu
     '0';
 END archForwardingUnit;

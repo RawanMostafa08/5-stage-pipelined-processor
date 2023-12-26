@@ -17,7 +17,7 @@ ARCHITECTURE IntegrationArch OF Integration IS
         PORT (
             reset          : IN STD_LOGIC;
             opCode         : IN STD_LOGIC_VECTOR (5 DOWNTO 0);
-            clk            : IN STD_LOGIC;
+            enterProcess   : IN STD_LOGIC;
             fetchSignals   : OUT STD_LOGIC_VECTOR(2 DOWNTO 0);
             regFileSignals : OUT STD_LOGIC_VECTOR(5 DOWNTO 0);
             executeSignals : OUT STD_LOGIC_VECTOR(2 DOWNTO 0);
@@ -26,6 +26,7 @@ ARCHITECTURE IntegrationArch OF Integration IS
             lastOpCode     : OUT STD_LOGIC_VECTOR (5 DOWNTO 0);
             JZ             : IN STD_LOGIC;
             Jump           : OUT STD_LOGIC;
+            Flush_IF_ID    : OUT STD_LOGIC;
             Flush_ID_EX    : OUT STD_LOGIC;
             Flush_EX_MEM   : OUT STD_LOGIC
             -- Fetch-->jmp,jx,ret
@@ -63,6 +64,7 @@ ARCHITECTURE IntegrationArch OF Integration IS
         PORT (
             clk         : IN STD_LOGIC;
             reset       : IN STD_LOGIC;
+            Flush       : IN STD_LOGIC;
             PC_IN       : IN STD_LOGIC_VECTOR (31 DOWNTO 0);
             Instruction : IN STD_LOGIC_VECTOR(15 DOWNTO 0);
             readReg0    : OUT STD_LOGIC_VECTOR (2 DOWNTO 0);
@@ -432,13 +434,14 @@ ARCHITECTURE IntegrationArch OF Integration IS
     SIGNAL SP_OUT_EXE_MEM       : STD_LOGIC_VECTOR(31 DOWNTO 0);
     SIGNAL CCR_EX_MEM           : STD_LOGIC_VECTOR(2 DOWNTO 0);
     SIGNAL CCR_EXE              : STD_LOGIC_VECTOR(2 DOWNTO 0);
+    SIGNAL flush_IF_ID_Sig      : STD_LOGIC;
 
 BEGIN
 
     CU : ControlUnit PORT MAP(
         reset          => reset,
-        opCode         => Instruction_F(15 DOWNTO 10),
-        clk            => clk,
+        opCode         => opCode_IF_ID,
+        enterProcess   => EP,
         fetchSignals   => fetchSignals_CU,
         regFileSignals => regFileSignals_CU,
         executeSignals => executeSignals_CU,
@@ -447,6 +450,7 @@ BEGIN
         lastOpCode     => lastOpCode_CU,
         JZ             => JZ_Sig,
         Jump           => Jump_Sig,
+        Flush_IF_ID    => flush_IF_ID_Sig,
         Flush_ID_EX    => flush_ID_EX_Sig,
         Flush_EX_MEM   => flush_EX_MEM_Sig
 
@@ -474,6 +478,7 @@ BEGIN
 
     IF_ID_Register : IF_ID_Reg PORT MAP(
         reset       => reset,
+        Flush       => flush_IF_ID_Sig,
         clk         => clk,
         PC_IN       => PC_F,
         Instruction => Instruction_F,
@@ -765,5 +770,11 @@ BEGIN
     --     END IF;
 
     -- END PROCESS;
+    PROCESS (clk)
+    BEGIN
+        IF clk = '1' THEN
+            EP <= NOT EP;
+        END IF;
+    END PROCESS;
 
 END ARCHITECTURE IntegrationArch;

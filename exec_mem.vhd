@@ -36,6 +36,7 @@ BEGIN
 	BEGIN
 		IF clk = '1' THEN
 			SP_OUT         <= SP_IN;
+			PC_OUT         <= PC_IN;
 			aluResult_OUT  <= aluResult_IN;
 			destReg0_OUT   <= destReg0_IN;
 			destReg1_OUT   <= destReg1_IN;

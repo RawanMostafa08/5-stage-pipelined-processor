@@ -73,6 +73,7 @@ BEGIN
                   ImmEaValue_OUT <= ImmEaValue_IN;
                   lastOpCode_OUT <= lastOpCode_IN;
                   isImm_OUT      <= isImm;
+                  PC_OUT         <= PC_IN;
                   IF Flush = '1' THEN
                         fetchSignals_OUT   <= (OTHERS => '0');
                         regFileSignals_OUT <= (OTHERS => '0');

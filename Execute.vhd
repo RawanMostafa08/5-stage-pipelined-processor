@@ -213,6 +213,11 @@ BEGIN
           IF CCR(0) = '1'THEN
             JZ <= '1';
           END IF;
+        WHEN "110010" =>
+          -- Call
+          SP        <= SP_signal;
+          SP_signal <= STD_LOGIC_VECTOR(unsigned(SP_signal) - 1);
+          PC_OUT    <= STD_LOGIC_VECTOR(unsigned(PC_IN) + 1);
         WHEN "100000" =>
           --PUSH
           SP        <= SP_signal;

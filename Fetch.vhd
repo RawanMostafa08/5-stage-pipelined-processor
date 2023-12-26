@@ -37,20 +37,22 @@ BEGIN
             instruction <= (OTHERS => 'X');
         ELSE
             IF clk = '1' THEN
-                PC <= pc_value;
                 IF JZ = '1' AND jz_value >= 0 AND jz_value < 4096 THEN
                     -- Check if index is within the valid range
-                    pc_value := (STD_LOGIC_VECTOR(to_unsigned(jz_value, 32)));
+                    pc_value := (STD_LOGIC_VECTOR(to_unsigned(jz_value, 32))); --8
+                    PC          <= pc_value;
                     instruction <= Instruction_Memory(jz_value);
-                    pc_value := STD_LOGIC_VECTOR(unsigned(pc_value) + 1);
+                    pc_value := STD_LOGIC_VECTOR(unsigned(pc_value) + 1);--9
                 ELSE
                     IF Jump = '1' AND jump_value >= 0 AND jump_value < 4096 THEN
                         pc_value := (STD_LOGIC_VECTOR(to_unsigned(jump_value, 32)));
+                        PC          <= pc_value;
                         instruction <= Instruction_Memory(jump_value);
                         pc_value := STD_LOGIC_VECTOR(unsigned(pc_value) + 1);
                     ELSE
                         -- PC          <= STD_LOGIC_VECTOR(unsigned(PC) + 1);
                         instruction <= Instruction_Memory(to_integer(unsigned(pc_value)));
+                        PC          <= pc_value;
                         pc_value := STD_LOGIC_VECTOR(unsigned(pc_value) + 1);
                     END IF;
                 END IF;
