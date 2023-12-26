@@ -242,6 +242,8 @@ ARCHITECTURE IntegrationArch OF Integration IS
     END COMPONENT;
     COMPONENT memory IS
         PORT (
+
+            -- clk        : IN STD_LOGIC;
             load       : IN STD_LOGIC;
             address    : IN STD_LOGIC_VECTOR (11 DOWNTO 0);
             writeData  : IN STD_LOGIC_VECTOR (31 DOWNTO 0);
@@ -629,6 +631,7 @@ BEGIN
         Selected_Data => writeData_mem
     );
     Memory_Stage : memory PORT MAP(
+        -- clk        => clk,
         load       => load,
         address    => address_result,
         writeData  => writeData_mem,

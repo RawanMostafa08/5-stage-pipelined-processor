@@ -25,10 +25,11 @@ BEGIN
 		IF load = '0' THEN
 			address_temp <= STD_LOGIC_VECTOR(unsigned(address) + 1);
 			IF memProtect = '1' THEN
+				REPORT to_string(to_integer(unsigned((address))));
 				data_mem(to_integer(unsigned((address))))(0) <= '1';
 			ELSE
 				IF memFree = '1' THEN
-					data_mem(to_integer(unsigned((address))))(0) <= '0';
+					data_mem(to_integer(unsigned((address)))) <= (OTHERS => '0');
 				ELSE
 					IF memWrite = '1' AND data_mem(to_integer(unsigned((address))))(0) = '0' AND data_mem(to_integer(unsigned((address_temp))))(0) = '0' THEN
 						data_mem(to_integer(unsigned((address))))(16 DOWNTO 1)      <= writeData(31 DOWNTO 16);

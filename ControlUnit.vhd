@@ -183,7 +183,7 @@ BEGIN
 								isImmediate       <= '0';
 								memorySignals(0)  <= '1'; --AddressSel
 								memorySignals(1)  <= '0'; --AddressSel
-								memorySignals(6)  <= '1'; --protect
+								memorySignals(6)  <= '1'; --free
 								executeSignals(0) <= '1'; --aluEn
 								regFileSignals(2) <= '1'; --ren
 
