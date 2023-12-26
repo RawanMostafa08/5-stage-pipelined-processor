@@ -51,13 +51,16 @@ ARCHITECTURE IntegrationArch OF Integration IS
             JZ_PC              : IN STD_LOGIC_VECTOR(31 DOWNTO 0);
             Jump               : IN STD_LOGIC;
             Jump_PC            : IN STD_LOGIC_VECTOR(31 DOWNTO 0);
-            instruction        : OUT STD_LOGIC_VECTOR(15 DOWNTO 0)
+            instruction        : OUT STD_LOGIC_VECTOR(15 DOWNTO 0);
+            PC                 : OUT STD_LOGIC_VECTOR(31 DOWNTO 0)
+
         );
     END COMPONENT;
 
     COMPONENT IF_ID_Reg IS
         PORT (
             clk         : IN STD_LOGIC;
+            PC_IN       : IN STD_LOGIC_VECTOR (31 DOWNTO 0);
             Instruction : IN STD_LOGIC_VECTOR(15 DOWNTO 0);
             readReg0    : OUT STD_LOGIC_VECTOR (2 DOWNTO 0);
             readReg1    : OUT STD_LOGIC_VECTOR (2 DOWNTO 0);
@@ -66,8 +69,8 @@ ARCHITECTURE IntegrationArch OF Integration IS
             opCode      : OUT STD_LOGIC_VECTOR (5 DOWNTO 0);
             writeData0  : OUT STD_LOGIC_VECTOR (31 DOWNTO 0);
             writeData1  : OUT STD_LOGIC_VECTOR (31 DOWNTO 0);
-            ImmEaValue  : OUT STD_LOGIC_VECTOR (15 DOWNTO 0)
-
+            ImmEaValue  : OUT STD_LOGIC_VECTOR (15 DOWNTO 0);
+            PC_OUT      : OUT STD_LOGIC_VECTOR (31 DOWNTO 0)
         );
     END COMPONENT;
     COMPONENT regFile IS
@@ -125,6 +128,7 @@ ARCHITECTURE IntegrationArch OF Integration IS
             executeSignals_IN : IN STD_LOGIC_VECTOR(2 DOWNTO 0);
             memorySignals_IN  : IN STD_LOGIC_VECTOR(6 DOWNTO 0);
             lastOpCode_IN     : IN STD_LOGIC_VECTOR(5 DOWNTO 0);
+            PC_IN             : IN STD_LOGIC_VECTOR (31 DOWNTO 0);
 
             readData0_OUT      : OUT STD_LOGIC_VECTOR (31 DOWNTO 0);
             readData1_OUT      : OUT STD_LOGIC_VECTOR (31 DOWNTO 0);
@@ -139,11 +143,13 @@ ARCHITECTURE IntegrationArch OF Integration IS
             memorySignals_OUT  : OUT STD_LOGIC_VECTOR(6 DOWNTO 0);
             ImmEaValue_OUT     : OUT STD_LOGIC_VECTOR (15 DOWNTO 0);
             isImm_OUT          : OUT STD_LOGIC;
-            lastOpCode_OUT     : OUT STD_LOGIC_VECTOR(5 DOWNTO 0)
+            lastOpCode_OUT     : OUT STD_LOGIC_VECTOR(5 DOWNTO 0);
+            PC_OUT             : OUT STD_LOGIC_VECTOR (31 DOWNTO 0)
         );
     END COMPONENT;
     COMPONENT execute IS
         PORT (
+            PC_IN       : IN STD_LOGIC_VECTOR (31 DOWNTO 0);
             op1         : IN STD_LOGIC_VECTOR (31 DOWNTO 0);
             op2         : IN STD_LOGIC_VECTOR (31 DOWNTO 0);
             aluEn       : IN STD_LOGIC;
@@ -151,14 +157,20 @@ ARCHITECTURE IntegrationArch OF Integration IS
             res         : OUT STD_LOGIC_VECTOR (31 DOWNTO 0);
             JZ          : OUT STD_LOGIC;
             res_Swap    : OUT STD_LOGIC_VECTOR (31 DOWNTO 0);
-            outPort_EXE : OUT STD_LOGIC_VECTOR (31 DOWNTO 0)
+            outPort_EXE : OUT STD_LOGIC_VECTOR (31 DOWNTO 0);
+            SP          : OUT STD_LOGIC_VECTOR(31 DOWNTO 0);
+            PC_OUT      : OUT STD_LOGIC_VECTOR (31 DOWNTO 0);
+            CCR_OUT     : OUT STD_LOGIC_VECTOR(2 DOWNTO 0)
+
         );
     END COMPONENT;
 
     COMPONENT exec_mem IS
         PORT (
+            CCR_IN             : IN STD_LOGIC_VECTOR(2 DOWNTO 0);
             clk                : IN STD_LOGIC;
             Flush              : IN STD_LOGIC;
+            PC_IN              : IN STD_LOGIC_VECTOR (31 DOWNTO 0);
             ImmEaValue_IN      : IN STD_LOGIC_VECTOR(15 DOWNTO 0);
             aluResult_IN       : IN STD_LOGIC_VECTOR (31 DOWNTO 0);
             destReg0_IN        : IN STD_LOGIC_VECTOR (2 DOWNTO 0);
@@ -167,6 +179,7 @@ ARCHITECTURE IntegrationArch OF Integration IS
             regFileSignals_IN  : IN STD_LOGIC_VECTOR(4 DOWNTO 0);
             memorySignals_IN   : IN STD_LOGIC_VECTOR(6 DOWNTO 0);
             res_Swap_IN        : IN STD_LOGIC_VECTOR (31 DOWNTO 0);
+            SP_IN              : IN STD_LOGIC_VECTOR (31 DOWNTO 0);
             aluResult_OUT      : OUT STD_LOGIC_VECTOR (31 DOWNTO 0);
             destReg0_OUT       : OUT STD_LOGIC_VECTOR (2 DOWNTO 0);
             destReg1_OUT       : OUT STD_LOGIC_VECTOR (2 DOWNTO 0);
@@ -174,7 +187,11 @@ ARCHITECTURE IntegrationArch OF Integration IS
             regFileSignals_OUT : OUT STD_LOGIC_VECTOR(4 DOWNTO 0);
             memorySignals_OUT  : OUT STD_LOGIC_VECTOR(6 DOWNTO 0);
             ImmEaValue_OUT     : OUT STD_LOGIC_VECTOR(15 DOWNTO 0);
-            res_Swap_OUT       : OUT STD_LOGIC_VECTOR (31 DOWNTO 0)
+            res_Swap_OUT       : OUT STD_LOGIC_VECTOR (31 DOWNTO 0);
+            SP_OUT             : OUT STD_LOGIC_VECTOR (31 DOWNTO 0);
+            PC_OUT             : OUT STD_LOGIC_VECTOR (31 DOWNTO 0);
+            CCR_OUT            : OUT STD_LOGIC_VECTOR(2 DOWNTO 0)
+
         );
     END COMPONENT;
     COMPONENT mem_writeBack IS
@@ -212,6 +229,7 @@ ARCHITECTURE IntegrationArch OF Integration IS
     END COMPONENT;
     COMPONENT AddressSel IS
         PORT (
+            SP               : IN STD_LOGIC_VECTOR(31 DOWNTO 0);
             aluResult        : IN STD_LOGIC_VECTOR (31 DOWNTO 0);
             EffectiveAddress : IN STD_LOGIC_VECTOR (15 DOWNTO 0);
             Sel              : IN STD_LOGIC_VECTOR (1 DOWNTO 0);
@@ -242,6 +260,16 @@ ARCHITECTURE IntegrationArch OF Integration IS
             forwardingsignalsop2 : OUT STD_LOGIC_VECTOR(1 DOWNTO 0)  --alu mem
         );
     END COMPONENT;
+    COMPONENT DataSel IS
+        PORT (
+            clk           : IN STD_LOGIC;
+            PC            : IN STD_LOGIC_VECTOR(31 DOWNTO 0);
+            CC            : IN STD_LOGIC_VECTOR(2 DOWNTO 0);
+            write_Data    : IN STD_LOGIC_VECTOR(31 DOWNTO 0);
+            Sel           : IN STD_LOGIC;
+            Selected_Data : OUT STD_LOGIC_VECTOR(31 DOWNTO 0)
+        );
+    END COMPONENT DataSel;
 
     SIGNAL Instruction_Memory_Processor                                                               : memory_array(0 TO 4095)(15 DOWNTO 0);
     SIGNAL PC_temp                                                                                    : STD_LOGIC_VECTOR(31 DOWNTO 0);
@@ -389,6 +417,16 @@ ARCHITECTURE IntegrationArch OF Integration IS
     SIGNAL opCode_opSel         : STD_LOGIC_VECTOR (5 DOWNTO 0);
     SIGNAL lastOpCode_opSel     : STD_LOGIC_VECTOR (5 DOWNTO 0);
     SIGNAL executeSignals_opSel : STD_LOGIC;
+    SIGNAL PC_F                 : STD_LOGIC_VECTOR(31 DOWNTO 0);
+    SIGNAL PC_IF_ID             : STD_LOGIC_VECTOR(31 DOWNTO 0);
+    SIGNAL PC_ID_EX             : STD_LOGIC_VECTOR(31 DOWNTO 0);
+    SIGNAL PC_OUT_EX            : STD_LOGIC_VECTOR(31 DOWNTO 0);
+    SIGNAL PC_EX_MEM            : STD_LOGIC_VECTOR(31 DOWNTO 0);
+    SIGNAL SP_EXE               : STD_LOGIC_VECTOR(31 DOWNTO 0);
+    SIGNAL SP_OUT_EXE_MEM       : STD_LOGIC_VECTOR(31 DOWNTO 0);
+    SIGNAL CCR_EX_MEM           : STD_LOGIC_VECTOR(2 DOWNTO 0);
+    SIGNAL CCR_EXE              : STD_LOGIC_VECTOR(2 DOWNTO 0);
+
 BEGIN
 
     CU : ControlUnit PORT MAP(
@@ -422,18 +460,22 @@ BEGIN
         JZ_PC              => readData0_ID_EX,
         Jump               => Jump_Sig,
         Jump_PC            => readData0_temp,
-        instruction        => Instruction_F
+        instruction        => Instruction_F,
+        PC                 => PC_F
+
     );
 
     IF_ID_Register : IF_ID_Reg PORT MAP(
         clk         => clk,
+        PC_IN       => PC_F,
         Instruction => Instruction_F,
         readReg0    => readReg0_IF_ID,
         readReg1    => readReg1_IF_ID,
         writeReg0   => writeReg0_IF_ID,
         writeReg1   => writeReg1_IF_ID,
         opCode      => opCode_IF_ID,
-        ImmEaValue  => ImmEaValue_IF_ID
+        ImmEaValue  => ImmEaValue_IF_ID,
+        PC_OUT      => PC_IF_ID
 
     );
     Register_File : regFile PORT MAP(
@@ -455,6 +497,7 @@ BEGIN
     );
 
     ID_EXE_Register : dec_exec PORT MAP(
+        PC_IN             => PC_IF_ID,
         clk               => clk,
         Flush             => flush_ID_EX_Sig,
         isImm             => IsImmediate,
@@ -484,6 +527,7 @@ BEGIN
         memorySignals_OUT  => memorySignals_ID_EX,
         lastOpCode_OUT     => lastOpCode_ID_EX,
         isImm_OUT          => isImm_ID_EX,
+        PC_OUT             => PC_ID_EX,
 
         opCode_OUT     => opCode_ID_EX,
         ImmEaValue_OUT => ImmEaValue_ID_EX
@@ -525,10 +569,17 @@ BEGIN
         res         => aluRes,
         JZ          => JZ_Sig,
         res_Swap    => res_Swap_temp,
-        outPort_EXE => outPort
+        PC_IN       => PC_ID_EX,
+        PC_OUT      => PC_OUT_EX,
+        outPort_EXE => outPort,
+        SP          => SP_EXE,
+        CCR_OUT     => CCR_EXE
     );
 
     EXE_M : exec_mem PORT MAP(
+        CCR_IN => CCR_EXE,
+
+        PC_IN             => PC_OUT_EX,
         clk               => clk,
         Flush             => flush_EX_MEM_Sig,
         ImmEaValue_IN     => ImmEaValue_ID_EX,
@@ -539,6 +590,7 @@ BEGIN
         regFileSignals_IN => regFileSignals_ID_EX,
         memorySignals_IN  => memorySignals_ID_EX,
         res_Swap_IN       => res_Swap_temp,
+        SP_IN             => SP_EXE,
 
         aluResult_OUT      => aluResult_EX_MEM,
         destReg0_OUT       => destReg0_EX_MEM,
@@ -547,15 +599,28 @@ BEGIN
         regFileSignals_OUT => regFileSignals_EX_MEM,
         memorySignals_OUT  => memorySignals_EX_MEM,
         ImmEaValue_OUT     => ImmEaValue_EX_MEM,
-        res_Swap_OUT       => swapResult_EX_MEM
+        res_Swap_OUT       => swapResult_EX_MEM,
+        PC_OUT             => PC_EX_MEM,
+        SP_OUT             => SP_OUT_EXE_MEM,
+        CCR_OUT            => CCR_EX_MEM
 
     );
 
     AddressSelect_Stage : AddressSel PORT MAP(
+        SP               => SP_OUT_EXE_MEM,
         aluResult        => aluResult_EX_MEM,
         EffectiveAddress => ImmEaValue_EX_MEM,
         Sel              => memorySignals_EX_MEM(1) & memorySignals_EX_MEM(0),
         Address          => address_result
+    );
+
+    DataSelect_Stage : DataSel PORT MAP(
+        clk           => clk,
+        PC            => PC_EX_MEM,
+        CC            => CCR_EX_MEM,
+        write_Data    => aluResult_EX_MEM,
+        Sel           => memorySignals_EX_MEM(2),
+        Selected_Data => writeData_mem
     );
     Memory_Stage : memory PORT MAP(
         load       => load,

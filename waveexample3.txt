@@ -12,6 +12,7 @@ add wave -position insertpoint sim:/integration/AddressSelect_Stage/*
 add wave -position insertpoint sim:/integration/Memory_Stage/*
 add wave -position insertpoint sim:/integration/M_WB/*
 add wave -position insertpoint sim:/integration/WB/*
+add wave -position insertpoint sim:/integration/DataSelect_Stage/*
 force -freeze sim:/integration/clk 1 0, 0 {50 ps} -r 100
 force -freeze sim:/integration/reset 1 0
 force -freeze sim:/integration/load 1 0

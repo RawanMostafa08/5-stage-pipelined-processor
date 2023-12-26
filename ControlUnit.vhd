@@ -249,7 +249,27 @@ BEGIN
 							Jump              <= '1';
 							Flush_EX_MEM      <= '0';
 							Flush_ID_EX       <= '1';
+						WHEN "100000" =>
+							--PUSH
+							isImmediate       <= '0';
+							regFileSignals(2) <= '1'; --ren
+							executeSignals(0) <= '1'; --aluEn
+							memorySignals(0)  <= '0'; --AddressSel
+							memorySignals(1)  <= '0'; --AddressSel
+							memorySignals(2)  <= '1'; --DataSel
+							memorySignals(4)  <= '1'; --MemWrite
 
+						WHEN "100001" =>
+							--POP
+							isImmediate       <= '0';
+							executeSignals(0) <= '1'; --aluEn
+							regFileSignals(0) <= '1'; --wb
+
+							memorySignals(0) <= '0'; --AddressSel
+							memorySignals(1) <= '0'; --AddressSel
+
+							memorySignals(2) <= '1'; --DataSel
+							memorySignals(3) <= '1'; --MemRead
 						WHEN OTHERS               =>
 							fetchSignals   <= (OTHERS => '0');
 							regFileSignals <= (OTHERS => '0');

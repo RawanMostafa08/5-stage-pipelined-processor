@@ -2,8 +2,10 @@ LIBRARY ieee;
 USE ieee.std_logic_1164.ALL;
 ENTITY exec_mem IS
 	PORT (
+		CCR_IN             : IN STD_LOGIC_VECTOR(2 DOWNTO 0);
 		clk                : IN STD_LOGIC;
 		Flush              : IN STD_LOGIC;
+		PC_IN              : IN STD_LOGIC_VECTOR (31 DOWNTO 0);
 		ImmEaValue_IN      : IN STD_LOGIC_VECTOR(15 DOWNTO 0);
 		aluResult_IN       : IN STD_LOGIC_VECTOR (31 DOWNTO 0);
 		destReg0_IN        : IN STD_LOGIC_VECTOR (2 DOWNTO 0);
@@ -12,6 +14,7 @@ ENTITY exec_mem IS
 		regFileSignals_IN  : IN STD_LOGIC_VECTOR(4 DOWNTO 0);
 		memorySignals_IN   : IN STD_LOGIC_VECTOR(6 DOWNTO 0);
 		res_Swap_IN        : IN STD_LOGIC_VECTOR (31 DOWNTO 0);
+		SP_IN              : IN STD_LOGIC_VECTOR (31 DOWNTO 0);
 		aluResult_OUT      : OUT STD_LOGIC_VECTOR (31 DOWNTO 0);
 		destReg0_OUT       : OUT STD_LOGIC_VECTOR (2 DOWNTO 0);
 		destReg1_OUT       : OUT STD_LOGIC_VECTOR (2 DOWNTO 0);
@@ -19,8 +22,10 @@ ENTITY exec_mem IS
 		regFileSignals_OUT : OUT STD_LOGIC_VECTOR(4 DOWNTO 0);
 		memorySignals_OUT  : OUT STD_LOGIC_VECTOR(6 DOWNTO 0);
 		ImmEaValue_OUT     : OUT STD_LOGIC_VECTOR(15 DOWNTO 0);
-		res_Swap_OUT       : OUT STD_LOGIC_VECTOR (31 DOWNTO 0)
-
+		res_Swap_OUT       : OUT STD_LOGIC_VECTOR (31 DOWNTO 0);
+		SP_OUT             : OUT STD_LOGIC_VECTOR (31 DOWNTO 0);
+		PC_OUT             : OUT STD_LOGIC_VECTOR (31 DOWNTO 0);
+		CCR_OUT            : OUT STD_LOGIC_VECTOR(2 DOWNTO 0)
 	);
 END exec_mem;
 
@@ -30,6 +35,7 @@ BEGIN
 	PROCESS (clk)
 	BEGIN
 		IF clk = '1' THEN
+			SP_OUT         <= SP_IN;
 			aluResult_OUT  <= aluResult_IN;
 			destReg0_OUT   <= destReg0_IN;
 			destReg1_OUT   <= destReg1_IN;

@@ -4,6 +4,7 @@ USE IEEE.numeric_std.ALL;
 
 ENTITY execute IS
   PORT (
+    PC_IN       : IN STD_LOGIC_VECTOR (31 DOWNTO 0);
     op1         : IN STD_LOGIC_VECTOR (31 DOWNTO 0);
     op2         : IN STD_LOGIC_VECTOR (31 DOWNTO 0);
     aluEn       : IN STD_LOGIC;
@@ -11,7 +12,11 @@ ENTITY execute IS
     res         : OUT STD_LOGIC_VECTOR (31 DOWNTO 0);
     JZ          : OUT STD_LOGIC;
     res_Swap    : OUT STD_LOGIC_VECTOR (31 DOWNTO 0);
-    outPort_EXE : OUT STD_LOGIC_VECTOR (31 DOWNTO 0)
+    outPort_EXE : OUT STD_LOGIC_VECTOR (31 DOWNTO 0);
+    SP          : OUT STD_LOGIC_VECTOR(31 DOWNTO 0);
+    PC_OUT      : OUT STD_LOGIC_VECTOR (31 DOWNTO 0);
+    CCR_OUT     : OUT STD_LOGIC_VECTOR(2 DOWNTO 0)
+
   );
 END execute;
 
@@ -19,8 +24,9 @@ ARCHITECTURE archExecute OF execute IS
   SIGNAL CCR          : STD_LOGIC_VECTOR(2 DOWNTO 0) := (OTHERS => '0'); --c n z 
   SIGNAL temp_res     : STD_LOGIC_VECTOR (31 DOWNTO 0);
   SIGNAL reswithcarry : STD_LOGIC_VECTOR (32 DOWNTO 0);
+  SIGNAL SP_signal    : STD_LOGIC_VECTOR(31 DOWNTO 0) := "00000000000000000000111111111111"; --SP is intially =4095
 BEGIN
-
+  CCR_OUT <= CCR;
   PROCESS (opCode, temp_res, reswithcarry, op1, op2)
     VARIABLE temp_rot   : STD_LOGIC_VECTOR (31 DOWNTO 0);
     VARIABLE temp_carry : STD_LOGIC;
@@ -207,6 +213,15 @@ BEGIN
           IF CCR(0) = '1'THEN
             JZ <= '1';
           END IF;
+        WHEN "100000" =>
+          --PUSH
+          SP        <= SP_signal;
+          SP_signal <= STD_LOGIC_VECTOR(unsigned(SP_signal) - 1);
+          res       <= op1;
+        WHEN "100001" =>
+          --POP
+          SP_signal <= STD_LOGIC_VECTOR(unsigned(SP_signal) + 1);
+          SP        <= SP_signal;
         WHEN OTHERS =>
           -- Default case when opCode does not match any of the specified values
           NULL;

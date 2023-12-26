@@ -18,6 +18,7 @@ ENTITY dec_exec IS
             executeSignals_IN : IN STD_LOGIC_VECTOR(2 DOWNTO 0);
             memorySignals_IN  : IN STD_LOGIC_VECTOR(6 DOWNTO 0);
             lastOpCode_IN     : IN STD_LOGIC_VECTOR(5 DOWNTO 0);
+            PC_IN             : IN STD_LOGIC_VECTOR (31 DOWNTO 0);
 
             readData0_OUT      : OUT STD_LOGIC_VECTOR (31 DOWNTO 0);
             readData1_OUT      : OUT STD_LOGIC_VECTOR (31 DOWNTO 0);
@@ -32,7 +33,9 @@ ENTITY dec_exec IS
             memorySignals_OUT  : OUT STD_LOGIC_VECTOR(6 DOWNTO 0);
             ImmEaValue_OUT     : OUT STD_LOGIC_VECTOR (15 DOWNTO 0);
             isImm_OUT          : OUT STD_LOGIC;
-            lastOpCode_OUT     : OUT STD_LOGIC_VECTOR(5 DOWNTO 0)
+            lastOpCode_OUT     : OUT STD_LOGIC_VECTOR(5 DOWNTO 0);
+            PC_OUT             : OUT STD_LOGIC_VECTOR (31 DOWNTO 0)
+
       );
 END dec_exec;
 

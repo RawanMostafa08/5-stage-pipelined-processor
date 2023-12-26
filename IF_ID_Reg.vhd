@@ -5,6 +5,7 @@ USE IEEE.numeric_std.ALL;
 ENTITY IF_ID_Reg IS
     PORT (
         clk         : IN STD_LOGIC;
+        PC_IN       : IN STD_LOGIC_VECTOR (31 DOWNTO 0);
         Instruction : IN STD_LOGIC_VECTOR(15 DOWNTO 0);
         readReg0    : OUT STD_LOGIC_VECTOR (2 DOWNTO 0);
         readReg1    : OUT STD_LOGIC_VECTOR (2 DOWNTO 0);
@@ -13,7 +14,9 @@ ENTITY IF_ID_Reg IS
         opCode      : OUT STD_LOGIC_VECTOR (5 DOWNTO 0);
         writeData0  : OUT STD_LOGIC_VECTOR (31 DOWNTO 0);
         writeData1  : OUT STD_LOGIC_VECTOR (31 DOWNTO 0);
-        ImmEaValue  : OUT STD_LOGIC_VECTOR (15 DOWNTO 0)
+        ImmEaValue  : OUT STD_LOGIC_VECTOR (15 DOWNTO 0);
+        PC_OUT      : OUT STD_LOGIC_VECTOR (31 DOWNTO 0)
+
     );
 END ENTITY IF_ID_Reg;
 ARCHITECTURE IF_ID_RegArch OF IF_ID_Reg IS
