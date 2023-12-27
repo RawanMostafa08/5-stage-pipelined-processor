@@ -32,7 +32,7 @@ ARCHITECTURE archControlUnit OF controlUnit IS
 	SIGNAL lastOpCode_sig : STD_LOGIC_VECTOR (5 DOWNTO 0);
 BEGIN
 
-	PROCESS (enterProcess)
+	PROCESS (enterProcess, JZ)
 	BEGIN
 		IF reset = '1' THEN
 			fetchSignals <= (OTHERS => '0');
@@ -51,7 +51,7 @@ BEGIN
 			--memory--> memReg=0
 
 			IF JZ = '1' THEN
-				Flush_EX_MEM <= '1';
+				Flush_IF_ID <= '1';
 				Flush_ID_EX <= '1';
 			ELSE
 				Flush_EX_MEM <= '0';
@@ -285,7 +285,7 @@ BEGIN
 							regFileSignals(2) <= '1'; --ren
 							Jump <= '1';
 							Flush_EX_MEM <= '0';
-							Flush_ID_EX <= '1';
+							Flush_IF_ID <= '1';
 						WHEN "110010" =>
 							--call
 							isImmediate <= '0';

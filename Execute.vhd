@@ -33,7 +33,7 @@ BEGIN
     VARIABLE last_bit : STD_LOGIC;
   BEGIN
     REPORT "execute";
-    JZ <= '0';
+    JZ <= '0' WHEN opCode /= "110000";
     IF aluEn = '1' THEN
       CASE opCode IS
         WHEN "000001" =>
@@ -217,6 +217,7 @@ BEGIN
           REPORT "in exceute" & to_string(JZ) & "   " & to_string(temp_res);
           IF CCR(0) = '1'THEN
             JZ <= '1';
+            CCR(0) <= '0';
           END IF;
         WHEN "110010" =>
           -- Call
