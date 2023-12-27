@@ -1,15 +1,6 @@
-not R0   #FFFF
-addi r5,r7,7
-dec r1   #FFFF
-dec r2   #FFFF
-dec R0   #FFFE
-cmp r1,R2 
-jz  r5 # 8
-out R1
-ldd r4,1
- 
-    
-
-
-
-
+inc r4
+not r6
+ret
+not r1
+nop
+not r2 

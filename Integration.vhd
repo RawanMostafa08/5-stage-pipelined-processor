@@ -14,23 +14,27 @@ ARCHITECTURE IntegrationArch OF Integration IS
 
     COMPONENT controlUnit IS
         PORT (
-            reset          : IN STD_LOGIC;
-            opCode         : IN STD_LOGIC_VECTOR (5 DOWNTO 0);
-            clk            : IN STD_LOGIC;
-            fetchSignals   : OUT STD_LOGIC_VECTOR(2 DOWNTO 0);
+            reset : IN STD_LOGIC;
+            opCode : IN STD_LOGIC_VECTOR (5 DOWNTO 0);
+            enterProcess : IN STD_LOGIC;
+            fetchSignals : OUT STD_LOGIC_VECTOR(2 DOWNTO 0);
             regFileSignals : OUT STD_LOGIC_VECTOR(4 DOWNTO 0);
             executeSignals : OUT STD_LOGIC_VECTOR(2 DOWNTO 0);
-            memorySignals  : OUT STD_LOGIC_VECTOR(6 DOWNTO 0);
-            isImm          : OUT STD_LOGIC;
-            lastOpCode     : OUT STD_LOGIC_VECTOR (5 DOWNTO 0);
-            JZ             : IN STD_LOGIC;
-            Jump           : OUT STD_LOGIC;
-            Flush_ID_EX    : OUT STD_LOGIC;
-            Flush_EX_MEM   : OUT STD_LOGIC
+            memorySignals : OUT STD_LOGIC_VECTOR(6 DOWNTO 0);
+            isImm : OUT STD_LOGIC;
+            lastOpCode : OUT STD_LOGIC_VECTOR (5 DOWNTO 0);
+            JZ : IN STD_LOGIC;
+            Jump : OUT STD_LOGIC;
+            Flush_IF_ID : OUT STD_LOGIC;
+            Flush_ID_EX : OUT STD_LOGIC;
+            Flush_EX_MEM : OUT STD_LOGIC
+    
             -- Fetch-->jmp,jx,ret
-            -- Regfile-->wb,wb,ren,memReg,swap,flush
+            -- Regfile-->wb,wb,ren,memReg,swap,flush,memReg_IN_instruction,isLDM
             -- Exec-->aluEn,Reg/Imm Op2,flush
-            -- Memory-->AddSel1,AddSel2,DataSel,MemR,MemW,memRprotect,memWprotect
+            -- Memory-->AddSel1,AddSel2,DataSel,MemR,MemW,memprotect,memfree
+            --AddSel1=0 -->when use SP 
+            --AddSel=1 --> when use EA
 
         );
     END COMPONENT;
@@ -52,15 +56,19 @@ ARCHITECTURE IntegrationArch OF Integration IS
             JZ_PC              : IN STD_LOGIC_VECTOR(31 DOWNTO 0);
             Jump               : IN STD_LOGIC;
             Jump_PC            : IN STD_LOGIC_VECTOR(31 DOWNTO 0);
+            RTI               : IN STD_LOGIC;
+            RTI_PC              : IN STD_LOGIC_VECTOR(31 DOWNTO 0);
+            RET               : IN STD_LOGIC;
+            RET_PC              : IN STD_LOGIC_VECTOR(31 DOWNTO 0);
             instruction        : OUT STD_LOGIC_VECTOR(15 DOWNTO 0);
             PC                 : OUT STD_LOGIC_VECTOR(31 DOWNTO 0)
-
         );
     END COMPONENT;
 
     COMPONENT IF_ID_Reg IS
         PORT (
             clk         : IN STD_LOGIC;
+            Flush       : IN STD_LOGIC;
             reset       : IN STD_LOGIC;
             PC_IN       : IN STD_LOGIC_VECTOR (31 DOWNTO 0);
             Instruction : IN STD_LOGIC_VECTOR(15 DOWNTO 0);
@@ -240,6 +248,7 @@ ARCHITECTURE IntegrationArch OF Integration IS
     END COMPONENT;
     COMPONENT memory IS
         PORT (
+            fetch_signals_IN :IN std_logic_vector(2 downto 0);
             load       : IN STD_LOGIC;
             address    : IN STD_LOGIC_VECTOR (11 DOWNTO 0);
             writeData  : IN STD_LOGIC_VECTOR (31 DOWNTO 0);
@@ -247,6 +256,7 @@ ARCHITECTURE IntegrationArch OF Integration IS
             memWrite   : IN STD_LOGIC;
             memProtect : IN STD_LOGIC;
             memFree    : IN STD_LOGIC;
+            fetch_signals_OUT :OUT std_logic_vector(2 downto 0);
             readData   : OUT STD_LOGIC_VECTOR (31 DOWNTO 0)
         );
     END COMPONENT;
@@ -347,7 +357,7 @@ ARCHITECTURE IntegrationArch OF Integration IS
     -- SIGNAL destRegOut1_EXE_M : STD_LOGIC_VECTOR (2 DOWNTO 0);
     -- SIGNAL aluResOut_EXE_M : STD_LOGIC_VECTOR (31 DOWNTO 0);
     -- SIGNAL writeBackOut_EXE_M : STD_LOGIC;
-
+    Signal fetchSignals_MEM :std_logic_vector(2 downto 0);
     SIGNAL aluResult_EX_MEM           : STD_LOGIC_VECTOR (31 DOWNTO 0);
     SIGNAL swapResult_EX_MEM          : STD_LOGIC_VECTOR (31 DOWNTO 0);
     SIGNAL destReg0_EX_MEM            : STD_LOGIC_VECTOR (2 DOWNTO 0);
@@ -428,24 +438,26 @@ ARCHITECTURE IntegrationArch OF Integration IS
     SIGNAL SP_OUT_EXE_MEM       : STD_LOGIC_VECTOR(31 DOWNTO 0);
     SIGNAL CCR_EX_MEM           : STD_LOGIC_VECTOR(2 DOWNTO 0);
     SIGNAL CCR_EXE              : STD_LOGIC_VECTOR(2 DOWNTO 0);
+    SIGNAL flush_IF_ID_Sig : STD_LOGIC;
+
 
 BEGIN
 
     CU : ControlUnit PORT MAP(
-        reset          => reset,
-        opCode         => Instruction_F(15 DOWNTO 10),
-        clk            => clk,
-        fetchSignals   => fetchSignals_CU,
+        reset => reset,
+        opCode => opCode_IF_ID,
+        enterProcess => EP,
+        fetchSignals => fetchSignals_CU,
         regFileSignals => regFileSignals_CU,
         executeSignals => executeSignals_CU,
-        memorySignals  => memorySignals_CU,
-        isImm          => IsImmediate,
-        lastOpCode     => lastOpCode_CU,
-        JZ             => JZ_Sig,
-        Jump           => Jump_Sig,
-        Flush_ID_EX    => flush_ID_EX_Sig,
-        Flush_EX_MEM   => flush_EX_MEM_Sig
-
+        memorySignals => memorySignals_CU,
+        isImm => IsImmediate,
+        lastOpCode => lastOpCode_CU,
+        JZ => JZ_Sig,
+        Jump => Jump_Sig,
+        Flush_IF_ID => flush_IF_ID_Sig,
+        Flush_ID_EX => flush_ID_EX_Sig,
+        Flush_EX_MEM => flush_EX_MEM_Sig
     );
     Read_Instrunction : InstructionMemory PORT MAP(
         -- PC => PC_temp,
@@ -463,23 +475,28 @@ BEGIN
         JZ_PC              => readData0_ID_EX,
         Jump               => Jump_Sig,
         Jump_PC            => readData0_temp,
+        RTI                =>fetchSignals_MEM(2),
+        RTI_PC             =>readData_Mem,
+        RET                =>fetchSignals_MEM(2),
+        RET_PC                =>readData_Mem,
         instruction        => Instruction_F,
         PC                 => PC_F
 
     );
 
     IF_ID_Register : IF_ID_Reg PORT MAP(
-        reset       => reset,
-        clk         => clk,
-        PC_IN       => PC_F,
+        reset => reset,
+        Flush => flush_IF_ID_Sig,
+        clk => clk,
+        PC_IN => PC_F,
         Instruction => Instruction_F,
-        readReg0    => readReg0_IF_ID,
-        readReg1    => readReg1_IF_ID,
-        writeReg0   => writeReg0_IF_ID,
-        writeReg1   => writeReg1_IF_ID,
-        opCode      => opCode_IF_ID,
-        ImmEaValue  => ImmEaValue_IF_ID,
-        PC_OUT      => PC_IF_ID
+        readReg0 => readReg0_IF_ID,
+        readReg1 => readReg1_IF_ID,
+        writeReg0 => writeReg0_IF_ID,
+        writeReg1 => writeReg1_IF_ID,
+        opCode => opCode_IF_ID,
+        ImmEaValue => ImmEaValue_IF_ID,
+        PC_OUT => PC_IF_ID
 
     );
     Register_File : regFile PORT MAP(
@@ -628,13 +645,15 @@ BEGIN
     );
     Memory_Stage : memory PORT MAP(
         load       => load,
+        fetch_signals_IN =>fetchSignals_EX_MEM,
         address    => address_result,
         writeData  => writeData_mem,
         memRead    => memorySignals_EX_MEM(3), --should be changed to get signal from EX/MEM
         memWrite   => memorySignals_EX_MEM(4), --should be changed to get signal from EX/MEM
         readData   => readData_Mem,
         memProtect => memorySignals_EX_MEM(5),
-        memFree    => memorySignals_EX_MEM(6)
+        memFree    => memorySignals_EX_MEM(6),
+        fetch_signals_OUT => fetchSignals_MEM
     );
     M_WB : mem_writeBack PORT MAP(
         clk               => clk,
@@ -758,5 +777,10 @@ BEGIN
     --     END IF;
 
     -- END PROCESS;
-
+    PROCESS (clk)
+    BEGIN
+        IF clk = '1' THEN
+            EP <= NOT EP;
+        END IF;
+    END PROCESS;
 END ARCHITECTURE IntegrationArch;

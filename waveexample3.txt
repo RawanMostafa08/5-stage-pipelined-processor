@@ -10,6 +10,8 @@ add wave -position insertpoint sim:/integration/ExcuteStage/*
 add wave -position insertpoint sim:/integration/EXE_M/*
 add wave -position insertpoint sim:/integration/AddressSelect_Stage/*
 add wave -position insertpoint sim:/integration/Memory_Stage/*
+add wave -position insertpoint  \
+sim:/integration/Memory_Stage/data_mem
 add wave -position insertpoint sim:/integration/M_WB/*
 add wave -position insertpoint sim:/integration/WB/*
 add wave -position insertpoint sim:/integration/DataSelect_Stage/*

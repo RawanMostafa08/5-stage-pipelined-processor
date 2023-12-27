@@ -2,22 +2,23 @@ LIBRARY ieee;
 USE ieee.std_logic_1164.ALL;
 ENTITY controlUnit IS
 	PORT (
-		reset          : IN STD_LOGIC;
-		opCode         : IN STD_LOGIC_VECTOR (5 DOWNTO 0);
-		clk            : IN STD_LOGIC;
-		fetchSignals   : OUT STD_LOGIC_VECTOR(2 DOWNTO 0);
+		reset : IN STD_LOGIC;
+		opCode : IN STD_LOGIC_VECTOR (5 DOWNTO 0);
+		enterProcess : IN STD_LOGIC;
+		fetchSignals : OUT STD_LOGIC_VECTOR(2 DOWNTO 0);
 		regFileSignals : OUT STD_LOGIC_VECTOR(4 DOWNTO 0);
 		executeSignals : OUT STD_LOGIC_VECTOR(2 DOWNTO 0);
-		memorySignals  : OUT STD_LOGIC_VECTOR(6 DOWNTO 0);
-		isImm          : OUT STD_LOGIC;
-		lastOpCode     : OUT STD_LOGIC_VECTOR (5 DOWNTO 0);
-		JZ             : IN STD_LOGIC;
-		Jump           : OUT STD_LOGIC;
-		Flush_ID_EX    : OUT STD_LOGIC;
-		Flush_EX_MEM   : OUT STD_LOGIC
+		memorySignals : OUT STD_LOGIC_VECTOR(6 DOWNTO 0);
+		isImm : OUT STD_LOGIC;
+		lastOpCode : OUT STD_LOGIC_VECTOR (5 DOWNTO 0);
+		JZ : IN STD_LOGIC;
+		Jump : OUT STD_LOGIC;
+		Flush_IF_ID : OUT STD_LOGIC;
+		Flush_ID_EX : OUT STD_LOGIC;
+		Flush_EX_MEM : OUT STD_LOGIC
 
 		-- Fetch-->jmp,jx,ret
-		-- Regfile-->wb,wb,ren,memReg,swap,flush
+		-- Regfile-->wb,wb,ren,memReg,swap,flush,memReg_IN_instruction,isLDM
 		-- Exec-->aluEn,Reg/Imm Op2,flush
 		-- Memory-->AddSel1,AddSel2,DataSel,MemR,MemW,memprotect,memfree
 		--AddSel1=0 -->when use SP 
@@ -31,7 +32,7 @@ ARCHITECTURE archControlUnit OF controlUnit IS
 	SIGNAL lastOpCode_sig : STD_LOGIC_VECTOR (5 DOWNTO 0);
 BEGIN
 
-	PROCESS (clk)
+	PROCESS (enterProcess)
 	BEGIN
 		IF reset = '1' THEN
 			fetchSignals   <= (OTHERS => '0');
@@ -40,7 +41,7 @@ BEGIN
 			memorySignals  <= (OTHERS => '0');
 			Jump           <= '0';
 		ELSE
-			IF clk = '1' THEN
+			-- IF clk = '1' THEN
 				fetchSignals   <= (OTHERS => '0');
 				regFileSignals <= (OTHERS => '0');
 				executeSignals <= (OTHERS => '0');
@@ -277,6 +278,25 @@ BEGIN
 
 								memorySignals(2) <= '1'; --DataSel
 								memorySignals(3) <= '1'; --MemRead
+							when "110100"=>
+							--RTI 110100
+							 	isImmediate       <= '0';
+								 fetchSignals(2) <='1'; --ret
+								 executeSignals(0) <= '1'; --aluEn
+								 memorySignals(3) <= '1'; --MemRead
+								 Flush_ID_EX <='1';
+								 Flush_EX_MEM      <= '1';
+							when "110011"=>
+							--RET 110100
+							 	isImmediate       <= '0';
+								 fetchSignals(2) <='1'; --ret
+								 executeSignals(0) <= '1'; --aluEn
+								 memorySignals(3) <= '1'; --MemRead
+								 Flush_ID_EX <='0';
+								 Flush_EX_MEM      <= '0';
+								 Flush_IF_ID <='1';
+
+
 							WHEN OTHERS               =>
 								fetchSignals   <= (OTHERS => '0');
 								regFileSignals <= (OTHERS => '0');
@@ -285,7 +305,7 @@ BEGIN
 						END CASE;
 
 					END IF;
-				END IF;
+				-- END IF;
 				lastOpCode_sig <= opCode;
 				lastOpCode     <= lastOpCode_sig;
 			END IF;

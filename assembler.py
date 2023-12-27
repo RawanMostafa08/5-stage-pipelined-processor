@@ -152,7 +152,7 @@ for instruction in instructions:
             binary_instruction="010000"
             reg1=to_binary(instruction[1][1],3)
             reg2=to_binary(instruction[2][1],3)
-            binary_instruction=binary_instruction+"000"+reg1+reg2+"0"
+            binary_instruction=binary_instruction+reg2+reg1+reg2+"0"
             binary_codes.append(binary_instruction)
         else:
             instruction_string = ' '.join(instruction)

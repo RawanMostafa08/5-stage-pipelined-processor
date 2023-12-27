@@ -31,6 +31,7 @@ BEGIN
     VARIABLE temp_rot   : STD_LOGIC_VECTOR (31 DOWNTO 0);
     VARIABLE temp_carry : STD_LOGIC;
     VARIABLE last_bit   : STD_LOGIC;
+    Variable SP_var  : Integer;
   BEGIN
     REPORT "execute";
     JZ <= '0';
@@ -226,6 +227,21 @@ BEGIN
           -- reset
           temp_res <= (OTHERS => '0');
           res      <= temp_res;
+        when "110100" =>
+          --RTI
+          SP_var := to_integer(unsigned(SP_signal)) + 2;
+
+          -- Convert the variable back to std_logic_vector
+          SP <= std_logic_vector(to_unsigned(SP_var, SP'length));
+          SP_signal <=SP;
+          when "110011" =>
+          --RET
+          SP_var := to_integer(unsigned(SP_signal)) + 2;
+
+          -- Convert the variable back to std_logic_vector
+          SP <= std_logic_vector(to_unsigned(SP_var, SP'length));
+          SP_signal <=SP;
+          
         WHEN OTHERS =>
           -- Default case when opCode does not match any of the specified values
           NULL;

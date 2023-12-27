@@ -5,6 +5,7 @@ USE IEEE.numeric_std.ALL;
 ENTITY IF_ID_Reg IS
     PORT (
         clk         : IN STD_LOGIC;
+        Flush       : IN STD_LOGIC;
         reset       : IN STD_LOGIC;
         PC_IN       : IN STD_LOGIC_VECTOR (31 DOWNTO 0);
         Instruction : IN STD_LOGIC_VECTOR(15 DOWNTO 0);
@@ -32,34 +33,42 @@ BEGIN
             readReg1  <= (OTHERS => 'X');
         ELSE
             IF clk = '1' THEN
-                ImmEaValue <= Instruction;
-                CASE Instruction(15 DOWNTO 14) IS
-                    WHEN "00" => --one operand
-                        opCode    <= Instruction(15 DOWNTO 10);
-                        writeReg0 <= Instruction(9 DOWNTO 7);
-                        readReg0  <= Instruction(6 DOWNTO 4);
-                    WHEN "01" => --two operands
-                        opCode    <= Instruction(15 DOWNTO 10);
-                        writeReg0 <= Instruction(9 DOWNTO 7);
-                        readReg0  <= Instruction(6 DOWNTO 4);
-                        readReg1  <= Instruction(3 DOWNTO 1);
-                        writeReg1 <= Instruction(6 DOWNTO 4);
-                    WHEN "10" => --memory
-                        opCode    <= Instruction(15 DOWNTO 10);
-                        writeReg0 <= Instruction(9 DOWNTO 7);
-                        readReg0  <= Instruction(6 DOWNTO 4);
-                        readReg1  <= Instruction(3 DOWNTO 1);
-                    WHEN "11" => --branch
-                        opCode    <= Instruction(15 DOWNTO 10);
-                        writeReg0 <= Instruction(9 DOWNTO 7);
-                        readReg0  <= Instruction(6 DOWNTO 4);
-                        readReg1  <= Instruction(3 DOWNTO 1);
-                    WHEN OTHERS          =>
-                        opCode    <= (OTHERS => 'X');
-                        writeReg0 <= (OTHERS => 'X');
-                        readReg0  <= (OTHERS => 'X');
-                        readReg1  <= (OTHERS => 'X');
-                END CASE;
+                IF Flush = '1' THEN
+                    opCode    <= (OTHERS => '0');
+                    writeReg0 <= (OTHERS => '0');
+                    readReg0  <= (OTHERS => '0');
+                    readReg1  <= (OTHERS => '0');
+                ELSE
+                    PC_OUT     <= PC_IN;
+                    ImmEaValue <= Instruction;
+                    CASE Instruction(15 DOWNTO 14) IS
+                        WHEN "00" => --one operand
+                            opCode    <= Instruction(15 DOWNTO 10);
+                            writeReg0 <= Instruction(9 DOWNTO 7);
+                            readReg0  <= Instruction(6 DOWNTO 4);
+                        WHEN "01" => --two operands
+                            opCode    <= Instruction(15 DOWNTO 10);
+                            writeReg0 <= Instruction(9 DOWNTO 7);
+                            readReg0  <= Instruction(6 DOWNTO 4);
+                            readReg1  <= Instruction(3 DOWNTO 1);
+                            writeReg1 <= Instruction(6 DOWNTO 4);
+                        WHEN "10" => --memory
+                            opCode    <= Instruction(15 DOWNTO 10);
+                            writeReg0 <= Instruction(9 DOWNTO 7);
+                            readReg0  <= Instruction(6 DOWNTO 4);
+                            readReg1  <= Instruction(3 DOWNTO 1);
+                        WHEN "11" => --branch
+                            opCode    <= Instruction(15 DOWNTO 10);
+                            writeReg0 <= Instruction(9 DOWNTO 7);
+                            readReg0  <= Instruction(6 DOWNTO 4);
+                            readReg1  <= Instruction(3 DOWNTO 1);
+                        WHEN OTHERS          =>
+                            opCode    <= (OTHERS => 'X');
+                            writeReg0 <= (OTHERS => 'X');
+                            readReg0  <= (OTHERS => 'X');
+                            readReg1  <= (OTHERS => 'X');
+                    END CASE;
+                END IF;
             END IF;
         END IF;
     END PROCESS;
