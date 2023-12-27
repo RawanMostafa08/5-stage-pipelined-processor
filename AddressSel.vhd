@@ -20,12 +20,15 @@ BEGIN
         ELSE
             IF Sel = "10" THEN
                 Address <= EffectiveAddress(11 DOWNTO 0);
-           
-        ELSE
-            IF Sel = "00" THEN
-                Address <= SP(11 DOWNTO 0);
+
+            ELSE
+                IF Sel = "00" THEN
+                    Address <= SP(11 DOWNTO 0);
+                ELSE
+                    Address <= "000000000010";
+                END IF;
             END IF;
         END IF;
-         END IF;
-    END PROCESS;
+    END IF;
+END PROCESS;
 END archAddressSel;

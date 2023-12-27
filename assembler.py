@@ -391,7 +391,7 @@ for instruction in instructions:
         instruction_string = ' '.join(instruction)
         print("unknown instruction "+ instruction_string)
 
-file_path = 'binary.txt'
+file_path = '..//Modelsim_Project//instructions.txt'
 
 with open(file_path, 'w') as file:
     # Write each element of the array to a new line
