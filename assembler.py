@@ -1,3 +1,4 @@
+
 import re
 def remove_comments_and_spaces(line):
     # Remove anything after '#' and leading/trailing spaces
@@ -42,7 +43,7 @@ def bitset_one_operand_check(instruction):
      else: 
         return False
 def imm_one_operand_check(instruction):
-     if len(instruction)==3 and len(instruction[1])==2 and instruction[1][0]=='r' and 0 <= int(instruction[1][1]) <= 7 and 0 <= int(instruction[2]) <= 65535 :
+     if len(instruction)==3 and len(instruction[1])==2 and instruction[1][0]=='r' and 0 <= int(instruction[1][1]) <= 7 and 0 <= hex_to_decimal(instruction[2]) <= 65535 :
         return True
      else: 
         return False
@@ -396,3 +397,7 @@ file_path = 'binary.txt'
 with open(file_path, 'w') as file:
     # Write each element of the array to a new line
     file.writelines('\n'.join(binary_codes))
+
+
+
+
