@@ -1,20 +1,28 @@
-vsim -gui work.integration 
-add wave -position insertpoint sim:/integration/CU/*
-add wave -position insertpoint sim:/integration/FetchStage/*
-add wave -position insertpoint sim:/integration/IF_ID_Register/*
-add wave -position insertpoint sim:/integration/Register_File/*
-add wave -position insertpoint sim:/integration/ID_EXE_Register/*
-add wave -position insertpoint sim:/integration/FU/*
-add wave -position insertpoint sim:/integration/OperandSel/*
-add wave -position insertpoint sim:/integration/ExcuteStage/*
-add wave -position insertpoint sim:/integration/EXE_M/*
-add wave -position insertpoint sim:/integration/AddressSelect_Stage/*
-add wave -position insertpoint sim:/integration/Memory_Stage/*
-add wave -position insertpoint sim:/integration/M_WB/*
-add wave -position insertpoint sim:/integration/WB/*
-add wave -position insertpoint sim:/integration/DataSelect_Stage/*
-force -deposit sim:/integration/Register_File/R1 00000003 0
-force -freeze sim:/integration/Register_File/R0 00000003 0
+vsim -gui work.integration
+add wave -position insertpoint  \
+sim:/integration/clk \
+sim:/integration/inPort
+add wave -position insertpoint  \
+sim:/integration/reset \
+sim:/integration/load
+add wave -position insertpoint  \
+sim:/integration/FetchStage/instruction \
+sim:/integration/FetchStage/PC
+add wave -position insertpoint  \
+sim:/integration/Register_File/R0 \
+sim:/integration/Register_File/R1 \
+sim:/integration/Register_File/R2 \
+sim:/integration/Register_File/R3 \
+sim:/integration/Register_File/R4 \
+sim:/integration/Register_File/R5 \
+sim:/integration/Register_File/R6 \
+sim:/integration/Register_File/R7
+add wave -position insertpoint  \
+sim:/integration/ExcuteStage/CCR
+add wave -position insertpoint  \
+sim:/integration/ExcuteStage/JZ
+add wave -position insertpoint  \
+sim:/integration/CU/Jump
 force -freeze sim:/integration/clk 1 0, 0 {50 ps} -r 100
 force -freeze sim:/integration/reset 1 0
 force -freeze sim:/integration/load 1 0
@@ -23,3 +31,23 @@ force -freeze sim:/integration/reset 0 0
 force -freeze sim:/integration/load 0 0
 run
 radix -hexadecimal
+force -freeze sim:/integration/inPort 00000008 0
+run
+run
+run
+run
+run
+run
+run
+force -freeze sim:/integration/inPort 00000030 0
+run
+force -freeze sim:/integration/inPort 00000050 0
+run
+force -freeze sim:/integration/inPort 00000100 0
+run
+force -freeze sim:/integration/inPort 00000300 0
+run
+force -freeze sim:/integration/inPort FFFFFFFF 0
+run
+force -freeze sim:/integration/inPort FFFFFFFF 0
+run

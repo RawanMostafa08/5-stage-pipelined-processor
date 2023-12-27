@@ -14,7 +14,11 @@ ENTITY Fetch IS
         Jump               : IN STD_LOGIC;
         Jump_PC            : IN STD_LOGIC_VECTOR(31 DOWNTO 0);
         instruction        : OUT STD_LOGIC_VECTOR(15 DOWNTO 0);
-        PC                 : OUT STD_LOGIC_VECTOR(31 DOWNTO 0)
+        PC                 : OUT STD_LOGIC_VECTOR(31 DOWNTO 0);
+        RTI                : IN STD_LOGIC;
+        RTI_PC             : IN STD_LOGIC_VECTOR(31 DOWNTO 0);
+        RET                : IN STD_LOGIC;
+        RET_PC             : IN STD_LOGIC_VECTOR(31 DOWNTO 0)
     );
 END ENTITY Fetch;
 
@@ -27,10 +31,14 @@ BEGIN
         VARIABLE jump_value : INTEGER;
         VARIABLE jz_value   : INTEGER;
         VARIABLE pc_value   : STD_LOGIC_VECTOR(31 DOWNTO 0);
+        VARIABLE rti_value  : INTEGER;
+        VARIABLE ret_value  : INTEGER;
     BEGIN
 
         jump_value := to_integer(unsigned(Jump_PC));
         jz_value   := to_integer(unsigned(JZ_PC));
+        rti_value  := to_integer(unsigned(RTI_PC));
+        ret_value  := to_integer(unsigned(RET_PC));
         IF reset = '1' AND clk = '1' THEN
             -- PC <= (OTHERS       => '0');
             pc_value := (OTHERS    => '0');
@@ -50,10 +58,24 @@ BEGIN
                         instruction <= Instruction_Memory(jump_value);
                         pc_value := STD_LOGIC_VECTOR(unsigned(pc_value) + 1);
                     ELSE
-                        -- PC          <= STD_LOGIC_VECTOR(unsigned(PC) + 1);
-                        instruction <= Instruction_Memory(to_integer(unsigned(pc_value)));
-                        PC          <= pc_value;
-                        pc_value := STD_LOGIC_VECTOR(unsigned(pc_value) + 1);
+                        IF RTI = '1' AND rti_value >= 0 AND rti_value < 4096 THEN
+                            pc_value := (STD_LOGIC_VECTOR(to_unsigned(rti_value, 32)));
+                            PC          <= pc_value;
+                            instruction <= Instruction_Memory(rti_value);
+                            pc_value := STD_LOGIC_VECTOR(unsigned(pc_value) + 1);
+                        ELSE
+                            IF RET = '1' AND ret_value >= 0 AND ret_value < 4096 THEN
+                                pc_value := (STD_LOGIC_VECTOR(to_unsigned(ret_value, 32)));
+                                PC          <= pc_value;
+                                instruction <= Instruction_Memory(ret_value);
+                                pc_value := STD_LOGIC_VECTOR(unsigned(pc_value) + 1);
+                            ELSE
+                                -- PC          <= STD_LOGIC_VECTOR(unsigned(PC) + 1);
+                                instruction <= Instruction_Memory(to_integer(unsigned(pc_value)));
+                                PC          <= pc_value;
+                                pc_value := STD_LOGIC_VECTOR(unsigned(pc_value) + 1);
+                            END IF;
+                        END IF;
                     END IF;
                 END IF;
             END IF;
