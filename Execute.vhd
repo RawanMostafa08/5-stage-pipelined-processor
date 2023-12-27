@@ -51,14 +51,16 @@ BEGIN
           outPort_EXE <= op1;
         WHEN "000100" =>
           -- DEC
-          temp_res <= STD_LOGIC_VECTOR(signed(op1) - 1);
-          res <= temp_res;
-          CCR(1) <= temp_res(31);
-          IF temp_res = X"00000000"THEN
+          reswithcarry <= STD_LOGIC_VECTOR(('0' & signed(op1)) - 1);
+          CCR(2) <= reswithcarry(32);
+          res <= reswithcarry(31 DOWNTO 0);
+          CCR(1) <= reswithcarry(31);
+          IF reswithcarry(31 DOWNTO 0) = X"00000000"THEN
             CCR(0) <= '1';
           ELSE
             CCR(0) <= '0';
           END IF;
+
         WHEN "010001" =>
           -- ADD
           reswithcarry <= STD_LOGIC_VECTOR(('0' & signed(op1)) + ('0' & signed(op2)));
