@@ -21,16 +21,19 @@ ENTITY execute IS
 END execute;
 
 ARCHITECTURE archExecute OF execute IS
+
   SIGNAL CCR          : STD_LOGIC_VECTOR(2 DOWNTO 0) := (OTHERS => '0'); --c n z 
   SIGNAL temp_res     : STD_LOGIC_VECTOR (31 DOWNTO 0);
   SIGNAL reswithcarry : STD_LOGIC_VECTOR (32 DOWNTO 0);
   SIGNAL SP_signal    : STD_LOGIC_VECTOR(31 DOWNTO 0) := "00000000000000000000111111111111"; --SP is intially =4095
 BEGIN
   CCR_OUT <= CCR;
+  
   PROCESS (opCode, temp_res, reswithcarry, op1, op2)
     VARIABLE temp_rot   : STD_LOGIC_VECTOR (31 DOWNTO 0);
     VARIABLE temp_carry : STD_LOGIC;
     VARIABLE last_bit   : STD_LOGIC;
+    VARIABLE INT_CNT : INTEGER := 0;
   BEGIN
     REPORT "execute";
     JZ <= '0';
