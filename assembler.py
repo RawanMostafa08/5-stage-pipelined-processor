@@ -71,12 +71,7 @@ with open(file_path, 'r') as file:
     for line in file:
         cleaned_line=remove_comments_and_spaces(line)
         words = [word.lower() for word in re.split(r'[,\s]+', line.split('#')[0].strip())]
-        if  words[0]==".org" : 
-            print(words)
-            print(int(words[1],16))
-            for i in range(int(words[1],16)):
-                instructions.append(['nop'])
-        elif (len(words)==1 or len(words)==2) and cleaned_line.count(',')==0: #no operand/one operand
+        if (len(words)==1 or len(words)==2) and cleaned_line.count(',')==0: #no operand/one operand
             if words[0]!="":
                 instructions.append(words)
         elif len(words)==3 and cleaned_line.count(',')==1: #two operand
@@ -393,6 +388,11 @@ for instruction in instructions:
         else:
             instruction_string = ' '.join(instruction)
             print("error in instruction "+ instruction_string+" syntax")
+    elif instruction[0]==".org" : 
+        print(instruction)
+        print(int(instruction[1],16))
+        for i in range(int(instruction[1],16)-len(binary_codes)):
+            binary_codes.append("0000000000000000")
     else:
         instruction_string = ' '.join(instruction)
         print("unknown instruction "+ instruction_string)
